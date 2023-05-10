@@ -13,12 +13,22 @@ interface InterfaceRepositorySoal {
     /**
      * Menyimpan data soal baru ke dalam database
      * 
+     * @param IDUser $idUser id pembuat soal
      * @param string $judul Judul soal
      * @param string $soal Isi soal
      * 
-     * 
+     * @return IDSoal id dari soal yang dibuat
      */
-    public function buatSoal(string $judul, string $soal) : IDSoal;
+    public function buatSoal(IDUser $idUSer, string $judul, string $soal) : IDSoal;
+
+    /**
+     * Untuk mengecek apakah judul soal sudah pernah dipakai
+     * 
+     * @param string $judul judul soal yang akan dicek
+     * 
+     * @return bool bernilai benar bila telah dipakai sebelumnya
+     */
+    public function cekApakahJudulSudahDipakai(string $judul) : bool;
 
     /**
      * Untuk menghapus soal sesuai dengan id nya

@@ -9,7 +9,7 @@ use App\Core\Repository\Data\IDUser;
 use App\Core\Repository\Data\Soal;
 use App\Core\Soal\Data\TidakMemilikiHakException;
 
-interface InterfaceUbahIsiSoal {
+interface InterfaceUbahSoal {
 
     /**
      * Untuk mengubah isi soal. Yang dimaksud soal ini adalah soalnya saja tanpa testcase
@@ -19,7 +19,7 @@ interface InterfaceUbahIsiSoal {
      * 
      * @throws TidakMemilikiHakException jika tidak memiliki hak untuk mengubah isi soal
      */
-    public function ubahIsiSoal(IDUser $idUser, Soal $soalBaru) : void;
+    public function ubahSoal(IDUser $idUser, Soal $soalBaru) : void;
 }
 
 ?>

@@ -8,6 +8,8 @@ use App\Core\Autentikasi\Logout\Interface\InterfaceLogout;
 use App\Core\Autentikasi\Logout\Logout;
 use App\Core\Autentikasi\Register\Interface\InterfaceRegister;
 use App\Core\Autentikasi\Register\Register;
+use App\Core\Soal\PengecekTestcaseDuplikat;
+use App\Core\Soal\SetTestcaseSoal;
 use App\Repository\RepositoryAutentikasiEloquent;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,5 +37,8 @@ class AppServiceProvider extends ServiceProvider
             return new Register(new RepositoryAutentikasiEloquent());
         });
         $this->app->bind(InterfaceLogout::class, Logout::class);
+        // $this->app->bind(InterfaceSetTestcaseSoal::class, function() {
+        //     return new SetTestcaseSoal(new PengecekTestcaseDuplikat())
+        // })
     }
 }

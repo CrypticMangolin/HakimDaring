@@ -8,7 +8,7 @@ use InvalidArgumentException;
 
 class Soal extends DataSoal {
 
-    private ?IDSoal $idSoal;
+    private IDSoal $idSoal;
 
     public function __construct(?IDSoal $idSoal, string $judul, string $soal)
     {

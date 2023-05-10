@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Core\Soal;
 
 use App\Core\Repository\Data\IDSoal;
+use App\Core\Repository\Data\IDUser;
 use App\Core\Repository\InterfaceRepositorySoal;
 use App\Core\Soal\Data\GagalBuatSoalException;
 use App\Core\Soal\Interface\InterfaceBuatSoal;
@@ -36,7 +37,11 @@ class BuatSoal implements InterfaceBuatSoal {
             throw new GagalBuatSoalException("Ukuran soal melebihi ".self::UKURAN_MAKSIMAL_SOAL_DALAM_BYTE." byte");
         }
 
-        return $this->repositorySoal->buatSoal($judul, $soal);
+        if ($this->repositorySoal->cekApakahJudulSudahDipakai($judul)) {
+            throw new GagalBuatSoalException("Judul soal telah dipakai");
+        }
+
+        return $this->repositorySoal->buatSoal(new IDUser(Auth::id()), $judul, $soal);
     }
 }
 
