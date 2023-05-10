@@ -4,9 +4,10 @@ declare(strict_types = 1);
 
 namespace App\Core\Soal;
 
-use App\Core\Repository\IDSoal;
+use App\Core\Repository\Data\IDSoal;
 use App\Core\Repository\InterfaceRepositorySoal;
 use App\Core\Soal\Data\GagalBuatSoalException;
+use App\Core\Soal\Interface\InterfaceBuatSoal;
 use Exception;
 use InvalidArgumentException;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Core\Soal;
+namespace App\Core\Soal\Interface;
 
 use App\Core\Repository\Testcase;
 

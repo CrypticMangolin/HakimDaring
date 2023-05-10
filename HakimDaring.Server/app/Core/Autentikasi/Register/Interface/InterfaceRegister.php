@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Autentikasi\Register;
+namespace App\Core\Autentikasi\Register\Interface;
 
 use App\Core\Autentikasi\Register\Data\GagalRegisterException;
 

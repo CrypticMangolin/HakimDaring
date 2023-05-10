@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
-use App\Core\Autentikasi\Login\InterfaceLogin;
+use App\Core\Autentikasi\Login\Interface\InterfaceLogin;
 use App\Core\Autentikasi\Login\Login;
-use App\Core\Autentikasi\Register\InterfaceRegister;
+use App\Core\Autentikasi\Logout\Interface\InterfaceLogout;
+use App\Core\Autentikasi\Logout\Logout;
+use App\Core\Autentikasi\Register\Interface\InterfaceRegister;
 use App\Core\Autentikasi\Register\Register;
 use App\Repository\RepositoryAutentikasiEloquent;
 use Illuminate\Support\ServiceProvider;
@@ -32,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceRegister::class, function() {
             return new Register(new RepositoryAutentikasiEloquent());
         });
+        $this->app->bind(InterfaceLogout::class, Logout::class);
     }
 }

@@ -7,7 +7,7 @@ use Exception;
 
 class GagalRegisterException extends Exception {
 
-    public function __construct(string $message = "Error register")
+    public function __construct(string $message = "Gagal register")
     {
         parent::__construct($message);
     }

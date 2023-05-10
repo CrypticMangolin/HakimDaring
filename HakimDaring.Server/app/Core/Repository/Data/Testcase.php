@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Core\Repository;
+namespace App\Core\Repository\Data;
 
 use InvalidArgumentException;
 

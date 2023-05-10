@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Core\Autentikasi\Register\Data\GagalRegisterException;
-use App\Core\Autentikasi\Register\InterfaceRegister;
+use App\Core\Autentikasi\Register\Interface\InterfaceRegister;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -55,7 +55,7 @@ class ControllerRegister extends Controller
         catch (GagalRegisterException $e) {
             return response()->json([
                 "error" => $e->getMessage()
-            ], 500);
+            ], 422);
         }
 
         return response()->json([
