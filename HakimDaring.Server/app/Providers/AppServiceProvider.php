@@ -8,9 +8,16 @@ use App\Core\Autentikasi\Logout\Interface\InterfaceLogout;
 use App\Core\Autentikasi\Logout\Logout;
 use App\Core\Autentikasi\Register\Interface\InterfaceRegister;
 use App\Core\Autentikasi\Register\Register;
+use App\Core\Soal\BuatSoal;
+use App\Core\Soal\Interface\InterfaceBuatSoal;
+use App\Core\Soal\Interface\InterfaceSetTestcaseSoal;
+use App\Core\Soal\PengecekPembuatSoal;
+use App\Core\Soal\PengecekTestcaseBaruBerbeda;
 use App\Core\Soal\PengecekTestcaseDuplikat;
 use App\Core\Soal\SetTestcaseSoal;
 use App\Repository\RepositoryAutentikasiEloquent;
+use App\Repository\RepositorySoalEloquent;
+use App\Repository\RepositoryTestcaseEloquent;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -37,8 +44,21 @@ class AppServiceProvider extends ServiceProvider
             return new Register(new RepositoryAutentikasiEloquent());
         });
         $this->app->bind(InterfaceLogout::class, Logout::class);
-        // $this->app->bind(InterfaceSetTestcaseSoal::class, function() {
-        //     return new SetTestcaseSoal(new PengecekTestcaseDuplikat())
-        // })
+
+        $this->app->bind(InterfaceBuatSoal::class, function() {
+            return new BuatSoal(new RepositorySoalEloquent());
+        });
+
+        $this->app->bind(InterfaceSetTestcaseSoal::class, function() {
+            $repositorySoal = new RepositorySoalEloquent();
+
+            return new SetTestcaseSoal(
+                new PengecekTestcaseDuplikat(),
+                new RepositoryTestcaseEloquent(),
+                new PengecekTestcaseBaruBerbeda(),
+                new PengecekPembuatSoal($repositorySoal),
+                $repositorySoal
+            );
+        });
     }
 }

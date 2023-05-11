@@ -10,7 +10,7 @@ class TestcaseData extends Testcase {
     
     private bool $publik;
 
-    public function __construct(string $testcase, string $jawaban, int $urutan, int $publik)
+    public function __construct(string $testcase, string $jawaban, int $urutan, bool $publik)
     {
         parent::__construct($testcase, $jawaban);
 

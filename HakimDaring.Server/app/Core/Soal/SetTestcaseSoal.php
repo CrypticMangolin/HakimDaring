@@ -72,11 +72,12 @@ class SetTestcaseSoal implements InterfaceSetTestcaseSoal {
             throw new TestcaseDuplikatException();
         }
         
-        $kumpulanTestcaseLama = $this->repositoryTestcase->ambilKumpulanTestcaseDariSoal($idSoal);
+        $versiSoalLama = $this->repositorySoal->ambilVersiSoal($idSoal);
+        $kumpulanTestcaseLama = $this->repositoryTestcase->ambilKumpulanTestcaseDariSoal($idSoal, $versiSoalLama);
         if ($this->pengecekTestcaseBaruBerbeda->cekApakahBerbeda($testcaseBesertaJawaban, $kumpulanTestcaseLama)) {
-            $this->repositoryTestcase->hapusSemuaTestcaseSoal($idSoal);
-            $this->repositoryTestcase->setTestcaseUntukSoal($idSoal, $testcaseBesertaJawaban);
             $this->repositorySoal->tambahVersiSoal($idSoal);
+            $versiSoalBaru = $this->repositorySoal->ambilVersiSoal($idSoal);
+            $this->repositoryTestcase->setTestcaseUntukSoal($idSoal, $versiSoalBaru, $testcaseBesertaJawaban);
         }
     }
 

@@ -7,6 +7,7 @@ namespace App\Core\Repository;
 use App\Core\Repository\Data\IDSoal;
 use App\Core\Repository\Data\IDUser;
 use App\Core\Repository\Data\Soal;
+use App\Core\Repository\Data\VersiSoal;
 
 interface InterfaceRepositorySoal {
 
@@ -59,9 +60,9 @@ interface InterfaceRepositorySoal {
      * 
      * @param IDSoal $idSoal id dari soal yang akan diambil versinya
      * 
-     * @return ?int versi soal
+     * @return ?VersiSoal versi soal
      */
-    public function ambilVersiSoal(IDSoal $idSoal) : ?int;
+    public function ambilVersiSoal(IDSoal $idSoal) : ?VersiSoal;
 
     /**
      * Untuk menambah versi soal 

@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\ControllerBuatSoal;
 use App\Http\Controllers\ControllerLogin;
 use App\Http\Controllers\ControllerLogout;
 use App\Http\Controllers\ControllerPengecekTokenAutentikasi;
 use App\Http\Controllers\ControllerRegister;
+use App\Http\Controllers\ControllerSetTestcaseSoal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +36,8 @@ Route::middleware("guest:api")->group(function() {
 
 Route::middleware("auth:api")->group(function() {
     Route::post("/login-token", ControllerPengecekTokenAutentikasi::class)->name("cek token autentikasi");
-    
     Route::post("/logout", ControllerLogout::class)->name("logout");
+    
+    Route::post("/buat-soal", ControllerBuatSoal::class)->name("buat soal");
+    Route::post("/set-testcase", ControllerSetTestcaseSoal::class)->name("set testcase");
 });

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId("id_soal");
             $table->string('testcase');
             $table->string('jawaban');
+            $table->integer('urutan');
             $table->boolean('publik');
             $table->integer("versi_soal");
             $table->timestamps();

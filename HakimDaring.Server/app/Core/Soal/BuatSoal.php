@@ -10,6 +10,7 @@ use App\Core\Repository\InterfaceRepositorySoal;
 use App\Core\Soal\Data\GagalBuatSoalException;
 use App\Core\Soal\Interface\InterfaceBuatSoal;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 
 class BuatSoal implements InterfaceBuatSoal {

@@ -6,6 +6,7 @@ namespace App\Core\Soal;
 
 use App\Core\Repository\Data\IDUser;
 use App\Core\Repository\Data\IDSoal;
+use App\Core\Repository\InterfaceRepositorySoal;
 use App\Core\Repository\InterfaceRepositoryTestcase;
 use App\Core\Soal\Data\TidakMemilikiHakException;
 use App\Core\Soal\Interface\InterfaceAmbilDaftarSemuaTestcaseSoal;
@@ -17,9 +18,12 @@ class AmbilDaftarSemuaTestcaseSoal implements InterfaceAmbilDaftarSemuaTestcaseS
 
     private InterfaceRepositoryTestcase $repositoryTestcase;
 
+    private InterfaceRepositorySoal $repositorySoal;
+
     public function __construct(
         PengecekPembuatSoal $pengecekPembuatSoal,
-        InterfaceRepositoryTestcase $repositoryTestcase
+        InterfaceRepositoryTestcase $repositoryTestcase,
+        InterfaceRepositorySoal $repositorySoal
     ) {
         
         if ($pengecekPembuatSoal == null) {
@@ -30,8 +34,13 @@ class AmbilDaftarSemuaTestcaseSoal implements InterfaceAmbilDaftarSemuaTestcaseS
             throw new InvalidArgumentException("repositoryTestcase bernilai null");
         }
 
+        if ($repositorySoal == null) {
+            throw new InvalidArgumentException("repositorySoal bernilai null");
+        }
+
         $this->pengecekPembuatSoal = $pengecekPembuatSoal;
         $this->repositoryTestcase = $repositoryTestcase;
+        $this->repositorySoal = $repositorySoal;
     }
 
     public function ambilDaftarTestcase(IDUser $idUser, IDSoal $idSoal): array
@@ -40,7 +49,8 @@ class AmbilDaftarSemuaTestcaseSoal implements InterfaceAmbilDaftarSemuaTestcaseS
             throw new TidakMemilikiHakException();
         }
 
-        return $this->repositoryTestcase->ambilKumpulanTestcaseDariSoal($idSoal);
+        $versiSoal = $this->repositorySoal->ambilVersiSoal($idSoal);
+        return $this->repositoryTestcase->ambilKumpulanTestcaseDariSoal($idSoal, $versiSoal);
     }
 }
 
