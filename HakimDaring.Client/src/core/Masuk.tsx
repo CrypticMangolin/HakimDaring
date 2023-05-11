@@ -19,7 +19,8 @@ class Masuk implements InterfaceMasuk {
             const dataDariServer = await response.json()
             
             if (response.ok) {
-                localStorage.setItem('token', dataDariServer.token)
+                localStorage.setItem("token", dataDariServer.token)
+                localStorage.setItem("nama", dataDariServer.nama)
                 callback(new BerhasilMasuk())
             }
             else if (response.status == 401) {

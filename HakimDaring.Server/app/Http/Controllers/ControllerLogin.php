@@ -8,6 +8,7 @@ use App\Core\Autentikasi\Login\Data\GagalLoginException;
 use App\Core\Autentikasi\Login\Interface\InterfaceLogin;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
 
@@ -43,8 +44,11 @@ class ControllerLogin extends Controller
 
         try {
             $token_autentikasi = $this->pemrosesLogin->login($email, $password);
+            $nama = Auth::user()->nama;
+
             return response()->json([
-                "token" => $token_autentikasi
+                "token" => $token_autentikasi,
+                "nama" => $nama
             ], 200);
         }
         catch(GagalLoginException $e) {
