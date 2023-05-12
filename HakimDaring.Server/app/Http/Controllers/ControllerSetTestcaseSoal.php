@@ -45,7 +45,7 @@ class ControllerSetTestcaseSoal extends Controller
 
         if (!is_array($jsonRequest["daftar_testcase"]) || count($jsonRequest["daftar_testcase"]) == 0) {
             return response()->json([
-                "error" => "daftar_testcase kosong"
+                "error" => "daftar_testcase kosong",
             ], 422);
         }
 

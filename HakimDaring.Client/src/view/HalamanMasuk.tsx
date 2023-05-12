@@ -5,6 +5,7 @@ import InterfaceMasuk from '../core/Interface/InterfaceMasuk'
 import Masuk from '../core/Masuk'
 import AkunLogin from '../core/Data/AkunLogin'
 import BerhasilMasuk from '../core/Data/ResponseBerhasil/BerhasilMasuk'
+import { Link } from 'react-router-dom'
 
 function HalamanMasuk() {
 
@@ -51,6 +52,7 @@ function HalamanMasuk() {
                       <Button variant='dark' type='submit' className='px-4 rounded-pill fs-5'>Masuk</Button>
                     </Col>
                   </Form>
+                  <Link to="/" className='text-secondary'>&#8592; Kembali</Link>
                 </Row>
               </Col>
             </Col>

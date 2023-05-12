@@ -19,9 +19,12 @@ return new class extends Migration
             $table->string('judul');
             $table->string('soal');
             $table->integer("versi");
+            $table->string('status');
+            $table->float("batasan_waktu_per_testcase_dalam_sekon");
+            $table->float("batasan_waktu_total_semua_testcase_dalam_sekon");
+            $table->integer("batasan_memori_dalam_kb");
             $table->integer('jumlah_submit');
             $table->integer('jumlah_berhasil');
-            $table->string('status');
             $table->timestamps();
 
             $table->foreign('id_user_pembuat')->references("id_user")->on("user");

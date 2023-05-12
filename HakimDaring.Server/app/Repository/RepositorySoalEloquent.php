@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Repository;
 
+use App\Core\Repository\Data\DataSoal;
 use App\Core\Repository\Data\IDSoal;
 use App\Core\Repository\Data\IDUser;
 use App\Core\Repository\Data\Soal;
@@ -13,16 +14,19 @@ use Illuminate\Support\Facades\DB;
 
 class RepositorySoalEloquent implements InterfaceRepositorySoal {
 
-    public function buatSoal(IDUser $idUSer, string $judul, string $soal) : IDSoal {
+    public function buatSoal(IDUser $idUSer, DataSoal $dataSoal) : IDSoal {
 
         $dataBaru = [
             "id_user_pembuat" => $idUSer->ambilID(),
-            "judul" => $judul,
-            "soal" => $soal,
+            "judul" => $dataSoal->ambilJudul(),
+            "soal" => $dataSoal->ambilSoal(),
             "versi" => 0,
+            "status" => "publik",
+            "batasan_waktu_per_testcase_dalam_sekon" => $dataSoal->ambilBatasanWaktuPerTestcase(),
+            "batasan_waktu_total_semua_testcase_dalam_sekon" => $dataSoal->ambilBatasanWaktuTotal(),
+            "batasan_memori_dalam_kb" => $dataSoal->ambilBatasanMemoriDalamKB(),
             "jumlah_submit" => 0,
-            "jumlah_berhasil" => 0,
-            "status" => "publik"
+            "jumlah_berhasil" => 0
         ];
 
         $id = DB::table("soal")->insertGetId($dataBaru);

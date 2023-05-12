@@ -1,9 +1,9 @@
 class AkunRegister {
 
-    private nama : string
-    private email : string
-    private password : string
-    private ulangi_password : string
+    public nama : string
+    public email : string
+    public password : string
+    public ulangi_password : string
 
     constructor(nama : string, email : string, password : string, ulangi_password : string) {
         this.nama = nama

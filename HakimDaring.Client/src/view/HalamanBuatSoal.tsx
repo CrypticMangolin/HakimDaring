@@ -2,10 +2,24 @@ import { useState, useEffect } from 'react'
 import { Button, Col, Container, Form, InputGroup, Modal, Row } from 'react-bootstrap'
 import Header from './Header'
 import ModelTestcase from '../model/ModelTestcase';
-import { test } from 'node:test';
 import ModelInputModal from '../model/ModelInputModal';
+import ModelSoal from '../model/ModelSoal';
+import BuatSoal from '../core/BuatSoal';
+import InterfaceBuatSoal from '../core/Interface/InterfaceBuatSoal';
+import SoalBaru from '../core/Data/SoalBaru';
+import BerhasilBuatSoal from '../core/Data/ResponseBerhasil/BerhasilBuatSoal';
+import TidakMemilikiHak from '../core/Data/ResponseGagal/TidakMemilikiHak';
+import KesalahanInputData from '../core/Data/ResponseGagal/KesalahanInputData';
+import KesalahanInternalServer from '../core/Data/ResponseGagal/KesalahanInternalServer';
+import InterfaceSetTestcase from '../core/Interface/InterfaceSetTestcase';
+import SetTestcase from '../core/SetTestcase';
+import Testcase from '../core/Data/Testcase';
+import BerhasilSetTestcase from '../core/Data/ResponseBerhasil/BerhasilSetTestcase';
 
 function HalamanBuatSoal() {
+
+  const buatSoal : InterfaceBuatSoal = new BuatSoal()
+  const setTestcase : InterfaceSetTestcase = new SetTestcase()
 
   const [daftarTestcase, setDaftarTestcase] = useState<ModelTestcase[]>([])
   const [popupInputString, setPopupInputString] = useState<boolean>(false)
@@ -14,6 +28,15 @@ function HalamanBuatSoal() {
     namaAttribute : "",
     nilai : ""
   });
+
+  const [dataSoal, setDataSoal] = useState<ModelSoal>({
+    id : null,
+    judul : "",
+    soal : "",
+    batasan_waktu_per_testcase_dalam_sekon : 1,
+    batasan_waktu_semua_testcase_dalam_sekon : 10,
+    batasan_memori_dalam_kb : 128000
+  })
 
   useEffect(() => {
     function loadScriptCKEditor() {
@@ -33,11 +56,17 @@ function HalamanBuatSoal() {
         if (document.getElementById("ckeditor-custom-build") == null) {
           const script = document.createElement('script');
           script.innerHTML = `
-            ClassicEditor.create( document.querySelector( '.editor' ), {
+            let ckEditor = null
+
+            ClassicEditor.create( document.querySelector('.editor'), {
                 licenseKey: '',
             })
             .then( editor => {
                 window.editor = editor;
+                editor.model.document.on('change:data', () => {
+                  window.perubahanCKEditor(editor.getData())
+                })
+                console.log("TES")
             })
             .catch( error => {
                 console.error( 'Oops, something went wrong!' );
@@ -88,33 +117,139 @@ function HalamanBuatSoal() {
     tutupPopupModalUntukTestcase()
   }
 
+  function perubahanCKEditor(tes : string) {
+    setDataSoal({...dataSoal, soal : tes})
+  }
+  (window as any).perubahanCKEditor = perubahanCKEditor
+
+  function convertModelTestcaseMenjadiTestcase(daftarModelTestcase : ModelTestcase[]) : Testcase[] {
+    let hasil : Testcase[] = []
+    for (let i = 0; i < daftarModelTestcase.length; i++) {
+      hasil.push(new Testcase(
+        daftarModelTestcase[i].testcase,
+        daftarModelTestcase[i].jawaban,
+        i + 1,
+        daftarModelTestcase[i].publik
+      ))
+    }
+
+    return hasil
+  }
+
+  function simpanSoal() {
+    buatSoal.buatSoal(
+      new SoalBaru(
+        dataSoal.judul, 
+        dataSoal.soal, 
+        dataSoal.batasan_waktu_per_testcase_dalam_sekon, 
+        dataSoal.batasan_waktu_semua_testcase_dalam_sekon, 
+        dataSoal.batasan_memori_dalam_kb
+      ),
+      
+      (hasil : any) => {
+        
+        if (hasil instanceof BerhasilBuatSoal) {
+          setTestcase.setTestcase(
+            hasil.ambilIDSoal(), 
+            convertModelTestcaseMenjadiTestcase(daftarTestcase),
+            (hasil : any) => {
+              if (hasil instanceof BerhasilSetTestcase) {
+                console.log("Berhasil")
+              }
+              else {
+                console.log(hasil)
+              }
+            } 
+          )
+        } 
+        else if (hasil instanceof TidakMemilikiHak) {
+
+        }
+        else if (hasil instanceof KesalahanInputData) {
+
+        }
+        else if (hasil instanceof KesalahanInternalServer) {
+
+        }
+        console.log(hasil)
+      }
+    )
+  }
+
+
   return (
     <>
       <Container className='min-vh-100 min-vw-100 m-0 p-0 d-flex flex-column'>
         <Header />
         <Row className='m-0 p-0'>
-          <Col sm={12} md={8} lg={8} xl={8} className="d-flex flex-column m-0 p-0">
-            <Row className='m-2 p-0 d-flex flex-column'>
+          <Col sm={12} md={8} lg={8} xl={8} className="d-flex flex-column m-0 p-2">
+            <Row className='m-0 p-0 d-flex flex-column'>
               <Col className='m-0 p-0'>
-                <Row className='mx-5 mb-4 p-0 d-flex flex-column'>
-                  <p className='my-2 p-0 fs-4 fw-bold text-center'>Judul Soal</p>
+                <Row className='m-0 mx-5 mb-4 p-0 d-flex flex-column'>
+                  <p className='m-0 py-2 fs-4 fw-bold text-center'>Judul Soal</p>
                   <InputGroup className='m-0 p-0'>
-                    <Form.Control type='text' placeholder="Judul" className='m-2 p-0 text-center'/>
+                    <Form.Control type='text' placeholder="Judul" className='m-2 py-1 text-center' value={dataSoal.judul} onChange={(e) => {
+                      setDataSoal({...dataSoal, judul : e.target.value})
+                    }}/>
                   </InputGroup>
                 </Row>
               </Col>
               <Col className='m-0 p-0'>
                 <Row className='m-0 p-0 pb-4 d-flex flex-column'>
                   <p className='m-0 py-2 fs-4 fw-bold text-center'>Soal</p>
-                  <div className="editor"></div>
+                  <div className="editor">
+                    {dataSoal.soal}
+                  </div>
                 </Row>
               </Col>
             </Row>
           </Col>
-          <Col sm={12} md={4} lg={4} xl={4} className="d-flex flex-column m-0 p-0">
-            <Row className='m-0 p-2'>
-              <p className='fs-4 fw-bold text-center pb-1'>Testcase</p>
-              <p className='fs-6 text-start pb-1'>Total Testcase: {daftarTestcase.length}</p>
+          <Col sm={12} md={4} lg={4} xl={4} className="d-flex flex-column m-0 p-2">
+            <Row className='m-0 p-0'>
+              <p className='m-0 p-0 py-2 fs-4 fw-bold text-center'>Buat Soal</p>
+              <Button variant='dark' className='m-2 mb-4' onClick={simpanSoal}>
+                Tekan bila telah selesai membuat soal
+              </Button>
+
+              <p className='m-0 p-0 py-2 fs-4 fw-bold text-center'>Batasan Sumber Daya</p>
+              <Col xs={12} className='m-0 p-0 d-flex flex-row justify-content-center'>
+                <Col xs={10}>
+                  <InputGroup className='m-0 p-0'>
+                    <Form.Control type='number' placeholder="Batawan Waktu per Testcase" className='m-2 py-1 text-center fs-6' value={dataSoal.batasan_waktu_per_testcase_dalam_sekon} onChange={(e) => {
+                      setDataSoal({...dataSoal, batasan_waktu_per_testcase_dalam_sekon : Number(e.target.value)})
+                    }}/>
+                  </InputGroup>
+                </Col>
+                <Col xs={2} className='d-flex flex-column justify-content-center'>
+                  <p className='fs-6 text-start m-0 p-0'>sekon</p>
+                </Col>
+              </Col>
+              <Col xs={12} className='m-0 p-0 d-flex flex-row justify-content-center'>
+                <Col xs={10}>
+                  <InputGroup className='m-0 p-0'>
+                    <Form.Control type='number' placeholder="Batawan Waktu Semua Testcase" className='m-2 py-1 text-center fs-6' value={dataSoal.batasan_waktu_semua_testcase_dalam_sekon} onChange={(e) => {
+                      setDataSoal({...dataSoal, batasan_waktu_semua_testcase_dalam_sekon : Number(e.target.value)})
+                    }}/>
+                  </InputGroup>
+                </Col>
+                <Col xs={2} className='d-flex flex-column justify-content-center'>
+                  <p className='fs-6 text-start m-0 p-0'>sekon</p>
+                </Col>
+              </Col>
+              <Col xs={12} className='m-0 p-0 pb-4 d-flex flex-row justify-content-center'>
+                <Col xs={10}>
+                  <InputGroup className='m-0 p-0'>
+                    <Form.Control type='number' placeholder="Batawan Memori" className='m-2 py-1 text-center fs-6' value={dataSoal.batasan_memori_dalam_kb} onChange={(e) => {
+                      setDataSoal({...dataSoal, batasan_memori_dalam_kb : Number(e.target.value)})
+                    }}/>
+                  </InputGroup>
+                </Col>
+                <Col xs={2} className='d-flex flex-column justify-content-center'>
+                  <p className='fs-6 text-start m-0 p-0'>KB</p>
+                </Col>
+              </Col>
+              <p className='m-0 p-0 pb-2 fs-4 fw-bold text-center'>Testcase</p>
+              <p className='m-0 p-0 pb-2 fs-6 text-start'>Total Testcase: {daftarTestcase.length}</p>
               <Row className='m-0 p-0'>
                 {
                   daftarTestcase.map(testcase => {
@@ -152,7 +287,14 @@ function HalamanBuatSoal() {
                             </Button>
                           </Col>
                           <Col xs={3} className='m-0 p-0'>
-                            <Button variant='light' className='w-100 m-0 border border-dark rounded-0'>Atur Publik</Button>
+                            <Button variant='light' className='w-100 m-0 border border-dark rounded-0' onClick={
+                              () => {
+                                testcase.publik = !testcase.publik
+                                setDaftarTestcase([...daftarTestcase])
+                              }
+                            }>
+                              {testcase.publik ? "Publik" : "Private"}
+                            </Button>
                           </Col>
                           <Col xs={3} className='m-0 p-0'>
                             <Button variant='light' className='w-100 m-0 border border-dark rounded-0' onClick={() => {
@@ -179,7 +321,7 @@ function HalamanBuatSoal() {
                         setDataModalString({...dataModalString, nilai : e.target.value})
                       }}
                       value={dataModalString.nilai}
-                      className='mx-2 p-0'
+                      className='mx-2 p-2'
                     />
                   </InputGroup>
                   <Modal.Footer>

@@ -18,7 +18,6 @@ class PengecekAutentikasi implements InterfacePengecekAutentikasi {
                 headers : BuatHeader()
             }).then(async (response) => {
                 const dataDariServer = await response.json()
-                console.log(dataDariServer.nama)
     
                 if (response.ok) {
                     localStorage.setItem("nama", dataDariServer.nama)

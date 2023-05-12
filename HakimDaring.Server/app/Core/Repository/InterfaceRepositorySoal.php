@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Repository;
 
+use App\Core\Repository\Data\DataSoal;
 use App\Core\Repository\Data\IDSoal;
 use App\Core\Repository\Data\IDUser;
 use App\Core\Repository\Data\Soal;
@@ -15,12 +16,11 @@ interface InterfaceRepositorySoal {
      * Menyimpan data soal baru ke dalam database
      * 
      * @param IDUser $idUser id pembuat soal
-     * @param string $judul Judul soal
-     * @param string $soal Isi soal
+     * @param DataSoal $dataSoal soal yang akan dibuat
      * 
      * @return IDSoal id dari soal yang dibuat
      */
-    public function buatSoal(IDUser $idUSer, string $judul, string $soal) : IDSoal;
+    public function buatSoal(IDUser $idUSer, DataSoal $dataSoal) : IDSoal;
 
     /**
      * Untuk mengecek apakah judul soal sudah pernah dipakai

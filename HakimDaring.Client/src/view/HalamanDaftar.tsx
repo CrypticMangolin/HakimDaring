@@ -6,7 +6,6 @@ import InterfaceDaftar from '../core/Interface/InterfaceDaftar'
 import Daftar from '../core/Daftar'
 import AkunRegister from '../core/Data/AkunRegister'
 import BerhasilDaftar from '../core/Data/ResponseBerhasil/BerhasilDaftar'
-import KesalahanInternalServer from '../core/Data/ResponseGagal/KesalahanInternalServer'
 import KesalahanInputData from '../core/Data/ResponseGagal/KesalahanInputData'
 
 function HalamanDaftar() {
