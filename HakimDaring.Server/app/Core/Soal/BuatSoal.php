@@ -18,9 +18,6 @@ class BuatSoal implements InterfaceBuatSoal {
     
     private const UKURAN_MAKSIMAL_JUDUL_DALAM_BYTE = 255;
     private const UKURAN_MAKSIMAL_SOAL_DALAM_BYTE = 4000000;
-    private const WAKTU_MAKSIMAL_PER_TESTCASE_DALAM_SEKON = 10.0;
-    private const WAKTU_MAKSIMAL_SEMUA_TESTCASE_DALAM_SEKON = 20.0;
-    private const MEMORI_MAKSIMAL_DALAM_KB = 128000;
 
     private InterfaceRepositorySoal $repositorySoal;
 
@@ -40,18 +37,6 @@ class BuatSoal implements InterfaceBuatSoal {
 
         if (strlen($dataSoal->ambilSoal()) > $this::UKURAN_MAKSIMAL_SOAL_DALAM_BYTE) {
             throw new GagalBuatSoalException("Ukuran soal melebihi ".self::UKURAN_MAKSIMAL_SOAL_DALAM_BYTE." byte");
-        }
-
-        if ($dataSoal->ambilBatasanWaktuPerTestcase() <= 0 || $dataSoal->ambilBatasanWaktuPerTestcase() > self::WAKTU_MAKSIMAL_PER_TESTCASE_DALAM_SEKON) {
-            throw new GagalBuatSoalException("Waktu per testcase harus diatas 0 sekon sampai maksimal ".self::WAKTU_MAKSIMAL_PER_TESTCASE_DALAM_SEKON." sekon");
-        }
-
-        if ($dataSoal->ambilBatasanWaktuTotal() <= 0 || $dataSoal->ambilBatasanWaktuTotal() > self::WAKTU_MAKSIMAL_SEMUA_TESTCASE_DALAM_SEKON) {
-            throw new GagalBuatSoalException("Waktu total semua testcase harus diatas 0 sekon sampai maksimal ".self::WAKTU_MAKSIMAL_SEMUA_TESTCASE_DALAM_SEKON." sekon");
-        }
-
-        if ($dataSoal->ambilBatasanMemoriDalamKB() <= 0 || $dataSoal->ambilBatasanMemoriDalamKB() > self::MEMORI_MAKSIMAL_DALAM_KB) {
-            throw new GagalBuatSoalException("Batasan memori harus diatas 0 KB sampai maksimal ".self::MEMORI_MAKSIMAL_DALAM_KB." KB");
         }
 
         if ($this->repositorySoal->cekApakahJudulSudahDipakai($dataSoal->ambilJudul())) {

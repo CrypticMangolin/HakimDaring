@@ -4,9 +4,11 @@ declare(strict_types = 1);
 
 namespace App\Core\Repository;
 
+use App\Core\Repository\Data\BatasanSoal;
 use App\Core\Repository\Data\DataSoal;
 use App\Core\Repository\Data\IDSoal;
 use App\Core\Repository\Data\IDUser;
+use App\Core\Repository\Data\InformasiSoal;
 use App\Core\Repository\Data\Soal;
 use App\Core\Repository\Data\VersiSoal;
 
@@ -38,7 +40,15 @@ interface InterfaceRepositorySoal {
      */
     public function hapusSoal(IDSoal $idSoal) : void;
 
-    
+    /**
+     * Untuk mengambil data semua informasi soal
+     * 
+     * @param IDSoal $idSoal id dari soal yang diambil datanya
+     * 
+     * @return ?InformasiSoal informasi soal
+     */
+    public function ambilInformasiSoal(IDSoal $idSoal) : ?InformasiSoal;
+
     /**
      * Untuk mengubah isi soal tertentu
      * 
@@ -70,6 +80,23 @@ interface InterfaceRepositorySoal {
      * @param IDSoal $idSoal id dari soal yang berubah versinya
      */
     public function tambahVersiSoal(IDSoal $idSoal) : void;
+
+    /**
+     * Untuk mengambil batasan sumber daya dari sebuah soal
+     * 
+     * @param IDSoal $idSoal id dari soal yang akan diambil sumber dayanya
+     * 
+     * @return ?BatasanSoal batasan sumber daya soal
+     */
+    public function ambilBatasanSumberDaya(IDSoal $idSoal) : ?BatasanSoal;
+
+    /**
+     * Untuk memperbarui batasan soal
+     * 
+     * @param IDSoal $idSoal id dari soal yang akan diperbarui batasan sumber dayanya
+     * @param BatasanSoal $batasanBaru batasan sumber daya baru untuk soal
+     */
+    public function setBatasanSoal(IDSoal $idSoal, BatasanSoal $batasanBaru) : void;
 }
 
 ?>

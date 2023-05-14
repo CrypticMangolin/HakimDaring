@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Navbar, Container, Nav, Dropdown, Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import InterfaceKeluar from '../core/Autentikasi/Interface/InterfaceKeluar'
+import Keluar from '../core/Autentikasi/Keluar'
 
 function Header() {
 
   const navigate = useNavigate()
+
+  const keluar : InterfaceKeluar = new Keluar()
 
   let [namaPengguna, setNamaPengguna] = useState<string|null>(null)
 
@@ -20,6 +24,12 @@ function Header() {
     navigate("/masuk")
   }
 
+  const keluarAkun = () => {
+    keluar.keluar(() => {
+      navigate("/")
+    })
+  }
+
   return ( 
     <>
       <Navbar variant="light" bg="light" expand="lg">
@@ -33,11 +43,11 @@ function Header() {
                     {namaPengguna}
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item href="#action/3.1">
+                    <Dropdown.Item>
                       Kelola Akun
                     </Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item href="#action/3.4">
+                    <Dropdown.Item onClick={keluarAkun}>
                       Keluar
                     </Dropdown.Item>
                   </Dropdown.Menu>

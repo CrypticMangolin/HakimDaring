@@ -1,11 +1,15 @@
 <?php
 
+use App\Http\Controllers\ControllerAmbilInformasiSoal;
+use App\Http\Controllers\ControllerAmbilSemuaTestcase;
 use App\Http\Controllers\ControllerBuatSoal;
 use App\Http\Controllers\ControllerLogin;
 use App\Http\Controllers\ControllerLogout;
+use App\Http\Controllers\ControllerPencarianSoal;
 use App\Http\Controllers\ControllerPengecekTokenAutentikasi;
 use App\Http\Controllers\ControllerRegister;
 use App\Http\Controllers\ControllerSetTestcaseSoal;
+use App\Http\Controllers\ControllerUbahSoal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,5 +43,9 @@ Route::middleware("auth:api")->group(function() {
     Route::post("/logout", ControllerLogout::class)->name("logout");
     
     Route::post("/buat-soal", ControllerBuatSoal::class)->name("buat soal");
+    Route::post("/ubah-soal", ControllerUbahSoal::class)->name("ubah soal");
     Route::post("/set-testcase", ControllerSetTestcaseSoal::class)->name("set testcase");
+    Route::post("/informasi-soal", ControllerAmbilInformasiSoal::class)->name("informasi soal");
+    Route::post("/daftar-semua-testcase", ControllerAmbilSemuaTestcase::class)->name("ambil semua testcase");
 });
+Route::post("/cari-soal", ControllerPencarianSoal::class)->name("cari-soal");

@@ -10,9 +10,9 @@ class Soal extends DataSoal {
 
     private IDSoal $idSoal;
 
-    public function __construct(?IDSoal $idSoal, string $judul, string $soal, float $batasanWaktuPerTestcase, float $batasanWaktuTotal, int $batasanMemoriDalamKB)
+    public function __construct(?IDSoal $idSoal, string $judul, string $soal)
     {
-        parent::__construct($judul, $soal, $batasanWaktuPerTestcase, $batasanWaktuTotal, $batasanMemoriDalamKB);
+        parent::__construct($judul, $soal);
         $this->idSoal = $idSoal;
     }
 

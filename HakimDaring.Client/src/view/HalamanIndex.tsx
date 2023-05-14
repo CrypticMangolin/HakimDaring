@@ -1,20 +1,23 @@
 import { useEffect, useState } from 'react'
 import { Button, Container, Row, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
-import InterfacePengecekAutentikasi from '../core/Interface/InterfacePengecekAutentikasi';
-import PengecekAutentikasi from '../core/PengecekAutentikasi';
+import InterfacePengecekAutentikasi from '../core/Autentikasi/Interface/InterfacePengecekAutentikasi';
+import PengecekAutentikasi from '../core/Autentikasi/PengecekAutentikasi';
 import BerhasilMasuk from '../core/Data/ResponseBerhasil/BerhasilMasuk';
 import TidakMemilikiHak from '../core/Data/ResponseGagal/TidakMemilikiHak';
 import KesalahanInternalServer from '../core/Data/ResponseGagal/KesalahanInternalServer';
-import InterfaceKeluar from '../core/Interface/InterfaceKeluar';
-import Keluar from '../core/Keluar';
+import InterfaceKeluar from '../core/Autentikasi/Interface/InterfaceKeluar';
+import Keluar from '../core/Autentikasi/Keluar';
+import CekMemilikiTokenAutentikasi from '../core/Autentikasi/CekMemilikiTokenAutentikasi';
 
 function HalamanIndex() {
 
   const navigate = useNavigate()
   let [hasilCekAutentikasi, setHasilCekAutentikasi] = useState<any>(null)
 
-  const pengecekAutentikasi : InterfacePengecekAutentikasi = new PengecekAutentikasi()
+  const pengecekAutentikasi : InterfacePengecekAutentikasi = new PengecekAutentikasi(
+    new CekMemilikiTokenAutentikasi()
+  )
   const keluar : InterfaceKeluar = new Keluar()
   
   const pindahHalamanMasuk = () => {

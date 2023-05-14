@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Core\Repository\Data\IDSoal;
+use App\Core\Repository\Data\IDUser;
+use App\Core\Soal\Data\TidakMemilikiHakException;
+use App\Core\Soal\Interface\InterfaceAmbilDaftarSemuaTestcaseSoal;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use InvalidArgumentException;
+
+class ControllerAmbilSemuaTestcase extends Controller
+{
+    private InterfaceAmbilDaftarSemuaTestcaseSoal $ambilDaftarSemuaTestcaseSoal;
+
+    public function __construct(InterfaceAmbilDaftarSemuaTestcaseSoal $ambilDaftarSemuaTestcaseSoal)
+    {
+        if ($ambilDaftarSemuaTestcaseSoal == null) {
+            throw new InvalidArgumentException("ambilDaftarSemuaTestcaseSoal bernilai null");
+        }
+
+        $this->ambilDaftarSemuaTestcaseSoal = $ambilDaftarSemuaTestcaseSoal;
+    }
+
+    public function __invoke(Request $request) : JsonResponse
+    {
+        $idSoal = $request->post("id_soal");
+
+        if ($idSoal == null) {
+            return response()->json([
+                "error" => "id_soal bernilai null"
+            ], 422);
+        }
+
+        try {
+            $daftarTestcase = $this->ambilDaftarSemuaTestcaseSoal->ambilDaftarTestcase(new IDUser(Auth::id()), new IDSoal($idSoal));
+            $hasil = [];
+            foreach($daftarTestcase as $testcase) {
+                array_push($hasil, [
+                    "testcase" => $testcase->ambilTestcase(),
+                    "jawaban" => $testcase->ambilJawaban(),
+                    "urutan" => $testcase->ambilUrutan(),
+                    "publik" => $testcase->apakahSoalPublik()
+                ]);
+            }
+
+            return response()->json($hasil, 200);
+        }
+        catch(TidakMemilikiHakException $e) {
+            return response()->json([
+                "error" => $e->getMessage()
+            ], 401);
+        }
+
+        return response()->json([
+            "error" => "Kesalahan internal server"
+        ], 500);
+    }
+}

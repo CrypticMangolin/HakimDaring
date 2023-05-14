@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\Repository\Data\BatasanSoal;
 use App\Core\Repository\Data\IDSoal;
 use App\Core\Repository\Data\IDUser;
 use App\Core\Repository\Data\TestcaseData;
@@ -49,8 +50,36 @@ class ControllerSetTestcaseSoal extends Controller
             ], 422);
         }
 
+        if (!array_key_exists("batasan", $jsonRequest)) {
+            return response()->json([
+                "error" => "batasan kosong",
+            ], 422);
+        }
+
+        if (!array_key_exists("batasan_waktu_per_testcase_dalam_sekon", $jsonRequest["batasan"])) {
+            return response()->json([
+                "error" => "batasanWaktuPerTestcase bernilai null"
+            ], 422);
+        }
+
+        if (!array_key_exists("batasan_waktu_total_semua_testcase_dalam_sekon", $jsonRequest["batasan"])) {
+            return response()->json([
+                "error" => "batasanWaktuSemuaTestcase bernilai null"
+            ], 422);
+        }
+
+        if (!array_key_exists("batasan_memori_dalam_kb", $jsonRequest["batasan"])) {
+            return response()->json([
+                "error" => "batasanMemoriDalamKB bernilai null"
+            ], 422);
+        }
+
         $idSoal = $jsonRequest["id_soal"];
         $daftarTestcase = $jsonRequest["daftar_testcase"];
+        $batasanWaktuPerTestcase = floatval($jsonRequest["batasan"]["batasan_waktu_per_testcase_dalam_sekon"]);
+        $batasanWaktuSemuaTestcase = floatval($jsonRequest["batasan"]["batasan_waktu_total_semua_testcase_dalam_sekon"]);
+        $batasanMemoriDalamKB = intval($jsonRequest["batasan"]["batasan_memori_dalam_kb"]);
+
         
         $kumpulanTestcaseData = [];
         foreach($daftarTestcase as $testcaseData) {
@@ -69,8 +98,14 @@ class ControllerSetTestcaseSoal extends Controller
             }
         }
 
+        $batasanBaru = new BatasanSoal(
+            $batasanWaktuPerTestcase,
+            $batasanWaktuSemuaTestcase,
+            $batasanMemoriDalamKB
+        );
+
         try {
-            $this->setTestcaseSoal->setTestcase(new IDUser(Auth::id()), new IDSoal($idSoal), $kumpulanTestcaseData);
+            $this->setTestcaseSoal->setTestcase(new IDUser(Auth::id()), new IDSoal($idSoal), $batasanBaru, $kumpulanTestcaseData);
         }
         catch(TidakMemilikiHakException $e) {
             return response()->json([
@@ -80,6 +115,11 @@ class ControllerSetTestcaseSoal extends Controller
         catch(TestcaseDuplikatException $e) {
             return response()->json([
                 "error" => "Terdapat testcase yang duplikat"
+            ], 422);
+        }
+        catch(InvalidArgumentException $e) {
+            return response()->json([
+                "error" => $e->getMessage()
             ], 422);
         }
 

@@ -4,12 +4,14 @@ declare(strict_types = 1);
 
 namespace App\Core\Soal;
 
+use App\Core\Repository\Data\BatasanSoal;
 use App\Core\Repository\Data\IDSoal;
 use App\Core\Repository\Data\IDUser;
 use App\Core\Repository\InterfaceRepositorySoal;
 use App\Core\Repository\InterfaceRepositoryTestcase;
 use App\Core\Soal\Data\TestcaseDuplikatException;
 use App\Core\Soal\Data\TidakMemilikiHakException;
+use App\Core\Soal\Interface\InterfacePengecekBatasanBerbeda;
 use App\Core\Soal\Interface\InterfacePengecekPembuatSoal;
 use App\Core\Soal\Interface\InterfacePengecekTestcaseBaruBerbeda;
 use App\Core\Soal\Interface\InterfacePengecekTestcaseDuplikat;
@@ -18,20 +20,22 @@ use InvalidArgumentException;
 
 class SetTestcaseSoal implements InterfaceSetTestcaseSoal {
 
+    private const WAKTU_MAKSIMAL_PER_TESTCASE_DALAM_SEKON = 10.0;
+    private const WAKTU_MAKSIMAL_SEMUA_TESTCASE_DALAM_SEKON = 20.0;
+    private const MEMORI_MAKSIMAL_DALAM_KB = 128000;
+
     private InterfacePengecekPembuatSoal $pengecekPembuatSoal;
-
     private InterfacePengecekTestcaseDuplikat $pengecekTestcaseDuplikat;
-
     private InterfacePengecekTestcaseBaruBerbeda $pengecekTestcaseBaruBerbeda;
-
+    private InterfacePengecekBatasanBerbeda $pengecekbatasanBaruBerbeda;
     private InterfaceRepositoryTestcase $repositoryTestcase;
-
     private InterfaceRepositorySoal $repositorySoal;
 
     public function __construct(
-        PengecekTestcaseDuplikat $pengecekTestcaseDuplikat, 
+        InterfacePengecekTestcaseDuplikat $pengecekTestcaseDuplikat, 
         InterfaceRepositoryTestcase $repositoryTestcase,
         InterfacePengecekTestcaseBaruBerbeda $pengecekTestcaseBaruBerbeda,
+        InterfacePengecekBatasanBerbeda $pengecekbatasanBaruBerbeda,
         InterfacePengecekPembuatSoal $pengecekPembuatSoal,
         InterfaceRepositorySoal $repositorySoal
     ) {
@@ -46,6 +50,10 @@ class SetTestcaseSoal implements InterfaceSetTestcaseSoal {
         if ($pengecekTestcaseBaruBerbeda == null) {
             throw new InvalidArgumentException("pengecekTestcaseBaruBerbeda bernilai null");
         }
+        
+        if ($pengecekbatasanBaruBerbeda == null) {
+            throw new InvalidArgumentException("pengecekbatasanBaruBerbeda bernilai null");
+        }
 
         if ($pengecekPembuatSoal == null) {
             throw new InvalidArgumentException("pengecekPembuatSoal bernilai null");
@@ -58,11 +66,12 @@ class SetTestcaseSoal implements InterfaceSetTestcaseSoal {
         $this->pengecekTestcaseDuplikat = $pengecekTestcaseDuplikat;
         $this->repositoryTestcase = $repositoryTestcase;
         $this->pengecekTestcaseBaruBerbeda = $pengecekTestcaseBaruBerbeda;
+        $this->pengecekbatasanBaruBerbeda = $pengecekbatasanBaruBerbeda;
         $this->pengecekPembuatSoal = $pengecekPembuatSoal;
         $this->repositorySoal = $repositorySoal;
     }
 
-    public function setTestcase(IDUser $idUser, IDSoal $idSoal, array $testcaseBesertaJawaban) : void
+    public function setTestcase(IDUser $idUser, IDSoal $idSoal, BatasanSoal $batasanBaru, array $testcaseBesertaJawaban) : void
     {
         if (!$this->pengecekPembuatSoal->cekApakahUserYangMembuatSoal($idUser, $idSoal)) {
             throw new TidakMemilikiHakException();
@@ -71,11 +80,27 @@ class SetTestcaseSoal implements InterfaceSetTestcaseSoal {
         if (!$this->pengecekTestcaseDuplikat->cekApakahTestcaseDuplikat($testcaseBesertaJawaban)) {
             throw new TestcaseDuplikatException();
         }
+
+        if ($batasanBaru->ambilBatasanWaktuPerTestcase() <= 0 || $batasanBaru->ambilBatasanWaktuPerTestcase() > self::WAKTU_MAKSIMAL_PER_TESTCASE_DALAM_SEKON) {
+            throw new InvalidArgumentException("Batasan waktu per testcase harus lebih dari 0 sekon dan kurang dari ".self::WAKTU_MAKSIMAL_PER_TESTCASE_DALAM_SEKON." sekon");
+        }
+
+        if ($batasanBaru->ambilBatasanWaktuTotal() <= 0 || $batasanBaru->ambilBatasanWaktuTotal() > self::WAKTU_MAKSIMAL_SEMUA_TESTCASE_DALAM_SEKON) {
+            throw new InvalidArgumentException("Batasan waktu total testcase harus lebih dari 0 sekon dan kurang dari ".self::WAKTU_MAKSIMAL_SEMUA_TESTCASE_DALAM_SEKON." sekon");
+        }
+        
+        if ($batasanBaru->ambilBatasanMemoriDalamKB() <= 0 || $batasanBaru->ambilBatasanMemoriDalamKB() > self::MEMORI_MAKSIMAL_DALAM_KB) {
+            throw new InvalidArgumentException("Batasan waktu per testcase harus lebih dari 0 KB dan kurang dari ".self::MEMORI_MAKSIMAL_DALAM_KB." KB");
+        }
         
         $versiSoalLama = $this->repositorySoal->ambilVersiSoal($idSoal);
         $kumpulanTestcaseLama = $this->repositoryTestcase->ambilKumpulanTestcaseDariSoal($idSoal, $versiSoalLama);
-        if ($this->pengecekTestcaseBaruBerbeda->cekApakahBerbeda($testcaseBesertaJawaban, $kumpulanTestcaseLama)) {
+
+        if ($this->pengecekTestcaseBaruBerbeda->cekApakahBerbeda($testcaseBesertaJawaban, $kumpulanTestcaseLama) ||
+            $this->pengecekbatasanBaruBerbeda->cakApakahBatasanBerbeda($idSoal, $batasanBaru)
+        ) {
             $this->repositorySoal->tambahVersiSoal($idSoal);
+            $this->repositorySoal->setBatasanSoal($idSoal, $batasanBaru);
             $versiSoalBaru = $this->repositorySoal->ambilVersiSoal($idSoal);
             $this->repositoryTestcase->setTestcaseUntukSoal($idSoal, $versiSoalBaru, $testcaseBesertaJawaban);
         }

@@ -10,18 +10,19 @@ use App\Core\Repository\InterfaceRepositorySoal;
 use App\Core\Repository\InterfaceRepositoryTestcase;
 use App\Core\Soal\Data\TidakMemilikiHakException;
 use App\Core\Soal\Interface\InterfaceAmbilDaftarSemuaTestcaseSoal;
+use App\Core\Soal\Interface\InterfacePengecekPembuatSoal;
 use InvalidArgumentException;
 
 class AmbilDaftarSemuaTestcaseSoal implements InterfaceAmbilDaftarSemuaTestcaseSoal {
 
-    private PengecekPembuatSoal $pengecekPembuatSoal;
+    private InterfacePengecekPembuatSoal $pengecekPembuatSoal;
 
     private InterfaceRepositoryTestcase $repositoryTestcase;
 
     private InterfaceRepositorySoal $repositorySoal;
 
     public function __construct(
-        PengecekPembuatSoal $pengecekPembuatSoal,
+        InterfacePengecekPembuatSoal $pengecekPembuatSoal,
         InterfaceRepositoryTestcase $repositoryTestcase,
         InterfaceRepositorySoal $repositorySoal
     ) {

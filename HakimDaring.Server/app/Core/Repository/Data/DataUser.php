@@ -14,6 +14,14 @@ class DataUser {
         $this->idUser = $idUser;
         $this->kelompok = $kelompok;
     }
+
+    public function ambilIDUser() : IDUser {
+        return $this->idUser;
+    }
+
+    public function ambilKelompok() : string {
+        return $this->kelompok;
+    }
 }
 
 ?>

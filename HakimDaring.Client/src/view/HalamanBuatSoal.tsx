@@ -4,17 +4,18 @@ import Header from './Header'
 import ModelTestcase from '../model/ModelTestcase';
 import ModelInputModal from '../model/ModelInputModal';
 import ModelSoal from '../model/ModelSoal';
-import BuatSoal from '../core/BuatSoal';
-import InterfaceBuatSoal from '../core/Interface/InterfaceBuatSoal';
-import SoalBaru from '../core/Data/SoalBaru';
+import BuatSoal from '../core/Soal/BuatSoal';
+import InterfaceBuatSoal from '../core/Soal/Interface/InterfaceBuatSoal';
+import SoalBaru from '../core/Data/Soal';
 import BerhasilBuatSoal from '../core/Data/ResponseBerhasil/BerhasilBuatSoal';
 import TidakMemilikiHak from '../core/Data/ResponseGagal/TidakMemilikiHak';
 import KesalahanInputData from '../core/Data/ResponseGagal/KesalahanInputData';
 import KesalahanInternalServer from '../core/Data/ResponseGagal/KesalahanInternalServer';
-import InterfaceSetTestcase from '../core/Interface/InterfaceSetTestcase';
-import SetTestcase from '../core/SetTestcase';
+import InterfaceSetTestcase from '../core/Testcase/Interface/InterfaceSetTestcase';
+import SetTestcase from '../core/Testcase/SetTestcase';
 import Testcase from '../core/Data/Testcase';
 import BerhasilSetTestcase from '../core/Data/ResponseBerhasil/BerhasilSetTestcase';
+import BatasanSoal from '../core/Data/BatasanSoal';
 
 function HalamanBuatSoal() {
 
@@ -140,10 +141,7 @@ function HalamanBuatSoal() {
     buatSoal.buatSoal(
       new SoalBaru(
         dataSoal.judul, 
-        dataSoal.soal, 
-        dataSoal.batasan_waktu_per_testcase_dalam_sekon, 
-        dataSoal.batasan_waktu_semua_testcase_dalam_sekon, 
-        dataSoal.batasan_memori_dalam_kb
+        dataSoal.soal
       ),
       
       (hasil : any) => {
@@ -151,6 +149,11 @@ function HalamanBuatSoal() {
         if (hasil instanceof BerhasilBuatSoal) {
           setTestcase.setTestcase(
             hasil.ambilIDSoal(), 
+            new BatasanSoal(
+              dataSoal.batasan_waktu_per_testcase_dalam_sekon, 
+              dataSoal.batasan_waktu_semua_testcase_dalam_sekon,
+              dataSoal.batasan_memori_dalam_kb
+            ),
             convertModelTestcaseMenjadiTestcase(daftarTestcase),
             (hasil : any) => {
               if (hasil instanceof BerhasilSetTestcase) {
@@ -159,7 +162,7 @@ function HalamanBuatSoal() {
               else {
                 console.log(hasil)
               }
-            } 
+            }
           )
         } 
         else if (hasil instanceof TidakMemilikiHak) {
@@ -252,9 +255,9 @@ function HalamanBuatSoal() {
               <p className='m-0 p-0 pb-2 fs-6 text-start'>Total Testcase: {daftarTestcase.length}</p>
               <Row className='m-0 p-0'>
                 {
-                  daftarTestcase.map(testcase => {
+                  daftarTestcase.map((testcase : ModelTestcase, index : number) => {
                     return (
-                      <>
+                      <Col className='m-0 p-0' xs={12} key={"daftarTestcase: " + index}>
                         <Col xs={12} className='m-1 p-0 d-flex flex-row'>
                           <Col xs={3} className='m-0 p-0'>
                             <Button variant='light' className='w-100 m-0 border border-dark rounded-0'
@@ -304,7 +307,7 @@ function HalamanBuatSoal() {
                             </Button>
                           </Col>
                         </Col>
-                      </>
+                      </Col>
                     )
                   })
                 }
@@ -315,7 +318,8 @@ function HalamanBuatSoal() {
                   </Modal.Header>
                   <InputGroup>
                     <Form.Control 
-                      type='text' 
+                      type='text'
+                      as="textarea"
                       placeholder={"Tuliskan " + dataModalString.namaAttribute} 
                       onChange={(e) => {
                         setDataModalString({...dataModalString, nilai : e.target.value})
