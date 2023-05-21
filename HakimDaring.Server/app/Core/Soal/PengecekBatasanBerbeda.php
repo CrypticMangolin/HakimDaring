@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace App\Core\Soal;
 
-use App\Core\Repository\Data\BatasanSoal;
-use App\Core\Repository\Data\IDSoal;
-use App\Core\Repository\InterfaceRepositorySoal;
+use App\Core\Repository\Soal\Entitas\BatasanSoal;
+use App\Core\Repository\Soal\Entitas\IDSoal;
+use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use App\Core\Soal\Interface\InterfacePengecekBatasanBerbeda;
 use InvalidArgumentException;
 

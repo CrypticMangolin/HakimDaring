@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Soal;
 
-use App\Core\Repository\Data\Testcase;
+use App\Core\Repository\Testcase\Entitas\Testcase;
 use App\Core\Soal\Interface\InterfacePengecekTestcaseBaruBerbeda;
 use InvalidArgumentException;
 

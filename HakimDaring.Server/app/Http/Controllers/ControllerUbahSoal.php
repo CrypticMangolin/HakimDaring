@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Core\Repository\Data\IDSoal;
-use App\Core\Repository\Data\IDUser;
-use App\Core\Repository\Data\Soal;
-use App\Core\Soal\Data\GagalBuatSoalException;
+use App\Core\Repository\Autentikasi\Entitas\IDUser;
+use App\Core\Repository\Soal\Entitas\IDSoal;
+use App\Core\Repository\Soal\Entitas\Soal;
+use App\Core\Soal\Exception\GagalBuatSoalException;
 use App\Core\Soal\Interface\InterfaceUbahSoal;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

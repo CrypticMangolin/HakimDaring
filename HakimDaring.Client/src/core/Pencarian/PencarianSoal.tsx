@@ -1,4 +1,5 @@
 import DaftarSoal from "../Data/DaftarSoal";
+import HasilPencarian from "../Data/HasilPencarian";
 import IDSoal from "../Data/IDSoal";
 import KategoriPencarian from "../Data/KategoriPencarian";
 import KesalahanInputData from "../Data/ResponseGagal/KesalahanInputData";
@@ -25,9 +26,10 @@ class PencarianSoal implements InterfacePencarianSoal {
             let dataDariServer = await response.json()
 
             if (response.ok) {
-                let hasilPencarian: DaftarSoal[] = []
+
+                let daftarSoal : DaftarSoal[] = []
                 dataDariServer.hasil_pencarian.forEach((element: { id: any; judul: string; jumlah_submit: number; jumlah_berhasil: number; persentase_berhasil: number; }) => {
-                    hasilPencarian.push(new DaftarSoal(
+                    daftarSoal.push(new DaftarSoal(
                         new IDSoal(element.id),
                         element.judul,
                         element.jumlah_submit,
@@ -35,6 +37,8 @@ class PencarianSoal implements InterfacePencarianSoal {
                         element.persentase_berhasil
                     ))
                 })
+
+                let hasilPencarian: HasilPencarian = new HasilPencarian(dataDariServer.halaman, dataDariServer.total_halaman, daftarSoal)
 
                 callback(hasilPencarian)
             }

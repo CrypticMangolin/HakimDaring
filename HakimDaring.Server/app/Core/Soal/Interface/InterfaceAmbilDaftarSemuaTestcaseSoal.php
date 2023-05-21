@@ -2,9 +2,8 @@
 
 namespace App\Core\Soal\Interface;
 
-use App\Core\Repository\Data\IDSoal;
-use App\Core\Repository\Data\IDUser;
-use App\Core\Repository\Data\TestcaseData;
+use App\Core\Repository\Autentikasi\Entitas\IDUser;
+use App\Core\Repository\Soal\Entitas\IDSoal;
 
 interface InterfaceAmbilDaftarSemuaTestcaseSoal {
 

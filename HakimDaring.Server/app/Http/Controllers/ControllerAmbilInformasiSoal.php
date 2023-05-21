@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Core\Repository\Data\IDSoal;
-use App\Core\Repository\Data\IDUser;
-use App\Core\Repository\Data\InformasiSoal;
-use App\Core\Repository\InterfaceRepositorySoal;
-use App\Core\Soal\Data\TidakMemilikiHakException;
-use App\Core\Soal\Interface\InterfaceAmbilInformasiSoal;
+use App\Core\Repository\Soal\Entitas\IDSoal;
+use App\Core\Repository\Soal\Entitas\InformasiSoal;
+use App\Core\Repository\Soal\InterfaceRepositorySoal;
+use App\Core\Soal\Exception\TidakMemilikiHakException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

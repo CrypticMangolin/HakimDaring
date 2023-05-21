@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Core\Repository\InterfaceRepositoryAutentikasi;
+use App\Core\Repository\Autentikasi\InterfaceRepositoryAutentikasi;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 

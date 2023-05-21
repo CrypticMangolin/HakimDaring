@@ -4,10 +4,10 @@ declare(strict_types = 1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Core\Repository\Data\IDSoal;
-use App\Core\Repository\Data\TestcaseData;
-use App\Core\Repository\Data\VersiSoal;
-use App\Core\Repository\InterfaceRepositoryTestcase;
+use App\Core\Repository\Soal\Entitas\IDSoal;
+use App\Core\Repository\Soal\Entitas\VersiSoal;
+use App\Core\Repository\Testcase\Entitas\TestcaseData;
+use App\Core\Repository\Testcase\InterfaceRepositoryTestcase;
 use ErrorException;
 use Illuminate\Support\Facades\DB;
 

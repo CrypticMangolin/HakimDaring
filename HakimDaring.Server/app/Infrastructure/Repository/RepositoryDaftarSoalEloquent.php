@@ -4,10 +4,10 @@ declare(strict_types = 1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Core\Repository\Data\HasilPencarianSoal;
-use App\Core\Repository\Data\IDSoal;
-use App\Core\Repository\Data\KategoriPencarian;
-use App\Core\Repository\InterfaceRepositoryDaftarSoal;
+use App\Core\Repository\DaftarSoal\Entitas\HasilPencarianSoal;
+use App\Core\Repository\DaftarSoal\Entitas\KategoriPencarian;
+use App\Core\Repository\DaftarSoal\InterfaceRepositoryDaftarSoal;
+use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Infrastructure\MapperSortBy;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +37,7 @@ class RepositoryDaftarSoalEloquent implements InterfaceRepositoryDaftarSoal {
             $this->mapper->mapSortBy($sortby), $sortby->apakahReverse() ? "desc" : "asc"
         );
         
-        $hasil = $query->offset(self::JUMLAH_PERHALAMAN * ($halaman - 1))->limit(self::JUMLAH_PERHALAMAN)->get();
+        $hasil = $query->limit(self::JUMLAH_PERHALAMAN)->offset(self::JUMLAH_PERHALAMAN * ($halaman - 1))->get();
 
         $daftarHasilpencarian = [];
         foreach($hasil as $hasilPencarian) {

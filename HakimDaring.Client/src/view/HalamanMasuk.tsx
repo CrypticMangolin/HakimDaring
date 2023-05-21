@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Container, Col, Row, Form, FormGroup, Button } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import ModelAkunLogin from '../model/ModelAkunLogin'
 import InterfaceMasuk from '../core/Autentikasi/Interface/InterfaceMasuk'
 import Masuk from '../core/Autentikasi/Masuk'
@@ -9,6 +10,8 @@ import { Link } from 'react-router-dom'
 
 function HalamanMasuk() {
 
+  const navigate = useNavigate()
+
   const [dataAkun, setDataAkun] = useState<ModelAkunLogin>({
     email : "",
     password : ""
@@ -16,11 +19,16 @@ function HalamanMasuk() {
 
   const [masuk, ] = useState<InterfaceMasuk>(new Masuk())
 
+  const pindahHalamanJelajah = () => {
+    navigate("/jelajah")
+  }
+
   const penangananMasuk = (hasil : any) => {
     if (hasil instanceof BerhasilMasuk) {
-      alert("Berhasil Masuk")
+      pindahHalamanJelajah()
     }
   }
+  
 
   const submitMasuk = (e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

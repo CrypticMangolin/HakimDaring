@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Core\Soal\Interface;
 
-use App\Core\Repository\Data\BatasanSoal;
-use App\Core\Repository\Data\IDSoal;
+use App\Core\Repository\Soal\Entitas\BatasanSoal;
+use App\Core\Repository\Soal\Entitas\IDSoal;
 
 interface InterfacePengecekBatasanBerbeda {
 

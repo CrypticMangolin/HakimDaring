@@ -10,7 +10,7 @@ use App\Core\Autentikasi\Register\Interface\InterfaceRegister;
 use App\Core\Autentikasi\Register\Register;
 use App\Core\Pencarian\CariSoal;
 use App\Core\Pencarian\Interface\InterfaceCariSoal;
-use App\Core\Repository\InterfaceRepositorySoal;
+use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use App\Core\Soal\AmbilDaftarSemuaTestcaseSoal;
 use App\Core\Soal\BuatSoal;
 use App\Core\Soal\Interface\InterfaceAmbilDaftarSemuaTestcaseSoal;

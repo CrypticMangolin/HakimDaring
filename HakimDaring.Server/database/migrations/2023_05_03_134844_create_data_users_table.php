@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        // Schema::create('data_user', function (Blueprint $table) {
-        //     $table->id()->primary();
-        //     $table->foreign('id_user')->references('id_user')->on('user');
-        //     $table->string("kelompok");
-        //     $table->timestamps();
-        // });
+        Schema::create('data_user', function (Blueprint $table) {
+            $table->id()->primary();
+            $table->string("kelompok");
+            $table->foreign('id_user')->references('id_user')->on('user');
+            $table->string("kelompok");
+            $table->timestamps();
+        });
     }
 
     /**

@@ -4,9 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Core\Soal\Interface;
 
-use App\Core\Repository\Data\DataSoal;
-use App\Core\Repository\Data\IDSoal;
-use App\Core\Soal\Data\GagalBuatSoalException;
+use App\Core\Repository\Soal\Entitas\DataSoal;
+use App\Core\Repository\Soal\Entitas\IDSoal;
 
 interface InterfaceBuatSoal {
 

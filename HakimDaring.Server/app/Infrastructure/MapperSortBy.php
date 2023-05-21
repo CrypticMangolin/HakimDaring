@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Infrastructure;
 
-use App\Core\Repository\Data\SortBy;
+use App\Core\Repository\DaftarSoal\Entitas\SortBy;
 
 class MapperSortBy {
 

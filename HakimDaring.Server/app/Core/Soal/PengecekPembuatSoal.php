@@ -2,9 +2,9 @@
 
 namespace App\Core\Soal;
 
-use App\Core\Repository\Data\IDUser;
-use App\Core\Repository\Data\IDSoal;
-use App\Core\Repository\InterfaceRepositorySoal;
+use App\Core\Repository\Autentikasi\Entitas\IDUser;
+use App\Core\Repository\Soal\Entitas\IDSoal;
+use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use App\Core\Soal\Interface\InterfacePengecekPembuatSoal;
 use InvalidArgumentException;
 

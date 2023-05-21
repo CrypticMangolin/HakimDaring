@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Core\Repository\Data\BatasanSoal;
-use App\Core\Repository\Data\IDSoal;
-use App\Core\Repository\Data\IDUser;
-use App\Core\Repository\Data\TestcaseData;
-use App\Core\Soal\Data\TestcaseDuplikatException;
-use App\Core\Soal\Data\TidakMemilikiHakException;
+use App\Core\Repository\Autentikasi\Entitas\IDUser;
+use App\Core\Repository\Soal\Entitas\BatasanSoal;
+use App\Core\Repository\Soal\Entitas\IDSoal;
+use App\Core\Repository\Testcase\Entitas\TestcaseData;
+use App\Core\Soal\Exception\TestcaseDuplikatException;
+use App\Core\Soal\Exception\TidakMemilikiHakException;
 use App\Core\Soal\Interface\InterfaceSetTestcaseSoal;
 use Exception;
 use Illuminate\Http\JsonResponse;

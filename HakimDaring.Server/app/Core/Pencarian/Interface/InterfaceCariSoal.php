@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Core\Pencarian\Interface;
 
-use App\Core\Repository\Data\HasilPencarian;
-use App\Core\Repository\Data\KategoriPencarian;
+use App\Core\Repository\DaftarSoal\Entitas\HasilPencarian;
+use App\Core\Repository\DaftarSoal\Entitas\KategoriPencarian;
 
 interface InterfaceCariSoal {
 

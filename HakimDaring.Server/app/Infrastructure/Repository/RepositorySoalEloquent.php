@@ -4,14 +4,14 @@ declare(strict_types = 1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Core\Repository\Data\BatasanSoal;
-use App\Core\Repository\Data\DataSoal;
-use App\Core\Repository\Data\IDSoal;
-use App\Core\Repository\Data\IDUser;
-use App\Core\Repository\Data\InformasiSoal;
-use App\Core\Repository\Data\Soal;
-use App\Core\Repository\Data\VersiSoal;
-use App\Core\Repository\InterfaceRepositorySoal;
+use App\Core\Repository\Autentikasi\Entitas\IDUser;
+use App\Core\Repository\Soal\Entitas\BatasanSoal;
+use App\Core\Repository\Soal\Entitas\DataSoal;
+use App\Core\Repository\Soal\Entitas\IDSoal;
+use App\Core\Repository\Soal\Entitas\InformasiSoal;
+use App\Core\Repository\Soal\Entitas\Soal;
+use App\Core\Repository\Soal\Entitas\VersiSoal;
+use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use Illuminate\Support\Facades\DB;
 
 class RepositorySoalEloquent implements InterfaceRepositorySoal {

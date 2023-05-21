@@ -28,6 +28,10 @@ function HalamanIndex() {
     navigate("/daftar")
   }
 
+  const pindahHalamanJelajah = () => {
+    navigate("/jelajah")
+  }
+
   const kirimPermintaanKeluar = () => {
     keluar.keluar(() => {
       setHasilCekAutentikasi(new TidakMemilikiHak())
@@ -92,7 +96,7 @@ function HalamanIndex() {
                 </Col>
               </Col>
               <Col xs={12} className='d-flex flex-row justify-content-center m-0 p-0'>
-              <Button variant='light' className=' px-3 border border-dark rounded-pill fs-6'>Jelajah</Button>
+              <Button variant='light' className=' px-3 border border-dark rounded-pill fs-6' onClick={pindahHalamanJelajah}>Jelajah</Button>
               </Col>
             </Col>
           </Row>

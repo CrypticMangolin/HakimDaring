@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Core\Autentikasi\Login;
 
-use App\Core\Autentikasi\Login\Data\GagalLoginException;
+use App\Core\Autentikasi\Login\Exception\GagalLoginException;
 use App\Core\Autentikasi\Login\Interface\InterfaceLogin;
 use App\Models\User;
 use ErrorException;

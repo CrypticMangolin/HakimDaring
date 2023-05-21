@@ -50,6 +50,9 @@ function HalamanBuatSoal() {
           script.id = "ckeditor"
           document.body.appendChild(script);
         }
+        else {
+          resolve(true)
+        }
       });
     }
     function loadScriptCustomCKEditor() {
@@ -58,8 +61,8 @@ function HalamanBuatSoal() {
           const script = document.createElement('script');
           script.innerHTML = `
             let ckEditor = null
-
-            ClassicEditor.create( document.querySelector('.editor'), {
+            
+            ClassicEditor.create( '', {
                 licenseKey: '',
             })
             .then( editor => {
@@ -67,18 +70,23 @@ function HalamanBuatSoal() {
                 editor.model.document.on('change:data', () => {
                   window.perubahanCKEditor(editor.getData())
                 })
-                console.log("TES")
+                console.log("editor berhasil di load")
+                document.getElementById("editor").appendChild(editor.ui.element)
             })
             .catch( error => {
                 console.error( 'Oops, something went wrong!' );
                 console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
                 console.warn( 'Build id: n96xuuc5ag4v-nk96buq2xi5g' );
                 console.error( error );
-            });`;
+            })`;
           script.onload = resolve;
           script.onerror = reject;
           script.id = "ckeditor-custom-build"
           document.body.appendChild(script);
+        }
+        else {
+          resolve(true)
+          document.getElementById("editor")?.appendChild((window as any).editor.ui.element)
         }
       });
     }
@@ -86,6 +94,8 @@ function HalamanBuatSoal() {
     async function loadCKEditor() {
       await loadScriptCKEditor()
       await loadScriptCustomCKEditor()
+
+      document.getElementById("editor")?.append((window as any).editor.ui.element)
     }
 
     return () => {
@@ -200,8 +210,7 @@ function HalamanBuatSoal() {
               <Col className='m-0 p-0'>
                 <Row className='m-0 p-0 pb-4 d-flex flex-column'>
                   <p className='m-0 py-2 fs-4 fw-bold text-center'>Soal</p>
-                  <div className="editor">
-                    {dataSoal.soal}
+                  <div id="editor">
                   </div>
                 </Row>
               </Col>

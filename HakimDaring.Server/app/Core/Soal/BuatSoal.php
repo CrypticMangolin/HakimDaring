@@ -4,13 +4,12 @@ declare(strict_types = 1);
 
 namespace App\Core\Soal;
 
-use App\Core\Repository\Data\DataSoal;
-use App\Core\Repository\Data\IDSoal;
-use App\Core\Repository\Data\IDUser;
-use App\Core\Repository\InterfaceRepositorySoal;
-use App\Core\Soal\Data\GagalBuatSoalException;
+use App\Core\Repository\Autentikasi\Entitas\IDUser;
+use App\Core\Repository\Soal\Entitas\DataSoal;
+use App\Core\Repository\Soal\Entitas\IDSoal;
+use App\Core\Repository\Soal\InterfaceRepositorySoal;
+use App\Core\Soal\Exception\GagalBuatSoalException;
 use App\Core\Soal\Interface\InterfaceBuatSoal;
-use Exception;
 use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 

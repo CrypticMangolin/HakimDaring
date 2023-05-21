@@ -4,11 +4,11 @@ declare(strict_types = 1);
 
 namespace App\Core\Pencarian;
 
-use App\Core\Pencarian\Data\HalamanMelewatiBatasException;
+use App\Core\Pencarian\Exception\HalamanMelewatiBatasException;
 use App\Core\Pencarian\Interface\InterfaceCariSoal;
-use App\Core\Repository\Data\HasilPencarian;
-use App\Core\Repository\Data\KategoriPencarian;
-use App\Core\Repository\InterfaceRepositoryDaftarSoal;
+use App\Core\Repository\DaftarSoal\Entitas\HasilPencarian;
+use App\Core\Repository\DaftarSoal\Entitas\KategoriPencarian;
+use App\Core\Repository\DaftarSoal\InterfaceRepositoryDaftarSoal;
 use InvalidArgumentException;
 
 class CariSoal implements InterfaceCariSoal {

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Core\Pencarian\Data\HalamanMelewatiBatasException;
+use App\Core\Pencarian\Exception\HalamanMelewatiBatasException;
 use App\Core\Pencarian\Interface\InterfaceCariSoal;
-use App\Core\Repository\Data\HasilPencarianSoal;
-use App\Core\Repository\Data\KategoriPencarian;
-use App\Core\Repository\Data\SortBy;
+use App\Core\Repository\DaftarSoal\Entitas\KategoriPencarian;
+use App\Core\Repository\DaftarSoal\Entitas\SortBy;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use InvalidArgumentException;

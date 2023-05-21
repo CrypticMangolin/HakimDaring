@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Core\Autentikasi\Register\Data\GagalRegisterException;
+use App\Core\Autentikasi\Register\Exception\GagalRegisterException;
 use App\Core\Autentikasi\Register\Interface\InterfaceRegister;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

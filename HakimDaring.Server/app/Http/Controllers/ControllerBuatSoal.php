@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Core\Repository\Data\DataSoal;
-use App\Core\Soal\Data\GagalBuatSoalException;
+use App\Core\Repository\Soal\Entitas\DataSoal;
+use App\Core\Soal\Exception\GagalBuatSoalException;
 use App\Core\Soal\Interface\InterfaceBuatSoal;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

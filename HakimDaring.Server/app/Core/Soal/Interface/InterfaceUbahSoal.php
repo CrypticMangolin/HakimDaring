@@ -4,10 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Core\Soal\Interface;
 
-use App\Core\Repository\Data\IDSoal;
-use App\Core\Repository\Data\IDUser;
-use App\Core\Repository\Data\Soal;
-use App\Core\Soal\Data\TidakMemilikiHakException;
+use App\Core\Repository\Autentikasi\Entitas\IDUser;
+use App\Core\Repository\Soal\Entitas\Soal;
 
 interface InterfaceUbahSoal {
 
