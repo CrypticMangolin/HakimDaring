@@ -10,18 +10,11 @@ import InterfacePencarianSoal from "./Interface/InterfacePencarianSoal";
 class PencarianSoal implements InterfacePencarianSoal {
     
     cariSoal(kategoriPencarian: KategoriPencarian, halaman : number, callback: (hasil: any) => void): void {
-        fetch("http://127.0.0.1:8000/api/cari-soal", {
-            method: "POST",
+
+        fetch(`http://127.0.0.1:8000/api/cari-soal?halaman=${halaman}&judul=${kategoriPencarian.judul}&sort_by=${kategoriPencarian.sortby}&sort_reverse=${kategoriPencarian.sortbyReverse}`, {
+            method: "GET",
             mode: "cors",
-            headers : BuatHeader(),
-            body: JSON.stringify({
-                halaman : halaman,
-                judul : kategoriPencarian.judul,
-                sort_by : {
-                    by : kategoriPencarian.sortby,
-                    reverse : kategoriPencarian.sortbyReverse
-                }
-            })
+            headers : BuatHeader()
         }).then(async (response) => {
             let dataDariServer = await response.json()
 

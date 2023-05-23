@@ -76,7 +76,7 @@ function HalamanIndex() {
                       </Col>
                       <Col xs={6} className='m-0 p-0 text-center'>
                         {hasilCekAutentikasi instanceof TidakMemilikiHak && <Button variant='dark' className='px-3 rounded-pill fs-6' onClick={pindahHalamanDaftar}>Daftar</Button>}
-                        {hasilCekAutentikasi instanceof BerhasilMasuk && <Button variant='dark' className='px-3 rounded-pill fs-6' onClick={() => {}}>Jelajah</Button>}
+                        {hasilCekAutentikasi instanceof BerhasilMasuk && <Button variant='dark' className='px-3 rounded-pill fs-6' onClick={pindahHalamanJelajah}>Jelajah</Button>}
                       </Col>
                     </>
                   }    

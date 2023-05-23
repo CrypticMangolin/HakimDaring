@@ -66,7 +66,7 @@ function HalamanBuatSoal() {
                 licenseKey: '',
             })
             .then( editor => {
-                window.editor = editor;
+                window.editor_soal = editor;
                 editor.model.document.on('change:data', () => {
                   window.perubahanCKEditor(editor.getData())
                 })
@@ -86,7 +86,7 @@ function HalamanBuatSoal() {
         }
         else {
           resolve(true)
-          document.getElementById("editor")?.appendChild((window as any).editor.ui.element)
+          document.getElementById("editor")?.appendChild((window as any).editor_soal.ui.element)
         }
       });
     }
@@ -95,7 +95,7 @@ function HalamanBuatSoal() {
       await loadScriptCKEditor()
       await loadScriptCustomCKEditor()
 
-      document.getElementById("editor")?.append((window as any).editor.ui.element)
+      document.getElementById("editor")?.append((window as any).editor_soal.ui.element)
     }
 
     return () => {
@@ -128,8 +128,8 @@ function HalamanBuatSoal() {
     tutupPopupModalUntukTestcase()
   }
 
-  function perubahanCKEditor(tes : string) {
-    setDataSoal({...dataSoal, soal : tes})
+  function perubahanCKEditor(soal : string) {
+    setDataSoal({...dataSoal, soal : soal})
   }
   (window as any).perubahanCKEditor = perubahanCKEditor
 

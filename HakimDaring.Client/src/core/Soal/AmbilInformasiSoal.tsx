@@ -9,13 +9,10 @@ import BuatHeader from "../PembuatHeader";
 class AmbilInformasiSoal implements InterfaceAmbilInformasiSoal {
 
     ambilInformasiSoal(idSoal : IDSoal, callback : (hasil : any) => void) : void {
-        fetch("http://127.0.0.1:8000/api/informasi-soal", {
-            method: "POST",
+        fetch(`http://127.0.0.1:8000/api/informasi-soal?id_soal=${idSoal.id}`, {
+            method: "GET",
             mode: "cors",
-            headers : BuatHeader(),
-            body: JSON.stringify({
-                id_soal : idSoal.id
-            })
+            headers : BuatHeader()
         }).then(async (response) => {
             let dataDariServer = await response.json()
 

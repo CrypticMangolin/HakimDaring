@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->uuid("id_user_pembuat");
             $table->string('judul');
-            $table->string('soal');
+            $table->longText('soal');
             $table->integer("versi");
             $table->string('status');
             $table->float("batasan_waktu_per_testcase_dalam_sekon");
@@ -25,9 +25,8 @@ return new class extends Migration
             $table->integer("batasan_memori_dalam_kb");
             $table->integer('jumlah_submit');
             $table->integer('jumlah_berhasil');
+            $table->foreignId('id_ruangan_diskusi');
             $table->timestamps();
-
-            $table->foreign('id_user_pembuat')->references("id_user")->on("user");
         });
     }
 

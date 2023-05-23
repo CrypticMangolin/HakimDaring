@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
+use App\Core\Repository\Soal\Entitas\DataSoal;
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Soal\Entitas\Soal;
 use App\Core\Soal\Exception\GagalBuatSoalException;
@@ -68,7 +69,7 @@ class ControllerUbahSoal extends Controller
         }
 
         try {
-            $idSoal = $this->ubahSoal->ubahSoal(new IDUser(Auth::id()), new Soal(new IDSoal($idSoal), $judul, $soal));
+            $idSoal = $this->ubahSoal->ubahSoal(new IDUser(Auth::id()), new Soal(new IDSoal($idSoal), new DataSoal($judul, $soal)));
 
             return response()->json([
                 "success" => "Berhasil mengubah soal"

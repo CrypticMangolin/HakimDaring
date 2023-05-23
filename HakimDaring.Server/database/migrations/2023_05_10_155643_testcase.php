@@ -16,14 +16,12 @@ return new class extends Migration
         Schema::create("testcase", function (Blueprint $table) {
             $table->id();
             $table->foreignId("id_soal");
-            $table->string('testcase');
-            $table->string('jawaban');
+            $table->longText('testcase');
+            $table->longText('jawaban');
             $table->integer('urutan');
             $table->boolean('publik');
             $table->integer("versi_soal");
             $table->timestamps();
-
-            $table->foreign('id_soal')->references("id")->on("soal");
         });
     }
 

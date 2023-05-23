@@ -5,6 +5,8 @@ import HalamanDaftar from './view/HalamanDaftar'
 import HalamanBuatSoal from './view/HalamanBuatSoal'
 import HalamanUbahSoal from './view/HalamanUbahSoal'
 import HalamanJelajah from './view/HalamanJelajah'
+import HalamanPengerjaan from './view/HalamanPengerjaan'
+import HalamanDiskusi from './view/HalamanDiskusi'
 
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
         <Route path='/buat-soal' element={<HalamanBuatSoal />}></Route>
         <Route path='/edit-soal/:id_soal' element={<HalamanUbahSoal />}></Route>
         <Route path='/jelajah' element={<HalamanJelajah />}></Route>
+        <Route path='/soal/:id_soal/pengerjaan' element={<HalamanPengerjaan />}></Route>
+        <Route path='/soal/:id_soal/diskusi' element={<HalamanDiskusi />}></Route>
       </Routes>
     </>
   )

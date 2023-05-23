@@ -30,33 +30,36 @@ class ControllerPencarianSoal extends Controller
 
     public function __invoke(Request $request) : JsonResponse
     {
-        $halaman = $request->post("halaman");
+        $halaman = $request->input("halaman");
         if ($halaman == null) {
             return response()->json([
                 "error" => "halaman bernilai null"
             ], 422);
         }
+        $halaman = filter_var($halaman, FILTER_VALIDATE_INT);
 
-        $judul = $request->post("judul");
+        $judul = $request->input("judul");
         if ($judul == null) {
             $judul = "";
         }
 
-        $sortBy = $request->post("sort_by");
+        $sortBy = $request->input("sort_by");
         if ($sortBy == null) {
             return response()->json([
                 "error" => "sort_by bernilai null"
             ], 422);
         }
 
-        if (!is_array($sortBy)) {
+        $sortReverse = $request->input("sort_reverse");
+        if ($sortReverse == null) {
             return response()->json([
-                "error" => "sort_by salah"
+                "error" => "sort_reverse bernilai null"
             ], 422);
         }
-
+        $sortReverse = filter_var($sortReverse, FILTER_VALIDATE_BOOLEAN);
+        
         try {
-            $hasilPencarian = $this->cariSoal->cariSoal($halaman, new KategoriPencarian($judul, new SortBy($this->mapper[$sortBy["by"]], $sortBy["reverse"])));
+            $hasilPencarian = $this->cariSoal->cariSoal($halaman, new KategoriPencarian($judul, new SortBy($this->mapper[$sortBy], $sortReverse)));
 
             $hasilPencarianSoal = [];
             foreach($hasilPencarian->ambilHasilPencarian() as $hasil) {

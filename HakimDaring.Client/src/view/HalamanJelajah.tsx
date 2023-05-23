@@ -56,6 +56,10 @@ function HalamanJelajah() {
     navigate("/buat-soal")
   }
 
+  const pindahHalamanPengerjaan = (idSoal : number) => {
+    navigate(`/soal/${idSoal}/pengerjaan`)
+  }
+
   const simpanJudul = () => {
     setKategoriPencarian({...kategoriPencarian, judul : judulPencarian})
   }
@@ -155,7 +159,7 @@ function HalamanJelajah() {
                       </thead>
                       <tbody>
                         {daftarSoal.map((value: DaftarSoal, index: number) =>
-                          (<tr key={"soal: " + index}>
+                          (<tr key={"soal: " + index} onClick={() => {pindahHalamanPengerjaan(value.idSoal.id)}}>
                             <td className='fs-6 fw-normal text-center'>{value.idSoal.id}</td>
                             <td className='fs-6 fw-normal text-start'>{value.judul}</td>
                             <td className='fs-6 fw-normal text-center'>{value.jumlahSubmit}</td>

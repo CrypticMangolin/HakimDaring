@@ -44,11 +44,11 @@ class UbahSoal implements InterfaceUbahSoal {
             throw new TidakMemilikiHakException("Tidak memiliki hak untuk mengubah soal");
         }
 
-        if (strlen($soalBaru->ambilJudul()) > $this::UKURAN_MAKSIMAL_JUDUL_DALAM_BYTE) {
+        if (strlen($soalBaru->ambilDataSoal()->ambilJudul()) > $this::UKURAN_MAKSIMAL_JUDUL_DALAM_BYTE) {
             throw new GagalBuatSoalException("Ukuran judul melebihi ".self::UKURAN_MAKSIMAL_JUDUL_DALAM_BYTE." byte");
         }
 
-        if (strlen($soalBaru->ambilSoal()) > $this::UKURAN_MAKSIMAL_SOAL_DALAM_BYTE) {
+        if (strlen($soalBaru->ambilDataSoal()->ambilSoal()) > $this::UKURAN_MAKSIMAL_SOAL_DALAM_BYTE) {
             throw new GagalBuatSoalException("Ukuran soal melebihi ".self::UKURAN_MAKSIMAL_SOAL_DALAM_BYTE." byte");
         }
         

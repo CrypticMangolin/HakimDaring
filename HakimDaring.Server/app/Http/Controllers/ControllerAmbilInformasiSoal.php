@@ -26,13 +26,14 @@ class ControllerAmbilInformasiSoal extends Controller
 
     public function __invoke(Request $request) : JsonResponse
     {
-        $idSoal = $request->post("id_soal");
-
+        
+        $idSoal = $request->input("id_soal");
         if ($idSoal == null) {
             return response()->json([
                 "error" => "id_soal bernilai null"
             ], 422);
         }
+        $idSoal = filter_var($idSoal, FILTER_VALIDATE_INT);
 
         if (!is_integer(intval($idSoal))) {
             return response()->json([
@@ -56,16 +57,17 @@ class ControllerAmbilInformasiSoal extends Controller
             }
             
             return response()->json([
-                'id_soal' => $informasiSoal->ambilIDSoal()->ambilID(),
-                'judul' => $informasiSoal->ambilJudul(),
-                'soal' => $informasiSoal->ambilSoal(),
+                'id_soal' => $informasiSoal->ambilSoal()->ambilIDSoal(),
+                'judul' => $informasiSoal->ambilSoal()->ambilDataSoal()->ambilJudul(),
+                'soal' => $informasiSoal->ambilSoal()->ambilDataSoal()->ambilSoal(),
                 "versi" => $informasiSoal->ambilVersi(),
                 'status' => $informasiSoal->ambilStatus(),
                 "batasan_waktu_per_testcase_dalam_sekon" => $informasiSoal->ambilBatasanWaktuPerTestcase(),
                 "batasan_waktu_total_semua_testcase_dalam_sekon" => $informasiSoal->ambilBatasanWaktuTotal(),
                 "batasan_memori_dalam_kb" => $informasiSoal->ambilBatasanMemoriDalamKB(),
                 'jumlah_submit' => $informasiSoal->ambilTotalSubmit(),
-                'jumlah_berhasil' => $informasiSoal->ambilTotalBerhasil()
+                'jumlah_berhasil' => $informasiSoal->ambilTotalBerhasil(),
+                'id_ruangan_diskusi' => $informasiSoal->ambilIDRuanganDiskusi()->ambilID()
             ]);
         }
         catch (TidakMemilikiHakException $e) {

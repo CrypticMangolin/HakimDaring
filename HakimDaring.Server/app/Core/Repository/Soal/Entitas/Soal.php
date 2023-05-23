@@ -6,20 +6,24 @@ namespace App\Core\Repository\Soal\Entitas;
 
 use InvalidArgumentException;
 
-class Soal extends DataSoal {
+class Soal {
 
     private IDSoal $idSoal;
+    private DataSoal $dataSoal;
 
-    public function __construct(?IDSoal $idSoal, string $judul, string $soal)
+    public function __construct(IDSoal $idSoal, DataSoal $dataSoal)
     {
-        parent::__construct($judul, $soal);
         $this->idSoal = $idSoal;
+        $this->dataSoal = $dataSoal;
     }
 
     public function ambilIDSoal() : IDSoal {
         return $this->idSoal;
     }
 
+    public function ambilDataSoal() : DataSoal {
+        return $this->dataSoal;
+    }
 }
 
 ?>

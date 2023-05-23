@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Infrastructure\Repository;
 
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
+use App\Core\Repository\Comment\Entitas\IDRuanganComment;
 use App\Core\Repository\Soal\Entitas\BatasanSoal;
 use App\Core\Repository\Soal\Entitas\DataSoal;
 use App\Core\Repository\Soal\Entitas\IDSoal;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 class RepositorySoalEloquent implements InterfaceRepositorySoal {
 
-    public function buatSoal(IDUser $idUSer, DataSoal $dataSoal) : IDSoal {
+    public function buatSoal(IDUser $idUSer, DataSoal $dataSoal, IDRuanganComment $idRuanganComment) : IDSoal {
 
         $dataBaru = [
             "id_user_pembuat" => $idUSer->ambilID(),
@@ -28,7 +29,8 @@ class RepositorySoalEloquent implements InterfaceRepositorySoal {
             "batasan_waktu_total_semua_testcase_dalam_sekon" => 10,
             "batasan_memori_dalam_kb" => 128000,
             "jumlah_submit" => 0,
-            "jumlah_berhasil" => 0
+            "jumlah_berhasil" => 0,
+            "id_ruangan_comment" => $idRuanganComment->ambilID() 
         ];
 
         $id = DB::table("soal")->insertGetId($dataBaru);
@@ -60,7 +62,7 @@ class RepositorySoalEloquent implements InterfaceRepositorySoal {
     public function ambilInformasiSoal(IDSoal $idSoal) : ?InformasiSoal {
         $scriptQuery = "SELECT s.id, s.judul, s.soal, s.versi, s.status, 
             s.batasan_waktu_per_testcase_dalam_sekon, s.batasan_waktu_total_semua_testcase_dalam_sekon,
-            s.batasan_memori_dalam_kb, s.jumlah_submit, s.jumlah_berhasil
+            s.batasan_memori_dalam_kb, s.jumlah_submit, s.jumlah_berhasil, s.id_ruangan_diskusi
             FROM soal as s WHERE id = :id_soal";
 
         $hasilQuery = DB::select($scriptQuery, [
@@ -72,16 +74,21 @@ class RepositorySoalEloquent implements InterfaceRepositorySoal {
         }
 
         return new InformasiSoal(
-            $idSoal,
-            $hasilQuery[0]->judul,
-            $hasilQuery[0]->soal,
+            new Soal(
+                $idSoal,
+                new DataSoal(
+                    $hasilQuery[0]->judul,
+                    $hasilQuery[0]->soal
+                ),
+            ),
             $hasilQuery[0]->versi,
             $hasilQuery[0]->status,
             $hasilQuery[0]->batasan_waktu_per_testcase_dalam_sekon,
             $hasilQuery[0]->batasan_waktu_total_semua_testcase_dalam_sekon,
             $hasilQuery[0]->batasan_memori_dalam_kb,
             $hasilQuery[0]->jumlah_submit,
-            $hasilQuery[0]->jumlah_berhasil
+            $hasilQuery[0]->jumlah_berhasil,
+            $hasilQuery[0]->id_ruangan_diskusi == null ? null : new IDRuanganComment($hasilQuery[0]->id_ruangan_diskusi)
         );
     }
 
@@ -89,8 +96,8 @@ class RepositorySoalEloquent implements InterfaceRepositorySoal {
         $scriptQuery = "UPDATE soal SET judul = :judul_soal, soal = :soal WHERE id = :id_soal";
 
         DB::update($scriptQuery, [
-            "judul_soal" => $soal->ambilJudul(),
-            "soal" => $soal->ambilSoal(),
+            "judul_soal" => $soal->ambilDataSoal()->ambilJudul(),
+            "soal" => $soal->ambilDataSoal()->ambilSoal(),
             "id_soal" => $soal->ambilIDSoal()->ambilID()
         ]);
     }

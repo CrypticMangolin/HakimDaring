@@ -14,9 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('data_user', function (Blueprint $table) {
-            $table->id()->primary();
-            $table->string("kelompok");
-            $table->foreign('id_user')->references('id_user')->on('user');
+            $table->id();
+            $table->uuid("id_user");
             $table->string("kelompok");
             $table->timestamps();
         });
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('data_users');
+        Schema::dropIfExists('data_user');
     }
 };

@@ -4,12 +4,12 @@ declare(strict_types = 1);
 
 namespace App\Core\Repository\Soal\Entitas;
 
+use App\Core\Repository\Comment\Entitas\IDRuanganComment;
 use InvalidArgumentException;
 
-class InformasiSoal extends Soal {
+class InformasiSoal {
 
-    private string $judul;
-    private string $soal;
+    private Soal $soal;
     private float $batasanWaktuPerTestcase;
     private float $batasanWaktuTotal;
     private int $batasanMemoriDalamKB;
@@ -17,36 +17,22 @@ class InformasiSoal extends Soal {
     private string $status;
     private int $totalSubmit;
     private int $totalBerhasil;
-
-
-    private IDSoal $idSoal;
+    private ?IDRuanganComment $idRuanganDiskusi;
 
     public function __construct(
-        IDSoal $idSoal, 
-        string $judul, 
-        string $soal,
+        Soal $soal,
         int $versi,
         string $status,
         float $batasanWaktuPerTestcase, 
         float $batasanWaktuTotal, 
         int $batasanMemoriDalamKB,
         int $totalSubmit,
-        int $totalBerhasil)
-    {
-        if ($idSoal == null) {
-            throw new InvalidArgumentException("idSoal bernilai null");
-        }
-
-        if ($judul == null) {
-            throw new InvalidArgumentException("judul bernilai null");
-        }
+        int $totalBerhasil,
+        ?IDRuanganComment $idRuanganDiskusi
+    ) {
 
         if ($soal == null) {
             throw new InvalidArgumentException("soal bernilai null");
-        }
-
-        if ($versi == null) {
-            throw new InvalidArgumentException("versi bernilai null");
         }
 
         if ($status == null) {
@@ -65,7 +51,7 @@ class InformasiSoal extends Soal {
             throw new InvalidArgumentException("batasanMemoriDalamKB bernilai null");
         }
 
-        parent::__construct($idSoal, $judul, $soal);
+        $this->soal = $soal;
         $this->versi = $versi;
         $this->status = $status;
         $this->batasanWaktuPerTestcase = $batasanWaktuPerTestcase;
@@ -73,6 +59,11 @@ class InformasiSoal extends Soal {
         $this->batasanMemoriDalamKB = $batasanMemoriDalamKB;
         $this->totalSubmit = $totalSubmit;
         $this->totalBerhasil = $totalBerhasil;
+        $this->idRuanganDiskusi = $idRuanganDiskusi;
+    }
+
+    public function ambilSoal() : Soal {
+        return $this->soal;
     }
 
     public function ambilVersi() : int {
@@ -101,6 +92,10 @@ class InformasiSoal extends Soal {
 
     public function ambilTotalBerhasil() : int {
         return $this->totalBerhasil;
+    }
+
+    public function ambilIDRuanganDiskusi() : ?IDRuanganComment {
+        return $this->idRuanganDiskusi;
     }
 }
 

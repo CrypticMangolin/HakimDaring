@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Soal\Entitas\DataSoal;
 use App\Core\Soal\Exception\GagalBuatSoalException;
 use App\Core\Soal\Interface\InterfaceBuatSoal;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 
 class ControllerBuatSoal extends Controller
@@ -52,7 +54,7 @@ class ControllerBuatSoal extends Controller
         }
 
         try {
-            $idSoal = $this->buatSoal->buatSoal(new DataSoal($judul, $soal));
+            $idSoal = $this->buatSoal->buatSoal(new IDUser(Auth::id()), new DataSoal($judul, $soal));
 
             return response()->json([
                 "id_soal" => $idSoal->ambilID()

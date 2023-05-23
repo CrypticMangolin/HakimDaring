@@ -26,7 +26,7 @@ class CariSoal implements InterfaceCariSoal {
 
     public function cariSoal(int $halaman, KategoriPencarian $kategoriPencarian) : HasilPencarian {
         $totalHalaman = $this->repositoryDaftarSoal->ambilTotalHalaman($kategoriPencarian);
-        if ($halaman > $totalHalaman) {
+        if ($halaman > $totalHalaman && $totalHalaman > 0) {
             throw new HalamanMelewatiBatasException("Total halaman hanya ".$totalHalaman." halaman");
         }
 

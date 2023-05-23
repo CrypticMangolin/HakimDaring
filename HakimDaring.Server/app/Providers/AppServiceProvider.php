@@ -8,9 +8,12 @@ use App\Core\Autentikasi\Logout\Interface\InterfaceLogout;
 use App\Core\Autentikasi\Logout\Logout;
 use App\Core\Autentikasi\Register\Interface\InterfaceRegister;
 use App\Core\Autentikasi\Register\Register;
+use App\Core\Comment\Interface\InterfaceTambahComment;
+use App\Core\Comment\TambahComment;
 use App\Core\Pencarian\CariSoal;
 use App\Core\Pencarian\Interface\InterfaceCariSoal;
 use App\Core\Repository\Soal\InterfaceRepositorySoal;
+use App\Core\Repository\Comment\InterfaceRepositoryComment;
 use App\Core\Soal\AmbilDaftarSemuaTestcaseSoal;
 use App\Core\Soal\BuatSoal;
 use App\Core\Soal\Interface\InterfaceAmbilDaftarSemuaTestcaseSoal;
@@ -25,6 +28,7 @@ use App\Core\Soal\SetTestcaseSoal;
 use App\Core\Soal\UbahSoal;
 use App\Infrastructure\MapperSortBy;
 use App\Infrastructure\Repository\RepositoryAutentikasiEloquent;
+use App\Infrastructure\Repository\RepositoryComment;
 use App\Infrastructure\Repository\RepositoryDaftarSoalEloquent;
 use App\Infrastructure\Repository\RepositorySoalEloquent;
 use App\Infrastructure\Repository\RepositoryTestcaseEloquent;
@@ -56,7 +60,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceLogout::class, Logout::class);
 
         $this->app->bind(InterfaceBuatSoal::class, function() {
-            return new BuatSoal(new RepositorySoalEloquent());
+            return new BuatSoal(new RepositorySoalEloquent(), new RepositoryComment());
         });
 
         $this->app->bind(InterfaceSetTestcaseSoal::class, function() {
@@ -91,5 +95,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceCariSoal::class, function() {
             return new CariSoal(new RepositoryDaftarSoalEloquent(new MapperSortBy()));
         });
+
+        $this->app->bind(InterfaceTambahComment::class, TambahComment::class);
+        $this->app->bind(InterfaceRepositoryComment::class, RepositoryComment::class);
     }
 }

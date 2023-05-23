@@ -26,13 +26,13 @@ class ControllerAmbilSemuaTestcase extends Controller
 
     public function __invoke(Request $request) : JsonResponse
     {
-        $idSoal = $request->post("id_soal");
-
+        $idSoal = $request->input("id_soal");
         if ($idSoal == null) {
             return response()->json([
                 "error" => "id_soal bernilai null"
             ], 422);
         }
+        $idSoal = filter_var($idSoal, FILTER_VALIDATE_INT);
 
         try {
             $daftarTestcase = $this->ambilDaftarSemuaTestcaseSoal->ambilDaftarTestcase(new IDUser(Auth::id()), new IDSoal($idSoal));

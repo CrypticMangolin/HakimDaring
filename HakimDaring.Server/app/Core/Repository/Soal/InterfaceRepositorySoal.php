@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Core\Repository\Soal;
 
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
+use App\Core\Repository\Comment\Entitas\IDRuanganComment;
 use App\Core\Repository\Soal\Entitas\BatasanSoal;
 use App\Core\Repository\Soal\Entitas\DataSoal;
 use App\Core\Repository\Soal\Entitas\IDSoal;
@@ -19,10 +20,11 @@ interface InterfaceRepositorySoal {
      * 
      * @param IDUser $idUser id pembuat soal
      * @param DataSoal $dataSoal soal yang akan dibuat
+     * @param IDRuanganComment $idRuanganComment id ruangan comment untuk diskusi soal
      * 
      * @return IDSoal id dari soal yang dibuat
      */
-    public function buatSoal(IDUser $idUSer, DataSoal $dataSoal) : IDSoal;
+    public function buatSoal(IDUser $idUSer, DataSoal $dataSoal, IDRuanganComment $idRuanganComment) : IDSoal;
 
     /**
      * Untuk mengecek apakah judul soal sudah pernah dipakai
