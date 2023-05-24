@@ -22,7 +22,7 @@ class DaftarBahasa implements InterfaceDaftarBahasa {
             new ModeBahasa("C++", "c_cpp"),
             new ModeBahasa("Java", "java"),
             new ModeBahasa("C#", "csharp"),
-            new ModeBahasa("Python",  "python"),
+            new ModeBahasa("Python3",  "python"),
             new ModeBahasa("Assembly", "assembly_x86"),
             new ModeBahasa("Golang", "golang"),
             new ModeBahasa("Rust", "rust"),

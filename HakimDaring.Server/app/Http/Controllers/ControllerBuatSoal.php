@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
+use App\Core\Repository\Soal\Entitas\BatasanSoal;
 use App\Core\Repository\Soal\Entitas\DataSoal;
+use App\Core\Repository\Testcase\Entitas\TestcaseData;
 use App\Core\Soal\Exception\GagalBuatSoalException;
 use App\Core\Soal\Interface\InterfaceBuatSoal;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,35 +29,88 @@ class ControllerBuatSoal extends Controller
 
     public function __invoke(Request $request) : JsonResponse
     {
-        $judul = $request->post("judul");
-        $soal = $request->post("soal");
+        $jsonRequest = $request->json()->all();
+
+        if (!array_key_exists("judul", $jsonRequest)) {
+            return response()->json([
+                "error" => "judul null"
+            ], 422);
+        }
+        if (!array_key_exists("soal", $jsonRequest)) {
+            return response()->json([
+                "error" => "judul null"
+            ], 422);
+        }
+
+        if (!array_key_exists("daftar_testcase", $jsonRequest)) {
+            return response()->json([
+                "error" => "daftar_testcase null"
+            ], 422);
+        }
+
+        if (!is_array($jsonRequest["daftar_testcase"]) || count($jsonRequest["daftar_testcase"]) == 0) {
+            return response()->json([
+                "error" => "daftar_testcase kosong",
+            ], 422);
+        }
+
+        if (!array_key_exists("batasan", $jsonRequest)) {
+            return response()->json([
+                "error" => "batasan kosong",
+            ], 422);
+        }
+
+        if (!array_key_exists("batasan_waktu_per_testcase_dalam_sekon", $jsonRequest["batasan"])) {
+            return response()->json([
+                "error" => "batasanWaktuPerTestcase bernilai null"
+            ], 422);
+        }
+
+        if (!array_key_exists("batasan_waktu_total_semua_testcase_dalam_sekon", $jsonRequest["batasan"])) {
+            return response()->json([
+                "error" => "batasanWaktuSemuaTestcase bernilai null"
+            ], 422);
+        }
+
+        if (!array_key_exists("batasan_memori_dalam_kb", $jsonRequest["batasan"])) {
+            return response()->json([
+                "error" => "batasanMemoriDalamKB bernilai null"
+            ], 422);
+        }
+
+        $judul = $jsonRequest["judul"];
+        $soal = $jsonRequest["soal"];
+        $daftarTestcase = $jsonRequest["daftar_testcase"];
+        $batasanWaktuPerTestcase = floatval($jsonRequest["batasan"]["batasan_waktu_per_testcase_dalam_sekon"]);
+        $batasanWaktuSemuaTestcase = floatval($jsonRequest["batasan"]["batasan_waktu_total_semua_testcase_dalam_sekon"]);
+        $batasanMemoriDalamKB = intval($jsonRequest["batasan"]["batasan_memori_dalam_kb"]);
+
         
-        if ($judul == null) {
-            return response()->json([
-                "error" => "judul bernilai null"
-            ], 422);
+        $kumpulanTestcaseData = [];
+        foreach($daftarTestcase as $testcaseData) {
+            try {
+                array_push($kumpulanTestcaseData, new TestcaseData(
+                    $testcaseData["testcase"],
+                    $testcaseData["jawaban"],
+                    $testcaseData["urutan"],
+                    $testcaseData["publik"]
+                ));
+            }
+            catch(Exception $e) {
+                return response()->json([
+                    "error" => "Kesalahan data testcase yang dikirimkan"
+                ], 422);
+            }
         }
 
-        if (!is_string($judul)) {
-            return response()->json([
-                "error" => "judul harus dalam string"
-            ], 422);
-        }
-
-        if ($soal == null) {
-            return response()->json([
-                "error" => "soal bernilai null"
-            ], 422);
-        }
-
-        if (!is_string($soal)) {
-            return response()->json([
-                "error" => "soal harus dalam string"
-            ], 422);
-        }
+        $batasanBaru = new BatasanSoal(
+            $batasanWaktuPerTestcase,
+            $batasanWaktuSemuaTestcase,
+            $batasanMemoriDalamKB
+        );
 
         try {
-            $idSoal = $this->buatSoal->buatSoal(new IDUser(Auth::id()), new DataSoal($judul, $soal));
+            $idSoal = $this->buatSoal->buatSoal(new IDUser(Auth::id()), new DataSoal($judul, $soal), $batasanBaru, $kumpulanTestcaseData);
 
             return response()->json([
                 "id_soal" => $idSoal->ambilID()

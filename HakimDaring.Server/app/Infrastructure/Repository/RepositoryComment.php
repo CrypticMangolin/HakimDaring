@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class RepositoryComment implements InterfaceRepositoryComment {
 
-    public function buatRaunganComment(IDUser $idPembuat) : IDRuanganComment {
+    public function buatRuanganComment(IDUser $idPembuat) : IDRuanganComment {
         $dataBaru = [
             "id_pembuat" => $idPembuat->ambilID()
         ];

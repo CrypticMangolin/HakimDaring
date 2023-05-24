@@ -19,7 +19,7 @@ interface InterfaceRepositoryComment {
      * @param IDUser $idPembuat id dari pembuat ruangan comment
      * @return IDRuanganComment id dari ruangan comment yang dibuat
      */
-    public function buatRaunganComment(IDUser $idPembuat) : IDRuanganComment;
+    public function buatRuanganComment(IDUser $idPembuat) : IDRuanganComment;
 
     /**
      * Untuk menambahkan comment ke dalam sebuah ruangan comment

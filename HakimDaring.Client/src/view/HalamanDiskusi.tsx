@@ -143,11 +143,11 @@ function HalamanDiskusi() {
 
   return (
   <>
-    <Container className='min-vh-100 min-vw-100 m-0 p-0 d-flex flex-column'>
+    <Container className='min-vh-100 min-vw-100 w-100 m-0 p-0 d-flex flex-column'>
       <Header />
       <Row className='m-0 mb-2 p-0 d-flex flex-row justify-content-start'>
         <Col className='m-0 p-0 d-flex flex-row justify-content-center' xs={1}>
-          <Button variant='light' className='m-0 w-100 rounded-0 text-center'>
+          <Button variant='light' className='m-0 w-100 rounded-0 text-center' onClick={pindahHalamanPengerjaan}>
             Pengerjaan
           </Button>
         </Col>
@@ -182,7 +182,7 @@ function HalamanDiskusi() {
                         balasan != -1 &&
                         <a className='m-0 py-1 fs-6 text-dark bg-secondary text-decoration-none border border-dark' href={`#k-${balasan}`}>
                           <blockquote className='m-0 py-1 blockquote fs-6 text-truncate'>
-                            <p className='text-truncate' dangerouslySetInnerHTML={{ __html: daftarKomentar[balasan].pesan}}>
+                            <p className='text-truncate' dangerouslySetInnerHTML={{ __html: daftarKomentar[balasan].pesan}} style={{"wordWrap" : 'break-word'}}>
                             </p>
                           </blockquote>
                         </a>

@@ -17,20 +17,20 @@ use Illuminate\Support\Facades\DB;
 
 class RepositorySoalEloquent implements InterfaceRepositorySoal {
 
-    public function buatSoal(IDUser $idUSer, DataSoal $dataSoal, IDRuanganComment $idRuanganComment) : IDSoal {
+    public function buatSoal(IDUser $idUSer, DataSoal $dataSoal, BatasanSoal $batasanSoal, IDRuanganComment $idRuanganComment) : IDSoal {
 
         $dataBaru = [
             "id_user_pembuat" => $idUSer->ambilID(),
             "judul" => $dataSoal->ambilJudul(),
             "soal" => $dataSoal->ambilSoal(),
-            "versi" => 0,
+            "versi" => 1,
             "status" => "publik",
-            "batasan_waktu_per_testcase_dalam_sekon" => 1,
-            "batasan_waktu_total_semua_testcase_dalam_sekon" => 10,
-            "batasan_memori_dalam_kb" => 128000,
+            "batasan_waktu_per_testcase_dalam_sekon" => $batasanSoal->ambilBatasanWaktuPerTestcase(),
+            "batasan_waktu_total_semua_testcase_dalam_sekon" => $batasanSoal->ambilBatasanWaktuTotal(),
+            "batasan_memori_dalam_kb" => $batasanSoal->ambilBatasanMemoriDalamKB(),
             "jumlah_submit" => 0,
             "jumlah_berhasil" => 0,
-            "id_ruangan_comment" => $idRuanganComment->ambilID() 
+            "id_ruangan_diskusi" => $idRuanganComment->ambilID() 
         ];
 
         $id = DB::table("soal")->insertGetId($dataBaru);

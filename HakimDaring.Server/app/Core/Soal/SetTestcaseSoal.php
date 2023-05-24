@@ -11,7 +11,7 @@ use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use App\Core\Repository\Testcase\InterfaceRepositoryTestcase;
 use App\Core\Soal\Exception\TestcaseDuplikatException;
 use App\Core\Soal\Exception\TidakMemilikiHakException;
-use App\Core\Soal\Interface\InterfacePengecekBatasanBerbeda;
+use App\Core\Soal\Interface\InterfacePengecekBatasan;
 use App\Core\Soal\Interface\InterfacePengecekPembuatSoal;
 use App\Core\Soal\Interface\InterfacePengecekTestcaseBaruBerbeda;
 use App\Core\Soal\Interface\InterfacePengecekTestcaseDuplikat;
@@ -20,14 +20,10 @@ use InvalidArgumentException;
 
 class SetTestcaseSoal implements InterfaceSetTestcaseSoal {
 
-    private const WAKTU_MAKSIMAL_PER_TESTCASE_DALAM_SEKON = 10.0;
-    private const WAKTU_MAKSIMAL_SEMUA_TESTCASE_DALAM_SEKON = 20.0;
-    private const MEMORI_MAKSIMAL_DALAM_KB = 128000;
-
     private InterfacePengecekPembuatSoal $pengecekPembuatSoal;
     private InterfacePengecekTestcaseDuplikat $pengecekTestcaseDuplikat;
     private InterfacePengecekTestcaseBaruBerbeda $pengecekTestcaseBaruBerbeda;
-    private InterfacePengecekBatasanBerbeda $pengecekbatasanBaruBerbeda;
+    private InterfacePengecekBatasan $pengecekBatasan;
     private InterfaceRepositoryTestcase $repositoryTestcase;
     private InterfaceRepositorySoal $repositorySoal;
 
@@ -35,7 +31,7 @@ class SetTestcaseSoal implements InterfaceSetTestcaseSoal {
         InterfacePengecekTestcaseDuplikat $pengecekTestcaseDuplikat, 
         InterfaceRepositoryTestcase $repositoryTestcase,
         InterfacePengecekTestcaseBaruBerbeda $pengecekTestcaseBaruBerbeda,
-        InterfacePengecekBatasanBerbeda $pengecekbatasanBaruBerbeda,
+        InterfacePengecekBatasan $pengecekBatasan,
         InterfacePengecekPembuatSoal $pengecekPembuatSoal,
         InterfaceRepositorySoal $repositorySoal
     ) {
@@ -51,8 +47,8 @@ class SetTestcaseSoal implements InterfaceSetTestcaseSoal {
             throw new InvalidArgumentException("pengecekTestcaseBaruBerbeda bernilai null");
         }
         
-        if ($pengecekbatasanBaruBerbeda == null) {
-            throw new InvalidArgumentException("pengecekbatasanBaruBerbeda bernilai null");
+        if ($pengecekBatasan == null) {
+            throw new InvalidArgumentException("pengecekbatasanBaru bernilai null");
         }
 
         if ($pengecekPembuatSoal == null) {
@@ -66,7 +62,7 @@ class SetTestcaseSoal implements InterfaceSetTestcaseSoal {
         $this->pengecekTestcaseDuplikat = $pengecekTestcaseDuplikat;
         $this->repositoryTestcase = $repositoryTestcase;
         $this->pengecekTestcaseBaruBerbeda = $pengecekTestcaseBaruBerbeda;
-        $this->pengecekbatasanBaruBerbeda = $pengecekbatasanBaruBerbeda;
+        $this->pengecekBatasan = $pengecekBatasan;
         $this->pengecekPembuatSoal = $pengecekPembuatSoal;
         $this->repositorySoal = $repositorySoal;
     }
@@ -81,23 +77,13 @@ class SetTestcaseSoal implements InterfaceSetTestcaseSoal {
             throw new TestcaseDuplikatException();
         }
 
-        if ($batasanBaru->ambilBatasanWaktuPerTestcase() <= 0 || $batasanBaru->ambilBatasanWaktuPerTestcase() > self::WAKTU_MAKSIMAL_PER_TESTCASE_DALAM_SEKON) {
-            throw new InvalidArgumentException("Batasan waktu per testcase harus lebih dari 0 sekon dan kurang dari ".self::WAKTU_MAKSIMAL_PER_TESTCASE_DALAM_SEKON." sekon");
-        }
-
-        if ($batasanBaru->ambilBatasanWaktuTotal() <= 0 || $batasanBaru->ambilBatasanWaktuTotal() > self::WAKTU_MAKSIMAL_SEMUA_TESTCASE_DALAM_SEKON) {
-            throw new InvalidArgumentException("Batasan waktu total testcase harus lebih dari 0 sekon dan kurang dari ".self::WAKTU_MAKSIMAL_SEMUA_TESTCASE_DALAM_SEKON." sekon");
-        }
-        
-        if ($batasanBaru->ambilBatasanMemoriDalamKB() <= 0 || $batasanBaru->ambilBatasanMemoriDalamKB() > self::MEMORI_MAKSIMAL_DALAM_KB) {
-            throw new InvalidArgumentException("Batasan waktu per testcase harus lebih dari 0 KB dan kurang dari ".self::MEMORI_MAKSIMAL_DALAM_KB." KB");
-        }
+        $this->pengecekBatasan->cekApakahBatasanMemenuhiSyarat($batasanBaru);
         
         $versiSoalLama = $this->repositorySoal->ambilVersiSoal($idSoal);
         $kumpulanTestcaseLama = $this->repositoryTestcase->ambilKumpulanTestcaseDariSoal($idSoal, $versiSoalLama);
 
         if ($this->pengecekTestcaseBaruBerbeda->cekApakahBerbeda($testcaseBesertaJawaban, $kumpulanTestcaseLama) ||
-            $this->pengecekbatasanBaruBerbeda->cakApakahBatasanBerbeda($idSoal, $batasanBaru)
+            $this->pengecekBatasan->cekApakahBatasanBerbeda($idSoal, $batasanBaru)
         ) {
             $this->repositorySoal->tambahVersiSoal($idSoal);
             $this->repositorySoal->setBatasanSoal($idSoal, $batasanBaru);

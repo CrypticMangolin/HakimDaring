@@ -433,6 +433,9 @@ function HalamanUbahSoal() {
                             <Button variant='light' className='w-100 m-0 border border-dark rounded-0' onClick={
                               () => {
                                 testcase.publik = !testcase.publik
+                                if (daftarTestcase.filter((element) => element.publik).length > 5) {
+                                  testcase.publik = false
+                                }
                                 setDaftarTestcase([...daftarTestcase])
                               }
                             }>
@@ -479,11 +482,13 @@ function HalamanUbahSoal() {
                 </Modal>
               </Row>
               <Button variant='dark' onClick={() => {
-                tambahTestcase({
-                  testcase : "",
-                  jawaban : "",
-                  publik : false
-                })
+                if (daftarTestcase.length < 20) {
+                  tambahTestcase({
+                    testcase : "",
+                    jawaban : "",
+                    publik : false
+                  })
+                }
               }}>
                 Tambah Testcase
               </Button>

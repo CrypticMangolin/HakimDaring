@@ -20,7 +20,8 @@ use App\Core\Soal\Interface\InterfaceAmbilDaftarSemuaTestcaseSoal;
 use App\Core\Soal\Interface\InterfaceBuatSoal;
 use App\Core\Soal\Interface\InterfaceSetTestcaseSoal;
 use App\Core\Soal\Interface\InterfaceUbahSoal;
-use App\Core\Soal\PengecekBatasanBerbeda;
+use App\Core\Soal\PengecekBatasan;
+use App\Core\Soal\PengecekJumlahTestcase;
 use App\Core\Soal\PengecekPembuatSoal;
 use App\Core\Soal\PengecekTestcaseBaruBerbeda;
 use App\Core\Soal\PengecekTestcaseDuplikat;
@@ -60,7 +61,15 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceLogout::class, Logout::class);
 
         $this->app->bind(InterfaceBuatSoal::class, function() {
-            return new BuatSoal(new RepositorySoalEloquent(), new RepositoryComment());
+            $repositorySoal = new RepositorySoalEloquent();
+            return new BuatSoal(
+                $repositorySoal, 
+                new RepositoryComment(), 
+                new RepositoryTestcaseEloquent(),
+                new PengecekBatasan($repositorySoal),
+                new PengecekTestcaseDuplikat(),
+                new PengecekJumlahTestcase() 
+            );
         });
 
         $this->app->bind(InterfaceSetTestcaseSoal::class, function() {
@@ -70,7 +79,7 @@ class AppServiceProvider extends ServiceProvider
                 new PengecekTestcaseDuplikat(),
                 new RepositoryTestcaseEloquent(),
                 new PengecekTestcaseBaruBerbeda(),
-                new PengecekBatasanBerbeda($repositorySoal),
+                new PengecekBatasan($repositorySoal),
                 new PengecekPembuatSoal($repositorySoal),
                 $repositorySoal
             );

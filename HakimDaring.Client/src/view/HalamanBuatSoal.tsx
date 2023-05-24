@@ -11,16 +11,12 @@ import BerhasilBuatSoal from '../core/Data/ResponseBerhasil/BerhasilBuatSoal';
 import TidakMemilikiHak from '../core/Data/ResponseGagal/TidakMemilikiHak';
 import KesalahanInputData from '../core/Data/ResponseGagal/KesalahanInputData';
 import KesalahanInternalServer from '../core/Data/ResponseGagal/KesalahanInternalServer';
-import InterfaceSetTestcase from '../core/Testcase/Interface/InterfaceSetTestcase';
-import SetTestcase from '../core/Testcase/SetTestcase';
 import Testcase from '../core/Data/Testcase';
-import BerhasilSetTestcase from '../core/Data/ResponseBerhasil/BerhasilSetTestcase';
 import BatasanSoal from '../core/Data/BatasanSoal';
 
 function HalamanBuatSoal() {
 
   const buatSoal : InterfaceBuatSoal = new BuatSoal()
-  const setTestcase : InterfaceSetTestcase = new SetTestcase()
 
   const [daftarTestcase, setDaftarTestcase] = useState<ModelTestcase[]>([])
   const [popupInputString, setPopupInputString] = useState<boolean>(false)
@@ -94,8 +90,6 @@ function HalamanBuatSoal() {
     async function loadCKEditor() {
       await loadScriptCKEditor()
       await loadScriptCustomCKEditor()
-
-      document.getElementById("editor")?.append((window as any).editor_soal.ui.element)
     }
 
     return () => {
@@ -153,27 +147,17 @@ function HalamanBuatSoal() {
         dataSoal.judul, 
         dataSoal.soal
       ),
+      new BatasanSoal(
+        dataSoal.batasan_waktu_per_testcase_dalam_sekon, 
+        dataSoal.batasan_waktu_semua_testcase_dalam_sekon,
+        dataSoal.batasan_memori_dalam_kb
+      ),
+      convertModelTestcaseMenjadiTestcase(daftarTestcase),
       
       (hasil : any) => {
         
         if (hasil instanceof BerhasilBuatSoal) {
-          setTestcase.setTestcase(
-            hasil.ambilIDSoal(), 
-            new BatasanSoal(
-              dataSoal.batasan_waktu_per_testcase_dalam_sekon, 
-              dataSoal.batasan_waktu_semua_testcase_dalam_sekon,
-              dataSoal.batasan_memori_dalam_kb
-            ),
-            convertModelTestcaseMenjadiTestcase(daftarTestcase),
-            (hasil : any) => {
-              if (hasil instanceof BerhasilSetTestcase) {
-                console.log("Berhasil")
-              }
-              else {
-                console.log(hasil)
-              }
-            }
-          )
+          
         } 
         else if (hasil instanceof TidakMemilikiHak) {
 
@@ -302,6 +286,9 @@ function HalamanBuatSoal() {
                             <Button variant='light' className='w-100 m-0 border border-dark rounded-0' onClick={
                               () => {
                                 testcase.publik = !testcase.publik
+                                if (daftarTestcase.filter((element) => element.publik).length > 5) {
+                                  testcase.publik = false
+                                }
                                 setDaftarTestcase([...daftarTestcase])
                               }
                             }>
@@ -348,11 +335,13 @@ function HalamanBuatSoal() {
                 </Modal>
               </Row>
               <Button variant='dark' onClick={() => {
-                tambahTestcase({
-                  testcase : "",
-                  jawaban : "",
-                  publik : false
-                })
+                if (daftarTestcase.length < 20) {
+                  tambahTestcase({
+                    testcase : "",
+                    jawaban : "",
+                    publik : false
+                  })
+                }
               }}>
                 Tambah Testcase
               </Button>

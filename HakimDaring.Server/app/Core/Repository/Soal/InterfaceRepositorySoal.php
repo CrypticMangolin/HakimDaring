@@ -20,11 +20,12 @@ interface InterfaceRepositorySoal {
      * 
      * @param IDUser $idUser id pembuat soal
      * @param DataSoal $dataSoal soal yang akan dibuat
+     * @param BatasanSoal $batasanSoal batasan untuk soal
      * @param IDRuanganComment $idRuanganComment id ruangan comment untuk diskusi soal
      * 
      * @return IDSoal id dari soal yang dibuat
      */
-    public function buatSoal(IDUser $idUSer, DataSoal $dataSoal, IDRuanganComment $idRuanganComment) : IDSoal;
+    public function buatSoal(IDUser $idUSer, DataSoal $dataSoal, BatasanSoal $batasanSoal, IDRuanganComment $idRuanganComment) : IDSoal;
 
     /**
      * Untuk mengecek apakah judul soal sudah pernah dipakai
