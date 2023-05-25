@@ -143,7 +143,7 @@ function HalamanDiskusi() {
 
   return (
   <>
-    <Container className='min-vh-100 min-vw-100 w-100 m-0 p-0 d-flex flex-column'>
+    <Container className='min-vh-100 mw-100 w-100 m-0 p-0 d-flex flex-column'>
       <Header />
       <Row className='m-0 mb-2 p-0 d-flex flex-row justify-content-start'>
         <Col className='m-0 p-0 d-flex flex-row justify-content-center' xs={1}>

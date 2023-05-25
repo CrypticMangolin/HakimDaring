@@ -32,7 +32,7 @@ class HasilSubmission {
         return $this->memori;
     }
 
-    public function ambil() : ?string {
+    public function ambilError() : ?string {
         return $this->error;
     }
 

@@ -44,7 +44,7 @@ function HalamanDaftar() {
   
   return (
     <>
-      <Container className='min-vh-100 min-vw-100 m-0 p-0 d-flex flex-column'>
+      <Container className='min-vh-100 mw-100 m-0 p-0 d-flex flex-column'>
         <p className='text-center fs-5 m-0 mt-4'>Hakim Daring</p>
         <Col className='h-100 d-flex flex-column justify-content-center'>
           <Row className='m-0 pb-5 p-0'>

@@ -12,25 +12,26 @@ import 'ace-builds/src-noconflict/mode-swift'
 import 'ace-builds/src-noconflict/mode-javascript'
 import 'ace-builds/src-noconflict/mode-typescript'
 import 'ace-builds/src-noconflict/mode-php'
-import ModeBahasa from "../Data/ModeBahasa";
+import ModeBahasa from "../Data/BahasaPemrograman";
+import BahasaPemrograman from "../Data/BahasaPemrograman";
 
 class DaftarBahasa implements InterfaceDaftarBahasa {
 
     ambilBahasa(): ModeBahasa[] {
         return [
-            new ModeBahasa("C", "c_cpp"),
-            new ModeBahasa("C++", "c_cpp"),
-            new ModeBahasa("Java", "java"),
-            new ModeBahasa("C#", "csharp"),
-            new ModeBahasa("Python3",  "python"),
-            new ModeBahasa("Assembly", "assembly_x86"),
-            new ModeBahasa("Golang", "golang"),
-            new ModeBahasa("Rust", "rust"),
-            new ModeBahasa("Kotlin", "kotlin"),
-            new ModeBahasa("Swift", "swift"),
-            new ModeBahasa("JavaScript", "javascript"),
-            new ModeBahasa("TypeScript", "typescript"),
-            new ModeBahasa("PHP", "php")
+            new BahasaPemrograman("C", "c_cpp"),
+            new BahasaPemrograman("C++", "c_cpp"),
+            new BahasaPemrograman("Java", "java"),
+            new BahasaPemrograman("C#", "csharp"),
+            new BahasaPemrograman("Python3",  "python"),
+            new BahasaPemrograman("Assembly", "assembly_x86"),
+            new BahasaPemrograman("Golang", "golang"),
+            new BahasaPemrograman("Rust", "rust"),
+            new BahasaPemrograman("Kotlin", "kotlin"),
+            new BahasaPemrograman("Swift", "swift"),
+            new BahasaPemrograman("JavaScript", "javascript"),
+            new BahasaPemrograman("TypeScript", "typescript"),
+            new BahasaPemrograman("PHP", "php")
         ]
     }
 }

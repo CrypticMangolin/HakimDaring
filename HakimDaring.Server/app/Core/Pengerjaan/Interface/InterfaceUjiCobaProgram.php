@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace App\Core\Pengerjaan\Interface;
 
 use App\Core\Pengerjaan\Data\HasilSubmission;
-use App\Core\Repository\Pengerjaan\Entitas\UjiCobaSourceCode;
+use App\Core\Pengerjaan\Data\UjiCobaSourceCode;
 
 interface InterfaceUjiCobaProgram {
 

@@ -1,4 +1,4 @@
-class ModeBahasa {
+class BahasaPemrograman {
     public bahasa : string
     public mode : string
 
@@ -8,4 +8,4 @@ class ModeBahasa {
     }
 }
 
-export default ModeBahasa
+export default BahasaPemrograman

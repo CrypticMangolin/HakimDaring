@@ -12,6 +12,7 @@ use App\Http\Controllers\ControllerRegister;
 use App\Http\Controllers\ControllerSetTestcaseSoal;
 use App\Http\Controllers\ControllerTambahComment;
 use App\Http\Controllers\ControllerUbahSoal;
+use App\Http\Controllers\ControllerUjiCobaProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +49,7 @@ Route::middleware("auth:api")->group(function() {
     Route::post("/ubah-soal", ControllerUbahSoal::class)->name("ubah soal");
     Route::post("/set-testcase", ControllerSetTestcaseSoal::class)->name("set testcase");
     Route::post("/tambah-comment", ControllerTambahComment::class)->name("tambah comment");
+    Route::post("/jalankan-program", ControllerUjiCobaProgram::class)->name("jalankan program");
 
     Route::get("/informasi-soal", ControllerAmbilInformasiSoal::class)->name("informasi soal");
     Route::get("/daftar-semua-testcase", ControllerAmbilSemuaTestcase::class)->name("ambil semua testcase");

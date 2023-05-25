@@ -4,16 +4,14 @@ declare(strict_types = 1);
 
 namespace App\Core\Pengerjaan;
 
-use App\Core\Pengerjaan\Data\BahasaPemrograman;
-use App\Core\Pengerjaan\Data\HasilSubmission;
-use App\Core\Pengerjaan\Data\HasilUjiCoba;
+use App\Core\Pengerjaan\Data\UjiCobaSourceCode;
 use App\Core\Pengerjaan\Exception\GagalMenjalankanProgramException;
 use App\Core\Pengerjaan\Interface\InterfaceRequestServer;
-use App\Core\Repository\Pengerjaan\Entitas\UjiCobaSourceCode;
+use App\Core\Pengerjaan\Interface\InterfaceUjiCobaProgram;
 
-class UjiCobaProgram {
+class UjiCobaProgram implements InterfaceUjiCobaProgram {
 
-    private function __construct(
+    public function __construct(
         private InterfaceRequestServer $requestServer
     )
     {
@@ -21,6 +19,18 @@ class UjiCobaProgram {
     }
 
     public function ujiCobaJalankanProgram(UjiCobaSourceCode $sourceCode) : array {
+
+        if (strlen($sourceCode->ambilSourceCode()) == 0) {
+            throw new GagalMenjalankanProgramException("source code tidak boleh kosong");
+        }
+        
+        if (count($sourceCode->ambilDaftarInput()) == 0) {
+            throw new GagalMenjalankanProgramException("daftar input tidak boleh kosong");
+        }
+        
+        if (count($sourceCode->ambilDaftarInput()) > 6) {
+            throw new GagalMenjalankanProgramException("daftar input maksimal 6");
+        }
 
         $daftarToken = $this->requestServer->kirimBatchSubmissionUjiCoba($sourceCode);
 

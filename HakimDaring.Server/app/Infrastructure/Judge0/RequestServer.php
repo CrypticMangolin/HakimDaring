@@ -6,8 +6,8 @@ namespace App\Infrastructure\Judge0;
 
 use App\Core\Pengerjaan\Data\HasilSubmission;
 use App\Core\Pengerjaan\Data\TokenSubmission;
+use App\Core\Pengerjaan\Data\UjiCobaSourceCode;
 use App\Core\Pengerjaan\Interface\InterfaceRequestServer;
-use App\Core\Repository\Pengerjaan\Entitas\UjiCobaSourceCode;
 
 class RequestServer implements InterfaceRequestServer {
 
@@ -50,7 +50,7 @@ class RequestServer implements InterfaceRequestServer {
         $hasil = [];
 
         foreach($daftarToken as $token) {
-            array_push($hasil, new TokenSubmission($hasil["token"]));
+            array_push($hasil, new TokenSubmission($token->token));
         }
 
         return $hasil;
@@ -66,22 +66,25 @@ class RequestServer implements InterfaceRequestServer {
             ),
         );
 
-        $context  = stream_context_create($options);
-        $response = file_get_contents($url, false, $context);
-
-        if ($response === false) {
-            return false;
-        }
-
-        $hasilSubmission = json_decode($response);
+        do {
+            usleep(50000);
+            $context  = stream_context_create($options);
+            $response = file_get_contents($url, false, $context);
+    
+            if ($response === false) {
+                return false;
+            }
+    
+            $hasilSubmission = json_decode($response);
+        } while($hasilSubmission->status->id < 3);
         
         return new HasilSubmission(
-            new TokenSubmission($hasilSubmission["token"]),
-            $hasilSubmission["stdout"],
-            floatval($hasilSubmission["time"]),
-            intval($hasilSubmission["memory"]),
-            $hasilSubmission["compile_output"],
-            $hasilSubmission["status"]["description"]
+            new TokenSubmission($hasilSubmission->token),
+            strval($hasilSubmission->stdout),
+            floatval($hasilSubmission->time),
+            intval($hasilSubmission->memory),
+            $hasilSubmission->compile_output,
+            $hasilSubmission->status->description
         );
     }
 

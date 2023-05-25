@@ -1,4 +1,4 @@
-import ModeBahasa from "../../Data/ModeBahasa"
+import ModeBahasa from "../../Data/BahasaPemrograman"
 
 interface InterfaceDaftarBahasa {
 

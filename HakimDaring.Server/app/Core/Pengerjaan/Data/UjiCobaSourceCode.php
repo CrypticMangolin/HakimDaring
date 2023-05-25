@@ -2,9 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Core\Repository\Pengerjaan\Entitas;
-
-use App\Core\Repository\Soal\Entitas\IDSoal;
+namespace App\Core\Pengerjaan\Data;
 
 class UjiCobaSourceCode {
 

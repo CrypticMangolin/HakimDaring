@@ -12,6 +12,9 @@ use App\Core\Comment\Interface\InterfaceTambahComment;
 use App\Core\Comment\TambahComment;
 use App\Core\Pencarian\CariSoal;
 use App\Core\Pencarian\Interface\InterfaceCariSoal;
+use App\Core\Pengerjaan\Interface\InterfaceRequestServer;
+use App\Core\Pengerjaan\Interface\InterfaceUjiCobaProgram;
+use App\Core\Pengerjaan\UjiCobaProgram;
 use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use App\Core\Repository\Comment\InterfaceRepositoryComment;
 use App\Core\Soal\AmbilDaftarSemuaTestcaseSoal;
@@ -27,6 +30,7 @@ use App\Core\Soal\PengecekTestcaseBaruBerbeda;
 use App\Core\Soal\PengecekTestcaseDuplikat;
 use App\Core\Soal\SetTestcaseSoal;
 use App\Core\Soal\UbahSoal;
+use App\Infrastructure\Judge0\RequestServer;
 use App\Infrastructure\MapperSortBy;
 use App\Infrastructure\Repository\RepositoryAutentikasiEloquent;
 use App\Infrastructure\Repository\RepositoryComment;
@@ -107,5 +111,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(InterfaceTambahComment::class, TambahComment::class);
         $this->app->bind(InterfaceRepositoryComment::class, RepositoryComment::class);
+        $this->app->bind(InterfaceUjiCobaProgram::class, UjiCobaProgram::class);
+        $this->app->bind(InterfaceRequestServer::class, RequestServer::class);
     }
 }

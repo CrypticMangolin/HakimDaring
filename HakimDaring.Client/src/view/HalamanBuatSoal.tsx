@@ -176,7 +176,7 @@ function HalamanBuatSoal() {
 
   return (
     <>
-      <Container className='min-vh-100 min-vw-100 m-0 p-0 d-flex flex-column'>
+      <Container className='min-vh-100 mw-100 m-0 p-0 d-flex flex-column'>
         <Header />
         <Row className='m-0 p-0'>
           <Col sm={12} md={8} lg={8} xl={8} className="d-flex flex-column m-0 p-2">

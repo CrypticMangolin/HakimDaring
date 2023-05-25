@@ -77,7 +77,7 @@ function HalamanJelajah() {
 
   return (
     <>
-      <Container className='min-vh-100 min-vw-100 m-0 p-0 d-flex flex-column'>
+      <Container className='min-vh-100 mw-100 m-0 p-0 d-flex flex-column'>
         <Header />
         <Col className='h-100 justify-content-center'>
           <Row className='m-0 p-0'>
