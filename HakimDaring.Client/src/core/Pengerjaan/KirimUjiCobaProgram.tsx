@@ -14,6 +14,7 @@ class KirimUjiCobaProgram implements InterfaceKirimUjiCobaProgram {
             mode: "cors",
             headers : BuatHeader(),
             body: JSON.stringify({
+                id_soal : ujiCoba.idSoal,
                 source_code : ujiCoba.sourceCode,
                 bahasa : ujiCoba.bahasa,
                 stdin : ujiCoba.input
@@ -44,9 +45,6 @@ class KirimUjiCobaProgram implements InterfaceKirimUjiCobaProgram {
             else if (response.status == 500) {
                 callback(new KesalahanInternalServer(dataDariServer.error))
             }
-        }).catch(async (reason : any) => {
-            
-            console.log(reason)
         })
     }
 }

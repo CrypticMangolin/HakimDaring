@@ -7,14 +7,16 @@ namespace App\Infrastructure\Judge0;
 use App\Core\Pengerjaan\Data\HasilSubmission;
 use App\Core\Pengerjaan\Data\TokenSubmission;
 use App\Core\Pengerjaan\Data\UjiCobaSourceCode;
+use App\Core\Pengerjaan\Data\UjiSourceCodePengerjaan;
 use App\Core\Pengerjaan\Interface\InterfaceRequestServer;
+use App\Core\Repository\Soal\Entitas\BatasanSoal;
 
 class RequestServer implements InterfaceRequestServer {
 
     const TOKEN_AUTHENTICATION = "d8bbf54d-321c-4cf2-9fde-b88373aabe43";
     const TOKEN_AUTHORIZATION = "db59f4e8-6772-455a-8950-5419a85c14e2";
     
-    public function kirimBatchSubmissionUjiCoba(UjiCobaSourceCode $sourceCode) : array|false {
+    public function kirimBatchSubmissionUjiCoba(BatasanSoal $batasan, UjiCobaSourceCode $sourceCode) : array|false {
         $url = "http://localhost:2358/submissions/batch";
 
         $submissions = [];
@@ -23,6 +25,55 @@ class RequestServer implements InterfaceRequestServer {
                 "source_code" => $sourceCode->ambilSourceCode(),
                 "language_id" => $sourceCode->ambilBahasa(),
                 "stdin" => $stdin,
+                "cpu_time_limit" => $batasan->ambilBatasanWaktuPerTestcase(),
+                "memory_limit" => $batasan->ambilBatasanMemoriDalamKB(),
+                "stack_limit" => 128000
+            ]);
+        }
+
+        $data = [
+            "submissions" => $submissions
+        ];
+
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/json\r\nX-Auth-Token: ".$this::TOKEN_AUTHENTICATION."\r\nX-Auth-User: ".$this::TOKEN_AUTHORIZATION,
+                'method'  => 'POST',
+                'content' => json_encode($data),
+            ),
+        );
+
+        $context  = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+
+        if ($response === false) {
+            return false;
+        }
+
+        $daftarToken= json_decode($response);
+
+        $hasil = [];
+
+        foreach($daftarToken as $token) {
+            array_push($hasil, new TokenSubmission($token->token));
+        }
+
+        return $hasil;
+    }
+
+    public function kirimBatchSubmissionPengerjaan(UjiSourceCodePengerjaan $sourceCode, BatasanSoal $batasan) : array|false {
+        $url = "http://localhost:2358/submissions/batch";
+
+        $submissions = [];
+        foreach($sourceCode->ambilDaftarTestcase() as $testcase) {
+            array_push($submissions, [
+                "source_code" => $sourceCode->ambilSourceCode(),
+                "language_id" => $sourceCode->ambilBahasa(),
+                "stdin" => $testcase->ambilTestcase(),
+                "expected_output" => $testcase->ambilJawaban(),
+                "cpu_time_limit" => $batasan->ambilBatasanWaktuPerTestcase(),
+                "memory_limit" => $batasan->ambilBatasanMemoriDalamKB(),
+                "stack_limit" => 128000
             ]);
         }
 
@@ -83,7 +134,7 @@ class RequestServer implements InterfaceRequestServer {
             strval($hasilSubmission->stdout),
             floatval($hasilSubmission->time),
             intval($hasilSubmission->memory),
-            $hasilSubmission->compile_output,
+            $hasilSubmission->compile_output != null ? $hasilSubmission->compile_output : $hasilSubmission->stderr,
             $hasilSubmission->status->description
         );
     }

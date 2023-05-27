@@ -6,6 +6,8 @@ namespace App\Infrastructure\Repository;
 
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Soal\Entitas\VersiSoal;
+use App\Core\Repository\Testcase\Entitas\IDTestcase;
+use App\Core\Repository\Testcase\Entitas\Testcase;
 use App\Core\Repository\Testcase\Entitas\TestcaseData;
 use App\Core\Repository\Testcase\InterfaceRepositoryTestcase;
 use ErrorException;
@@ -14,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class RepositoryTestcaseEloquent implements InterfaceRepositoryTestcase {
     
     public function ambilKumpulanTestcaseDariSoal(IDSoal $idSoal, VersiSoal $versiSoal) : array {
-        $scriptQuery = "SELECT t.testcase, t.jawaban, t.urutan, t.publik FROM testcase AS t 
+        $scriptQuery = "SELECT t.id, t.testcase, t.jawaban, t.urutan, t.publik FROM testcase AS t 
             WHERE t.id_soal = :id_soal AND t.versi_soal = :versi_soal"
         ;
         
@@ -26,8 +28,11 @@ class RepositoryTestcaseEloquent implements InterfaceRepositoryTestcase {
         $hasil = [];
         foreach($kumpulanHasilQuery as $hasilQuery) {
             array_push($hasil, new TestcaseData(
-                $hasilQuery->testcase,
-                $hasilQuery->jawaban,
+                new IDTestcase($hasilQuery->id),
+                new Testcase(
+                    $hasilQuery->testcase,
+                    $hasilQuery->jawaban
+                ),
                 $hasilQuery->urutan,
                 $hasilQuery->publik == 1
             ));
@@ -41,8 +46,8 @@ class RepositoryTestcaseEloquent implements InterfaceRepositoryTestcase {
         foreach($kumpulanTestcase as $testcase) {
             array_push($dataUntukDatabase, [
                 "id_soal" => $idSoal->ambilID(),
-                "testcase" => $testcase->ambilTestcase(),
-                "jawaban" => $testcase->ambilJawaban(),
+                "testcase" => $testcase->ambilTestcase()->ambilTestcase(),
+                "jawaban" => $testcase->ambilTestcase()->ambilJawaban(),
                 "urutan" => $testcase->ambilUrutan(),
                 "publik" => $testcase->apakahSoalPublik(),
                 "versi_soal" => $versiSoal->ambilVersi()

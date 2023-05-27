@@ -4,18 +4,27 @@ declare(strict_types = 1);
 
 namespace App\Core\Repository\Testcase\Entitas;
 
-class TestcaseData extends Testcase {
+class TestcaseData {
 
+    private IDTestcase $idTestcase;
+    private Testcase $testcase;
     private int $urutan;
-    
     private bool $publik;
 
-    public function __construct(string $testcase, string $jawaban, int $urutan, bool $publik)
+    public function __construct(IDTestcase $idTestcase, Testcase $testcase, int $urutan, bool $publik)
     {
-        parent::__construct($testcase, $jawaban);
-
+        $this->idTestcase = $idTestcase;
+        $this->testcase = $testcase;
         $this->urutan = $urutan;
         $this->publik = $publik;
+    }
+
+    public function ambilIDTestcase() : IDTestcase {
+        return $this->idTestcase;
+    }
+
+    public function ambilTestcase() : Testcase {
+        return $this->testcase;
     }
 
     public function ambilUrutan() : int {

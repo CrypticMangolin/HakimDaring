@@ -15,6 +15,15 @@ return new class extends Migration
     {
         Schema::create("pengerjaan", function (Blueprint $table) {
             $table->id();
+            $table->uuid("id_user");
+            $table->foreignId("id_soal");
+            $table->integer("versi_soal");
+            $table->string("source_code");
+            $table->string("bahasa");
+            $table->string("hasil");
+            $table->double("total_waktu");
+            $table->integer("total_memori");
+            $table->dateTime("tanggal_submit");
             $table->timestamps();
         });
     }
@@ -26,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('pengerjaan');
     }
 };

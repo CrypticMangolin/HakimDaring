@@ -67,7 +67,7 @@ function HalamanUbahSoal() {
       let idSoal = new IDSoal(Number(parameterURL.id_soal))
       ambilInformasiSoal.ambilInformasiSoal(idSoal, (hasil : any) => {
         if (hasil instanceof InformasiSoal) {
-          (window as any).editor.setData(hasil.soal)
+          (window as any).editor_soal.setData(hasil.soal)
 
           setDataSoal({
             id : hasil.idSoal.id,
@@ -144,12 +144,13 @@ function HalamanUbahSoal() {
                 licenseKey: '',
             })
             .then( editor => {
-                window.editor = editor;
+                window.editor_soal = editor;
+                window.editor_soal.setData("")
                 editor.model.document.on('change:data', () => {
                   window.perubahanCKEditor(editor.getData())
                 })
-                console.log("editor berhasil di load")
                 document.getElementById("editor").appendChild(editor.ui.element)
+                window.ambilDataSoalDanTestcase()
             })
             .catch( error => {
                 console.error( 'Oops, something went wrong!' );
@@ -164,7 +165,8 @@ function HalamanUbahSoal() {
         }
         else {
           resolve(true)
-          document.getElementById("editor")?.appendChild((window as any).editor.ui.element)
+          document.getElementById("editor")?.appendChild((window as any).editor_soal.ui.element)
+          ambilDataSoalDanTestcase()
         }
       });
     }
@@ -172,13 +174,11 @@ function HalamanUbahSoal() {
     async function loadCKEditor() {
       await loadScriptCKEditor()
       await loadScriptCustomCKEditor()
-    }
 
-    return () => {
-      loadCKEditor()
-
-      ambilDataSoalDanTestcase() 
     }
+    
+    (window as any).ambilDataSoalDanTestcase = ambilDataSoalDanTestcase
+    loadCKEditor()
   }, []);
 
   const hapusTestcase = (testcase : ModelTestcase) => {
@@ -265,7 +265,7 @@ function HalamanUbahSoal() {
         convertModelTestcaseMenjadiTestcase(daftarTestcase),
         (hasil : any) => {
           if (hasil instanceof BerhasilSetTestcase) {
-            console.log("Berhasil")
+
           }
           else {
             console.log(hasil)

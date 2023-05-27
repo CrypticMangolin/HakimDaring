@@ -7,6 +7,7 @@ namespace App\Core\Soal\Interface;
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Soal\Entitas\BatasanSoal;
 use App\Core\Repository\Soal\Entitas\IDSoal;
+use App\Core\Repository\Testcase\Entitas\TestcaseData;
 
 interface InterfaceSetTestcaseSoal {
 

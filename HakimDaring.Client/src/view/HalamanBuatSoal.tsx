@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Button, Col, Container, Form, InputGroup, Modal, Row } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom';
 import Header from './Header'
 import ModelTestcase from '../model/ModelTestcase';
 import ModelInputModal from '../model/ModelInputModal';
@@ -13,8 +14,11 @@ import KesalahanInputData from '../core/Data/ResponseGagal/KesalahanInputData';
 import KesalahanInternalServer from '../core/Data/ResponseGagal/KesalahanInternalServer';
 import Testcase from '../core/Data/Testcase';
 import BatasanSoal from '../core/Data/BatasanSoal';
+import IDSoal from '../core/Data/IDSoal';
 
 function HalamanBuatSoal() {
+
+  const navigate = useNavigate()
 
   const buatSoal : InterfaceBuatSoal = new BuatSoal()
 
@@ -62,11 +66,11 @@ function HalamanBuatSoal() {
                 licenseKey: '',
             })
             .then( editor => {
-                window.editor_soal = editor;
+                window.editor_soal = editor
+                window.editor_soal.setData("")
                 editor.model.document.on('change:data', () => {
                   window.perubahanCKEditor(editor.getData())
                 })
-                console.log("editor berhasil di load")
                 document.getElementById("editor").appendChild(editor.ui.element)
             })
             .catch( error => {
@@ -141,6 +145,10 @@ function HalamanBuatSoal() {
     return hasil
   }
 
+  const pindahHalamanEditSoal = (idSoal : IDSoal) => {
+    navigate("/edit-soal/"+idSoal.id)
+  }
+
   function simpanSoal() {
     buatSoal.buatSoal(
       new SoalBaru(
@@ -157,7 +165,7 @@ function HalamanBuatSoal() {
       (hasil : any) => {
         
         if (hasil instanceof BerhasilBuatSoal) {
-          
+          pindahHalamanEditSoal(hasil.ambilIDSoal())
         } 
         else if (hasil instanceof TidakMemilikiHak) {
 

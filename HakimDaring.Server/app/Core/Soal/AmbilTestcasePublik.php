@@ -1,11 +1,12 @@
 <?php 
 
-namespace App\Core\Soal\Interface;
+namespace App\Core\Soal;
 
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use App\Core\Repository\Testcase\Entitas\TestcaseData;
 use App\Core\Repository\Testcase\InterfaceRepositoryTestcase;
+use App\Core\Soal\Interface\InterfaceAmbilTestcasePublik;
 
 class AmbilTestcasePublik implements InterfaceAmbilTestcasePublik {
 

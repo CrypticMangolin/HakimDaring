@@ -100,6 +100,14 @@ interface InterfaceRepositorySoal {
      * @param BatasanSoal $batasanBaru batasan sumber daya baru untuk soal
      */
     public function setBatasanSoal(IDSoal $idSoal, BatasanSoal $batasanBaru) : void;
+
+    /**
+     * Untuk menambah jumlah submission dari sebuah soal dan keberhasilan soal
+     * 
+     * @param IDSoal $idSoal id dari soal submission
+     * @param bool $berhasil bernilai true bila submission benar
+     */
+    public function tambahSubmission(IDSoal $idSoal, bool $benar) : void;
 }
 
 ?>

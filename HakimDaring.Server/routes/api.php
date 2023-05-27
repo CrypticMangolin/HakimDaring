@@ -3,6 +3,7 @@
 use App\Http\Controllers\ControllerAmbilComment;
 use App\Http\Controllers\ControllerAmbilInformasiSoal;
 use App\Http\Controllers\ControllerAmbilSemuaTestcase;
+use App\Http\Controllers\ControllerAmbilTestcasePublik;
 use App\Http\Controllers\ControllerBuatSoal;
 use App\Http\Controllers\ControllerLogin;
 use App\Http\Controllers\ControllerLogout;
@@ -10,6 +11,7 @@ use App\Http\Controllers\ControllerPencarianSoal;
 use App\Http\Controllers\ControllerPengecekTokenAutentikasi;
 use App\Http\Controllers\ControllerRegister;
 use App\Http\Controllers\ControllerSetTestcaseSoal;
+use App\Http\Controllers\ControllerSubmitPengerjaan;
 use App\Http\Controllers\ControllerTambahComment;
 use App\Http\Controllers\ControllerUbahSoal;
 use App\Http\Controllers\ControllerUjiCobaProgram;
@@ -50,10 +52,12 @@ Route::middleware("auth:api")->group(function() {
     Route::post("/set-testcase", ControllerSetTestcaseSoal::class)->name("set testcase");
     Route::post("/tambah-comment", ControllerTambahComment::class)->name("tambah comment");
     Route::post("/jalankan-program", ControllerUjiCobaProgram::class)->name("jalankan program");
-
-    Route::get("/informasi-soal", ControllerAmbilInformasiSoal::class)->name("informasi soal");
+    Route::post("/submit-program", ControllerSubmitPengerjaan::class)->name("submit program");
+    
     Route::get("/daftar-semua-testcase", ControllerAmbilSemuaTestcase::class)->name("ambil semua testcase");
-    Route::get("/ambil-comment", ControllerAmbilComment::class)->name("ambil comment");
 });
 
+Route::get("/informasi-soal", ControllerAmbilInformasiSoal::class)->name("informasi soal");
+Route::get("/daftar-testcase-publik", ControllerAmbilTestcasePublik::class)->name("ambil semua testcase");
+Route::get("/ambil-comment", ControllerAmbilComment::class)->name("ambil comment");
 Route::get("/cari-soal", ControllerPencarianSoal::class)->name("cari-soal");

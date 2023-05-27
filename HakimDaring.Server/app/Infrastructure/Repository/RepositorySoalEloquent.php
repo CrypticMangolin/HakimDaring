@@ -169,6 +169,18 @@ class RepositorySoalEloquent implements InterfaceRepositorySoal {
             "id_soal" => $idSoal->ambilID()
         ]);
     }
+    
+    public function tambahSubmission(IDSoal $idSoal, bool $benar) : void {
+        $scriptQuery = "UPDATE soal SET 
+            jumlah_submit = jumlah_submit + 1, 
+            jumlah_berhasil = jumlah_berhasil + :berhasil
+            WHERE id = :id_soal";
+
+        DB::update($scriptQuery, [
+            "berhasil" => $benar ? 1 : 0,
+            "id_soal" => $idSoal->ambilID()
+        ]);
+    }
 }
 
 ?>

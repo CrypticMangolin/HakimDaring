@@ -6,6 +6,7 @@ use App\Core\Pengerjaan\Data\BahasaPemrograman;
 use App\Core\Pengerjaan\Data\UjiCobaSourceCode;
 use App\Core\Pengerjaan\Exception\GagalMenjalankanProgramException;
 use App\Core\Pengerjaan\Interface\InterfaceUjiCobaProgram;
+use App\Core\Repository\Soal\Entitas\IDSoal;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,12 @@ class ControllerUjiCobaProgram extends Controller
     public function __invoke(Request $request) : JsonResponse
     {
         $jsonRequest = $request->json()->all();
+
+        if (!array_key_exists("id_soal", $jsonRequest)) {
+            return response()->json([
+                "error" => "source_code null"
+            ], 422);
+        }
 
         if (!array_key_exists("source_code", $jsonRequest)) {
             return response()->json([
@@ -48,6 +55,7 @@ class ControllerUjiCobaProgram extends Controller
             ], 422);
         }
 
+        $idSoal = intval($jsonRequest["id_soal"]);
         $bahasa = BahasaPemrograman::MAPPING[$jsonRequest["bahasa"]];
         $daftarInput = $jsonRequest["stdin"];
         $daftarInputString = [];
@@ -58,6 +66,7 @@ class ControllerUjiCobaProgram extends Controller
 
         try {
             $daftarHasilSubmission = $this->ujiCobaProgram->ujiCobaJalankanProgram(
+                new IDSoal($idSoal),
                 new UjiCobaSourceCode(
                     $sourceCode,
                     $bahasa,

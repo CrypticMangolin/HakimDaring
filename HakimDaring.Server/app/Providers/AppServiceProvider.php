@@ -13,13 +13,17 @@ use App\Core\Comment\TambahComment;
 use App\Core\Pencarian\CariSoal;
 use App\Core\Pencarian\Interface\InterfaceCariSoal;
 use App\Core\Pengerjaan\Interface\InterfaceRequestServer;
+use App\Core\Pengerjaan\Interface\InterfaceSubmitPengerjaanProgram;
 use App\Core\Pengerjaan\Interface\InterfaceUjiCobaProgram;
+use App\Core\Pengerjaan\SubmitPengerjaanProgram;
 use App\Core\Pengerjaan\UjiCobaProgram;
 use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use App\Core\Repository\Comment\InterfaceRepositoryComment;
 use App\Core\Soal\AmbilDaftarSemuaTestcaseSoal;
+use App\Core\Soal\AmbilTestcasePublik;
 use App\Core\Soal\BuatSoal;
 use App\Core\Soal\Interface\InterfaceAmbilDaftarSemuaTestcaseSoal;
+use App\Core\Soal\Interface\InterfaceAmbilTestcasePublik;
 use App\Core\Soal\Interface\InterfaceBuatSoal;
 use App\Core\Soal\Interface\InterfaceSetTestcaseSoal;
 use App\Core\Soal\Interface\InterfaceUbahSoal;
@@ -35,6 +39,7 @@ use App\Infrastructure\MapperSortBy;
 use App\Infrastructure\Repository\RepositoryAutentikasiEloquent;
 use App\Infrastructure\Repository\RepositoryComment;
 use App\Infrastructure\Repository\RepositoryDaftarSoalEloquent;
+use App\Infrastructure\Repository\RepositoryPengerjaan;
 use App\Infrastructure\Repository\RepositorySoalEloquent;
 use App\Infrastructure\Repository\RepositoryTestcaseEloquent;
 use Illuminate\Support\ServiceProvider;
@@ -113,5 +118,22 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(InterfaceRepositoryComment::class, RepositoryComment::class);
         $this->app->bind(InterfaceUjiCobaProgram::class, UjiCobaProgram::class);
         $this->app->bind(InterfaceRequestServer::class, RequestServer::class);
+
+        $this->app->bind(InterfaceAmbilTestcasePublik::class, function() {
+            return new AmbilTestcasePublik(
+                new RepositorySoalEloquent(),
+                new RepositoryTestcaseEloquent()
+            );
+        });
+
+        $this->app->bind(InterfaceSubmitPengerjaanProgram::class, function() {
+            return new SubmitPengerjaanProgram(
+                new RepositorySoalEloquent(),
+                new RepositoryTestcaseEloquent(),
+                new RepositoryPengerjaan(),
+                new RequestServer()
+            );
+        });
+
     }
 }

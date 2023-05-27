@@ -39,8 +39,8 @@ class ControllerAmbilSemuaTestcase extends Controller
             $hasil = [];
             foreach($daftarTestcase as $testcase) {
                 array_push($hasil, [
-                    "testcase" => $testcase->ambilTestcase(),
-                    "jawaban" => $testcase->ambilJawaban(),
+                    "testcase" => $testcase->ambilTestcase()->ambilTestcase(),
+                    "jawaban" => $testcase->ambilTestcase()->ambilJawaban(),
                     "urutan" => $testcase->ambilUrutan(),
                     "publik" => $testcase->apakahSoalPublik()
                 ]);

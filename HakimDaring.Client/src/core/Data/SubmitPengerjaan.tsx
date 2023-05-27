@@ -1,17 +1,15 @@
 import IDSoal from "./IDSoal"
 
-class UjiCoba {
+class SubmitPengerjaan {
     public idSoal : IDSoal
     public sourceCode : string
     public bahasa : string
-    public input : string[]
 
-    constructor(idSoal : IDSoal, sourceCode : string, bahasa : string, input : string[]) {
+    constructor(idSoal : IDSoal, sourceCode : string, bahasa : string) {
         this.idSoal = idSoal
         this.sourceCode = sourceCode
         this.bahasa = bahasa
-        this.input = input
     }
 }
 
-export default UjiCoba
+export default SubmitPengerjaan

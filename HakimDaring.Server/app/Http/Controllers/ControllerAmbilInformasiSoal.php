@@ -55,9 +55,11 @@ class ControllerAmbilInformasiSoal extends Controller
                     "error" => "Kesalahan internal"
                 ], 500);
             }
+
+            $idPembuatSoal = $this->repositorySoal->ambilIDPembuatSoal(new IDSoal($idSoal));
             
-            return response()->json([
-                'id_soal' => $informasiSoal->ambilSoal()->ambilIDSoal(),
+            $respon = [
+                'id_soal' => $informasiSoal->ambilSoal()->ambilIDSoal()->ambilID(),
                 'judul' => $informasiSoal->ambilSoal()->ambilDataSoal()->ambilJudul(),
                 'soal' => $informasiSoal->ambilSoal()->ambilDataSoal()->ambilSoal(),
                 "versi" => $informasiSoal->ambilVersi(),
@@ -67,8 +69,14 @@ class ControllerAmbilInformasiSoal extends Controller
                 "batasan_memori_dalam_kb" => $informasiSoal->ambilBatasanMemoriDalamKB(),
                 'jumlah_submit' => $informasiSoal->ambilTotalSubmit(),
                 'jumlah_berhasil' => $informasiSoal->ambilTotalBerhasil(),
-                'id_ruangan_diskusi' => $informasiSoal->ambilIDRuanganDiskusi()->ambilID()
-            ]);
+                'id_ruangan_diskusi' => $informasiSoal->ambilIDRuanganDiskusi()->ambilID(),
+            ];
+
+            if (Auth::check()) {
+                $respon["pembuat"] = Auth::id() === $this->repositorySoal->ambilIDPembuatSoal($informasiSoal->ambilSoal()->ambilIDSoal());
+            }
+
+            return response()->json($respon, 200);
         }
         catch (TidakMemilikiHakException $e) {
             return response()->json([

@@ -12,7 +12,15 @@ import Testcase from "../Data/Testcase";
 class BuatSoal implements InterfaceBuatSoal {
 
     public buatSoal(dataSoal: Soal, batasanBaru : BatasanSoal, daftarTestcase: Testcase[], callback: (hasil: any) => void): void {
-        
+        console.log(JSON.stringify({
+            judul : dataSoal.judul,
+            soal : dataSoal.soal,
+            daftar_testcase : daftarTestcase,
+            batasan : {
+                batasan_waktu_per_testcase_dalam_sekon : batasanBaru.batasan_waktu_per_testcase_dalam_sekon.toFixed(3),
+                batasan_waktu_total_semua_testcase_dalam_sekon : batasanBaru.batasan_waktu_total_semua_testcase_dalam_sekon.toFixed(3),
+                batasan_memori_dalam_kb : batasanBaru.batasan_memori_dalam_kb
+            }}))
         fetch("http://127.0.0.1:8000/api/buat-soal", {
             method: "POST",
             mode: "cors",

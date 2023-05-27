@@ -6,6 +6,7 @@ namespace App\Core\Repository\Testcase;
 
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Soal\Entitas\VersiSoal;
+use App\Core\Repository\Testcase\Entitas\TestcaseData;
 
 interface InterfaceRepositoryTestcase {
 
