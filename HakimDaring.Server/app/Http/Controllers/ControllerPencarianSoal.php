@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Core\Pencarian\Exception\HalamanMelewatiBatasException;
-use App\Core\Pencarian\Interface\InterfaceCariSoal;
+use App\Core\Pencarian\Interfaces\InterfaceCariSoal;
 use App\Core\Repository\DaftarSoal\Entitas\KategoriPencarian;
 use App\Core\Repository\DaftarSoal\Entitas\SortBy;
 use Illuminate\Http\JsonResponse;

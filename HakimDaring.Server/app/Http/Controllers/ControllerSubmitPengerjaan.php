@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Core\Pengerjaan\Data\BahasaPemrograman;
 use App\Core\Pengerjaan\Data\PengerjaanSourceCode;
 use App\Core\Pengerjaan\Exception\GagalSubmitProgramException;
-use App\Core\Pengerjaan\Interface\InterfaceSubmitPengerjaanProgram;
+use App\Core\Pengerjaan\Interfaces\InterfaceSubmitPengerjaanProgram;
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use Illuminate\Http\JsonResponse;

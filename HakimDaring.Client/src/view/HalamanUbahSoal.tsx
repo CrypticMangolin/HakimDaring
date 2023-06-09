@@ -178,7 +178,9 @@ function HalamanUbahSoal() {
     }
     
     (window as any).ambilDataSoalDanTestcase = ambilDataSoalDanTestcase
-    loadCKEditor()
+    return () => {
+      loadCKEditor()
+    }
   }, []);
 
   const hapusTestcase = (testcase : ModelTestcase) => {

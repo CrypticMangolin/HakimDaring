@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace App\Core\Soal;
 
 use App\Core\Repository\Testcase\Entitas\Testcase;
-use App\Core\Soal\Interface\InterfacePengecekTestcaseBaruBerbeda;
+use App\Core\Soal\Interfaces\InterfacePengecekTestcaseBaruBerbeda;
 use InvalidArgumentException;
 
 class PengecekTestcaseBaruBerbeda implements InterfacePengecekTestcaseBaruBerbeda {

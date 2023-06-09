@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Soal\Entitas\BatasanSoal;
 use App\Core\Repository\Soal\Entitas\IDSoal;
+use App\Core\Repository\Testcase\Entitas\Testcase;
 use App\Core\Repository\Testcase\Entitas\TestcaseData;
 use App\Core\Soal\Exception\TestcaseDuplikatException;
 use App\Core\Soal\Exception\TidakMemilikiHakException;
-use App\Core\Soal\Interface\InterfaceSetTestcaseSoal;
+use App\Core\Soal\Interfaces\InterfaceSetTestcaseSoal;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -85,8 +86,10 @@ class ControllerSetTestcaseSoal extends Controller
         foreach($daftarTestcase as $testcaseData) {
             try {
                 array_push($kumpulanTestcaseData, new TestcaseData(
-                    $testcaseData["testcase"],
-                    $testcaseData["jawaban"],
+                    new Testcase(
+                        $testcaseData["testcase"],
+                        $testcaseData["jawaban"],
+                    ),
                     $testcaseData["urutan"],
                     $testcaseData["publik"]
                 ));

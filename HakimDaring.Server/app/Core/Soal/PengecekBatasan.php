@@ -7,7 +7,7 @@ namespace App\Core\Soal;
 use App\Core\Repository\Soal\Entitas\BatasanSoal;
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Soal\InterfaceRepositorySoal;
-use App\Core\Soal\Interface\InterfacePengecekBatasan;
+use App\Core\Soal\Interfaces\InterfacePengecekBatasan;
 use InvalidArgumentException;
 
 class PengecekBatasan implements InterfacePengecekBatasan {

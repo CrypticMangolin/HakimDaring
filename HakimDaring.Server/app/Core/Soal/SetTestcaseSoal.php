@@ -11,11 +11,11 @@ use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use App\Core\Repository\Testcase\InterfaceRepositoryTestcase;
 use App\Core\Soal\Exception\TestcaseDuplikatException;
 use App\Core\Soal\Exception\TidakMemilikiHakException;
-use App\Core\Soal\Interface\InterfacePengecekBatasan;
-use App\Core\Soal\Interface\InterfacePengecekPembuatSoal;
-use App\Core\Soal\Interface\InterfacePengecekTestcaseBaruBerbeda;
-use App\Core\Soal\Interface\InterfacePengecekTestcaseDuplikat;
-use App\Core\Soal\Interface\InterfaceSetTestcaseSoal;
+use App\Core\Soal\Interfaces\InterfacePengecekBatasan;
+use App\Core\Soal\Interfaces\InterfacePengecekPembuatSoal;
+use App\Core\Soal\Interfaces\InterfacePengecekTestcaseBaruBerbeda;
+use App\Core\Soal\Interfaces\InterfacePengecekTestcaseDuplikat;
+use App\Core\Soal\Interfaces\InterfaceSetTestcaseSoal;
 use InvalidArgumentException;
 
 class SetTestcaseSoal implements InterfaceSetTestcaseSoal {
@@ -80,9 +80,18 @@ class SetTestcaseSoal implements InterfaceSetTestcaseSoal {
         $this->pengecekBatasan->cekApakahBatasanMemenuhiSyarat($batasanBaru);
         
         $versiSoalLama = $this->repositorySoal->ambilVersiSoal($idSoal);
-        $kumpulanTestcaseLama = $this->repositoryTestcase->ambilKumpulanTestcaseDariSoal($idSoal, $versiSoalLama);
+        $kumpulanTestcaseDataSubmitLama = $this->repositoryTestcase->ambilKumpulanTestcaseDariSoal($idSoal, $versiSoalLama);
+        $kumpulanTestcaseLama = [];
+        foreach ($kumpulanTestcaseDataSubmitLama as $testcaseDataSubmit) {
+            array_push($kumpulanTestcaseLama, $testcaseDataSubmit->ambilDataTestcase()->ambilTestcase());
+        }
 
-        if ($this->pengecekTestcaseBaruBerbeda->cekApakahBerbeda($testcaseBesertaJawaban, $kumpulanTestcaseLama) ||
+        $kumpulanTestcaseBaru = [];
+        foreach ($testcaseBesertaJawaban as $testcaseDataSubmit) {
+            array_push($kumpulanTestcaseBaru, $testcaseDataSubmit->ambilTestcase());
+        }
+
+        if ($this->pengecekTestcaseBaruBerbeda->cekApakahBerbeda($kumpulanTestcaseBaru, $kumpulanTestcaseLama) ||
             $this->pengecekBatasan->cekApakahBatasanBerbeda($idSoal, $batasanBaru)
         ) {
             $this->repositorySoal->tambahVersiSoal($idSoal);

@@ -8,7 +8,7 @@ use App\Core\Pengerjaan\Data\HasilSubmission;
 use App\Core\Pengerjaan\Data\TokenSubmission;
 use App\Core\Pengerjaan\Data\UjiCobaSourceCode;
 use App\Core\Pengerjaan\Data\UjiSourceCodePengerjaan;
-use App\Core\Pengerjaan\Interface\InterfaceRequestServer;
+use App\Core\Pengerjaan\Interfaces\InterfaceRequestServer;
 use App\Core\Repository\Soal\Entitas\BatasanSoal;
 
 class RequestServer implements InterfaceRequestServer {

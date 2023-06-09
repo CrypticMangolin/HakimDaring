@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Comment\Interface;
+namespace App\Core\Comment\Interfaces;
 
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Comment\Entitas\IDComment;

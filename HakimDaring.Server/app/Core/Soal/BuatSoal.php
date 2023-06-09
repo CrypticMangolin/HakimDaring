@@ -15,10 +15,10 @@ use App\Core\Repository\Testcase\InterfaceRepositoryTestcase;
 use App\Core\Soal\Exception\GagalBuatSoalException;
 use App\Core\Soal\Exception\JumlahTestcaseMelebihiBatas;
 use App\Core\Soal\Exception\TestcaseDuplikatException;
-use App\Core\Soal\Interface\InterfaceBuatSoal;
-use App\Core\Soal\Interface\InterfacePengecekBatasan;
-use App\Core\Soal\Interface\InterfacePengecekJumlahTestcase;
-use App\Core\Soal\Interface\InterfacePengecekTestcaseDuplikat;
+use App\Core\Soal\Interfaces\InterfaceBuatSoal;
+use App\Core\Soal\Interfaces\InterfacePengecekBatasan;
+use App\Core\Soal\Interfaces\InterfacePengecekJumlahTestcase;
+use App\Core\Soal\Interfaces\InterfacePengecekTestcaseDuplikat;
 use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 

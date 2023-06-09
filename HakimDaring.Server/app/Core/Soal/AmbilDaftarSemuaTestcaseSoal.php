@@ -9,8 +9,8 @@ use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use App\Core\Repository\Testcase\InterfaceRepositoryTestcase;
 use App\Core\Soal\Exception\TidakMemilikiHakException;
-use App\Core\Soal\Interface\InterfaceAmbilDaftarSemuaTestcaseSoal;
-use App\Core\Soal\Interface\InterfacePengecekPembuatSoal;
+use App\Core\Soal\Interfaces\InterfaceAmbilDaftarSemuaTestcaseSoal;
+use App\Core\Soal\Interfaces\InterfacePengecekPembuatSoal;
 use InvalidArgumentException;
 
 class AmbilDaftarSemuaTestcaseSoal implements InterfaceAmbilDaftarSemuaTestcaseSoal {
@@ -51,7 +51,13 @@ class AmbilDaftarSemuaTestcaseSoal implements InterfaceAmbilDaftarSemuaTestcaseS
         }
 
         $versiSoal = $this->repositorySoal->ambilVersiSoal($idSoal);
-        return $this->repositoryTestcase->ambilKumpulanTestcaseDariSoal($idSoal, $versiSoal);
+        $daftarTestcaseDataSubmit = $this->repositoryTestcase->ambilKumpulanTestcaseDariSoal($idSoal, $versiSoal);
+        $daftarTestcaseData = [];
+        foreach ($daftarTestcaseDataSubmit as $data) {
+            array_push($daftarTestcaseData, $data->ambilDataTestcase());
+        }
+
+        return $daftarTestcaseData;
     }
 }
 

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Core\Soal\Interface;
+namespace App\Core\Soal\Interfaces;
 
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Soal\Entitas\BatasanSoal;

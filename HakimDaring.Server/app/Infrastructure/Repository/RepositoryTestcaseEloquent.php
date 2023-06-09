@@ -9,6 +9,7 @@ use App\Core\Repository\Soal\Entitas\VersiSoal;
 use App\Core\Repository\Testcase\Entitas\IDTestcase;
 use App\Core\Repository\Testcase\Entitas\Testcase;
 use App\Core\Repository\Testcase\Entitas\TestcaseData;
+use App\Core\Repository\Testcase\Entitas\TestcaseDataSubmit;
 use App\Core\Repository\Testcase\InterfaceRepositoryTestcase;
 use ErrorException;
 use Illuminate\Support\Facades\DB;
@@ -27,14 +28,16 @@ class RepositoryTestcaseEloquent implements InterfaceRepositoryTestcase {
 
         $hasil = [];
         foreach($kumpulanHasilQuery as $hasilQuery) {
-            array_push($hasil, new TestcaseData(
-                new IDTestcase($hasilQuery->id),
-                new Testcase(
-                    $hasilQuery->testcase,
-                    $hasilQuery->jawaban
-                ),
-                $hasilQuery->urutan,
-                $hasilQuery->publik == 1
+            array_push($hasil, new TestcaseDataSubmit(
+                new IDTestcase($hasilQuery->id),    
+                new TestcaseData(
+                    new Testcase(
+                        $hasilQuery->testcase,
+                        $hasilQuery->jawaban
+                    ),
+                    $hasilQuery->urutan,
+                    $hasilQuery->publik == 1
+                )
             ));
         }
 

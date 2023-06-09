@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Core\Pengerjaan\Data\BahasaPemrograman;
 use App\Core\Pengerjaan\Data\UjiCobaSourceCode;
 use App\Core\Pengerjaan\Exception\GagalMenjalankanProgramException;
-use App\Core\Pengerjaan\Interface\InterfaceUjiCobaProgram;
+use App\Core\Pengerjaan\Interfaces\InterfaceUjiCobaProgram;
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

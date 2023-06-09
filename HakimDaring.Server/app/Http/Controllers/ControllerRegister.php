@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Core\Autentikasi\Register\Exception\GagalRegisterException;
-use App\Core\Autentikasi\Register\Interface\InterfaceRegister;
+use App\Core\Autentikasi\Register\Interfaces\InterfaceRegister;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

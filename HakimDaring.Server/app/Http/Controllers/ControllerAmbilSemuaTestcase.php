@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Soal\Exception\TidakMemilikiHakException;
-use App\Core\Soal\Interface\InterfaceAmbilDaftarSemuaTestcaseSoal;
+use App\Core\Soal\Interfaces\InterfaceAmbilDaftarSemuaTestcaseSoal;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

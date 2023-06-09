@@ -5,7 +5,7 @@ namespace App\Core\Soal;
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Soal\InterfaceRepositorySoal;
-use App\Core\Soal\Interface\InterfacePengecekPembuatSoal;
+use App\Core\Soal\Interfaces\InterfacePengecekPembuatSoal;
 use InvalidArgumentException;
 
 class PengecekPembuatSoal implements InterfacePengecekPembuatSoal {

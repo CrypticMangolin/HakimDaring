@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Autentikasi\Logout;
 
-use App\Core\Autentikasi\Logout\Interface\InterfaceLogout;
+use App\Core\Autentikasi\Logout\Interfaces\InterfaceLogout;
 use App\Models\User;
 use ErrorException;
 use Illuminate\Support\Facades\Auth;

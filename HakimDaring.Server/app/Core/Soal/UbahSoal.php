@@ -9,8 +9,8 @@ use App\Core\Repository\Soal\Entitas\Soal;
 use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use App\Core\Soal\Exception\GagalBuatSoalException;
 use App\Core\Soal\Exception\TidakMemilikiHakException;
-use App\Core\Soal\Interface\InterfacePengecekPembuatSoal;
-use App\Core\Soal\Interface\InterfaceUbahSoal;
+use App\Core\Soal\Interfaces\InterfacePengecekPembuatSoal;
+use App\Core\Soal\Interfaces\InterfaceUbahSoal;
 use InvalidArgumentException;
 
 class UbahSoal implements InterfaceUbahSoal {

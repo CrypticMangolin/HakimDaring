@@ -6,8 +6,8 @@ namespace App\Core\Pengerjaan;
 
 use App\Core\Pengerjaan\Data\UjiCobaSourceCode;
 use App\Core\Pengerjaan\Exception\GagalMenjalankanProgramException;
-use App\Core\Pengerjaan\Interface\InterfaceRequestServer;
-use App\Core\Pengerjaan\Interface\InterfaceUjiCobaProgram;
+use App\Core\Pengerjaan\Interfaces\InterfaceRequestServer;
+use App\Core\Pengerjaan\Interfaces\InterfaceUjiCobaProgram;
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Soal\InterfaceRepositorySoal;
 

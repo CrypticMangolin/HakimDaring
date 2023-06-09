@@ -7,6 +7,7 @@ namespace App\Core\Repository\Testcase;
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Soal\Entitas\VersiSoal;
 use App\Core\Repository\Testcase\Entitas\TestcaseData;
+use App\Core\Repository\Testcase\Entitas\TestcaseDataSubmit;
 
 interface InterfaceRepositoryTestcase {
 
@@ -16,7 +17,7 @@ interface InterfaceRepositoryTestcase {
      * @param IDSoal $idSoal ID dari soal yang akan diambil testcasenya.
      * @param VersiSoal $versiSoal versi testcase yang berasal dari versi soal
      * 
-     * @return TestcaseData[] array kumpulan Testcase
+     * @return TestcaseDataSubmit[] array kumpulan Testcase
      */
     public function ambilKumpulanTestcaseDariSoal(IDSoal $idSoal, VersiSoal $versiSoal) : array;
 

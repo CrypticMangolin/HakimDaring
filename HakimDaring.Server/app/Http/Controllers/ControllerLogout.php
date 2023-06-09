@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Core\Autentikasi\Logout\Interface\InterfaceLogout;
+use App\Core\Autentikasi\Logout\Interfaces\InterfaceLogout;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use InvalidArgumentException;

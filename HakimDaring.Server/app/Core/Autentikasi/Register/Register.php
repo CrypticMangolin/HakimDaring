@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Autentikasi\Register;
 
 use App\Core\Autentikasi\Register\Exception\GagalRegisterException;
-use App\Core\Autentikasi\Register\Interface\InterfaceRegister;
+use App\Core\Autentikasi\Register\Interfaces\InterfaceRegister;
 use App\Core\Repository\Autentikasi\InterfaceRepositoryAutentikasi;
 use InvalidArgumentException;
 

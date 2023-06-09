@@ -4,9 +4,9 @@ namespace App\Core\Soal;
 
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Soal\InterfaceRepositorySoal;
-use App\Core\Repository\Testcase\Entitas\TestcaseData;
+use App\Core\Repository\Testcase\Entitas\TestcaseDataSubmit;
 use App\Core\Repository\Testcase\InterfaceRepositoryTestcase;
-use App\Core\Soal\Interface\InterfaceAmbilTestcasePublik;
+use App\Core\Soal\Interfaces\InterfaceAmbilTestcasePublik;
 
 class AmbilTestcasePublik implements InterfaceAmbilTestcasePublik {
 
@@ -25,8 +25,8 @@ class AmbilTestcasePublik implements InterfaceAmbilTestcasePublik {
         $hasil = [];
 
         foreach($daftarTestcase as $testcase) {
-            if ($testcase instanceof TestcaseData && $testcase->apakahSoalPublik()) {
-                array_push($hasil, $testcase);
+            if ($testcase instanceof TestcaseDataSubmit && $testcase->ambilDataTestcase()->apakahSoalPublik()) {
+                array_push($hasil, $testcase->ambilDataTestcase());
             }
         }
 

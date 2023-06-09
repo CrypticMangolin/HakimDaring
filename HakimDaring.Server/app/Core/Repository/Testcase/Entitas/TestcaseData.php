@@ -11,16 +11,11 @@ class TestcaseData {
     private int $urutan;
     private bool $publik;
 
-    public function __construct(IDTestcase $idTestcase, Testcase $testcase, int $urutan, bool $publik)
+    public function __construct(Testcase $testcase, int $urutan, bool $publik)
     {
-        $this->idTestcase = $idTestcase;
         $this->testcase = $testcase;
         $this->urutan = $urutan;
         $this->publik = $publik;
-    }
-
-    public function ambilIDTestcase() : IDTestcase {
-        return $this->idTestcase;
     }
 
     public function ambilTestcase() : Testcase {

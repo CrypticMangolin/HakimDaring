@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Soal\Entitas\BatasanSoal;
 use App\Core\Repository\Soal\Entitas\DataSoal;
+use App\Core\Repository\Testcase\Entitas\Testcase;
 use App\Core\Repository\Testcase\Entitas\TestcaseData;
 use App\Core\Soal\Exception\GagalBuatSoalException;
-use App\Core\Soal\Interface\InterfaceBuatSoal;
+use App\Core\Soal\Interfaces\InterfaceBuatSoal;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -90,8 +91,10 @@ class ControllerBuatSoal extends Controller
         foreach($daftarTestcase as $testcaseData) {
             try {
                 array_push($kumpulanTestcaseData, new TestcaseData(
-                    $testcaseData["testcase"],
-                    $testcaseData["jawaban"],
+                    new Testcase(
+                        $testcaseData["testcase"],
+                        $testcaseData["jawaban"],
+                    ),
                     $testcaseData["urutan"],
                     $testcaseData["publik"]
                 ));

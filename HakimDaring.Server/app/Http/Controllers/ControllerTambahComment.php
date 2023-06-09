@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Core\Comment\Exception\GagalMembuatKomentarException;
-use App\Core\Comment\Interface\InterfaceTambahComment;
+use App\Core\Comment\Interfaces\InterfaceTambahComment;
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Comment\Entitas\IDComment;
 use App\Core\Repository\Comment\Entitas\IDRuanganComment;

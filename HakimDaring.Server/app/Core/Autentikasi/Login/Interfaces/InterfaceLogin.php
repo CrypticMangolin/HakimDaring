@@ -1,7 +1,7 @@
 <?php 
 declare(strict_types=1);
 
-namespace App\Core\Autentikasi\Login\Interface;
+namespace App\Core\Autentikasi\Login\Interfaces;
 
 use App\Core\Autentikasi\Login\Data\GagalLoginException;
 

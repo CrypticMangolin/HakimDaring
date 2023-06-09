@@ -7,7 +7,7 @@ use App\Core\Repository\Soal\Entitas\DataSoal;
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Soal\Entitas\Soal;
 use App\Core\Soal\Exception\GagalBuatSoalException;
-use App\Core\Soal\Interface\InterfaceUbahSoal;
+use App\Core\Soal\Interfaces\InterfaceUbahSoal;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Core\Pencarian\Interface;
+namespace App\Core\Pencarian\Interfaces;
 
 use App\Core\Repository\DaftarSoal\Entitas\HasilPencarian;
 use App\Core\Repository\DaftarSoal\Entitas\KategoriPencarian;

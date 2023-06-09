@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Core\Pengerjaan\Interface;
+namespace App\Core\Pengerjaan\Interfaces;
 
 use App\Core\Pengerjaan\Data\HasilSubmission;
 use App\Core\Pengerjaan\Data\TokenSubmission;

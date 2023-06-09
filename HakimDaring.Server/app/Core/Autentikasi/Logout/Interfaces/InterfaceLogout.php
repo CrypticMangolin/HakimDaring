@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Core\Autentikasi\Logout\Interface;
+namespace App\Core\Autentikasi\Logout\Interfaces;
 
 interface InterfaceLogout {
 

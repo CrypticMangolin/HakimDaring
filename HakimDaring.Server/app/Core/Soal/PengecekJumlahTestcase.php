@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Soal;
 
-use App\Core\Soal\Interface\InterfacePengecekJumlahTestcase;
+use App\Core\Soal\Interfaces\InterfacePengecekJumlahTestcase;
 
 class PengecekJumlahTestcase implements InterfacePengecekJumlahTestcase {
 

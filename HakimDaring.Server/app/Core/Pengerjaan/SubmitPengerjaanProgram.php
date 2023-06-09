@@ -9,8 +9,8 @@ use App\Core\Pengerjaan\Data\HasilSubmission;
 use App\Core\Pengerjaan\Data\PengerjaanSourceCode;
 use App\Core\Pengerjaan\Data\UjiSourceCodePengerjaan;
 use App\Core\Pengerjaan\Exception\GagalSubmitProgramException;
-use App\Core\Pengerjaan\Interface\InterfaceRequestServer;
-use App\Core\Pengerjaan\Interface\InterfaceSubmitPengerjaanProgram;
+use App\Core\Pengerjaan\Interfaces\InterfaceRequestServer;
+use App\Core\Pengerjaan\Interfaces\InterfaceSubmitPengerjaanProgram;
 use App\Core\Repository\Pengerjaan\Entitas\DataPengerjaan;
 use App\Core\Repository\Pengerjaan\Entitas\IDPengerjaan;
 use App\Core\Repository\Pengerjaan\Entitas\PengerjaanTestcase;
@@ -58,8 +58,8 @@ class SubmitPengerjaanProgram implements InterfaceSubmitPengerjaanProgram {
         foreach($daftarTestcase as $testcase) {
             array_push($kumpulanTestcase, 
                 new Testcase(
-                    $testcase->ambilTestcase()->ambilTestcase(), 
-                    $testcase->ambilTestcase()->ambilJawaban()
+                    $testcase->ambilDataTestcase()->ambilTestcase()->ambilTestcase(), 
+                    $testcase->ambilDataTestcase()->ambilTestcase()->ambilJawaban()
                 )
             );
         }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Testcase\InterfaceRepositoryTestcase;
-use App\Core\Soal\Interface\InterfaceAmbilTestcasePublik;
+use App\Core\Soal\Interfaces\InterfaceAmbilTestcasePublik;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
