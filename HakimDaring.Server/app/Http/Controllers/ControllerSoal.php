@@ -6,18 +6,13 @@ use App\Application\Command\Soal\BuatSoal\CommandBuatSoal;
 use App\Application\Command\Soal\BuatSoal\RequestBuatSoal;
 use App\Application\Command\Soal\EditSoal\CommandEditSoal;
 use App\Application\Command\Soal\EditSoal\RequestEditSoal;
-use App\Core\Repository\Autentikasi\Entitas\IDUser;
-use App\Core\Repository\Soal\Entitas\BatasanSoal;
-use App\Core\Repository\Soal\Entitas\DataSoal;
-use App\Core\Repository\Testcase\Entitas\Testcase;
-use App\Core\Repository\Testcase\Entitas\TestcaseData;
-use App\Core\Soal\Exception\GagalBuatSoalException;
-use App\Core\Soal\Interfaces\InterfaceBuatSoal;
+use App\Application\Query\Soal\InterfaceQuerySoal;
+use App\Application\Query\Testcase\InterfaceQueryTestcase;
+use App\Core\Repository\Soal\Entitas\StatusSoal;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use InvalidArgumentException;
 
 class ControllerSoal extends Controller
 {
@@ -31,17 +26,17 @@ class ControllerSoal extends Controller
 
         if (!array_key_exists("judul", $jsonRequest)) {
             return response()->json([
-                "error" => "judul null"
+                "error" => "judul tidak ada"
             ], 422);
         }
         if (!array_key_exists("soal", $jsonRequest)) {
             return response()->json([
-                "error" => "soal null"
+                "error" => "soal tidak ada"
             ], 422);
         }
         if (!array_key_exists("daftar_testcase", $jsonRequest)) {
             return response()->json([
-                "error" => "daftar_testcase null"
+                "error" => "daftar_testcase tidak ada"
             ], 422);
         }
         if (!is_array($jsonRequest["daftar_testcase"]) || count($jsonRequest["daftar_testcase"]) == 0) {
@@ -51,22 +46,22 @@ class ControllerSoal extends Controller
         }
         if (!array_key_exists("batasan", $jsonRequest)) {
             return response()->json([
-                "error" => "batasan kosong",
+                "error" => "batasan tidak ada",
             ], 422);
         }
         if (!array_key_exists("waktu_per_testcase", $jsonRequest["batasan"])) {
             return response()->json([
-                "error" => "batasanWaktuPerTestcase bernilai null"
+                "error" => "waktu_per_testcase tidak ada"
             ], 422);
         }
         if (!array_key_exists("waktu_total", $jsonRequest["batasan"])) {
             return response()->json([
-                "error" => "batasanWaktuSemuaTestcase bernilai null"
+                "error" => "waktu_total tidak ada"
             ], 422);
         }
         if (!array_key_exists("memori", $jsonRequest["batasan"])) {
             return response()->json([
-                "error" => "batasanMemoriDalamKB bernilai null"
+                "error" => "memori tidak ada"
             ], 422);
         }
 
@@ -150,11 +145,104 @@ class ControllerSoal extends Controller
                 intval($jsonRequest["batasan"]["memori"]),
                 $jsonRequest["daftar_testcase"]
             ));
+
+            return response()->json([
+                "success" => "OK"
+            ], 200);
         }
         catch (Exception $e) {
             return response()->json([
                 "error" => $e->getMessage()
             ], 422);
         }
+    }
+
+    public function ambilInformasiSoal(Request $request, InterfaceQuerySoal $query) : JsonResponse {
+        $idSoal = $request->input("id_soal");
+        if ($idSoal == null) {
+            return response()->json([
+                "error" => "id_soal null"
+            ], 422);
+        }
+
+        $dataSoal = $query->byID($idSoal);
+
+        if ($dataSoal == StatusSoal::DELETED) {
+            return response()->json([
+                "error" => "soal tidak ada"
+            ], 422);
+        }
+
+        return response()->json([
+            "id_soal" => $dataSoal->idSoal,
+            "judul" => $dataSoal->judulSoal,
+            "soal" => $dataSoal->isiSoal,
+            "batasan" => [
+                "waktu_per_testcase" => $dataSoal->batasanWaktuPerTestcase,
+                "waktu_total" => $dataSoal->batasanWaktuTotal,
+                "memori" => $dataSoal->batasanMemori
+            ],
+            "jumlah_submit" => $dataSoal->jumlahSubmit,
+            "jumlah_berhasil" => $dataSoal->jumlahBerhasil,
+            "status" => $dataSoal->status,
+            "id_ruangan_diskusi" => $dataSoal->idRuanganDiskusi,
+            "id_pembuat" => $dataSoal->idPembuat,
+            "nama_pembuat" => $dataSoal->namaPembuat
+        ], 200);
+    }
+
+    public function ambilDataSoal(Request $request, InterfaceQuerySoal $querySoal, InterfaceQueryTestcase $queryTestcase) : JsonResponse {
+        $idSoal = $request->input("id_soal");
+        if ($idSoal == null) {
+            return response()->json([
+                "error" => "id_soal null"
+            ], 422);
+        }
+        
+        $dataSoal = $querySoal->byID($idSoal);
+        if ($dataSoal == null) {
+            return response()->json([
+                "error" => "soal tidak ada"
+            ], 422);
+        }
+        if ($dataSoal == StatusSoal::DELETED) {
+            return response()->json([
+                "error" => "soal tidak ada"
+            ], 422);
+        }
+        if (Auth::id() != $dataSoal->idPembuat) {
+            return response()->json([
+                "error" => "tidak memiliki hak"
+            ], 401);
+        }
+
+        $daftarTestcase = $queryTestcase->ambilSemuaTestcase($idSoal);
+        $responDaftarTestcase = [];
+        foreach($daftarTestcase as $testcase) {
+            array_push($responDaftarTestcase, [
+                "testcase" => $testcase->stdin,
+                "jawaban" => $testcase->stdout,
+                "publik" => $testcase->publik,
+                "urutan" => $testcase->urutan
+            ]);
+        }
+
+        return response()->json([
+            "id_soal" => $dataSoal->idSoal,
+            "judul" => $dataSoal->judulSoal,
+            "soal" => $dataSoal->isiSoal,
+            "batasan" => [
+                "waktu_per_testcase" => $dataSoal->batasanWaktuPerTestcase,
+                "waktu_total" => $dataSoal->batasanWaktuTotal,
+                "memori" => $dataSoal->batasanMemori
+            ],
+            "jumlah_submit" => $dataSoal->jumlahSubmit,
+            "jumlah_berhasil" => $dataSoal->jumlahBerhasil,
+            "status" => $dataSoal->status,
+            "id_ruangan_diskusi" => $dataSoal->idRuanganDiskusi,
+            "id_pembuat" => $dataSoal->idPembuat,
+            "nama_pembuat" => $dataSoal->namaPembuat,
+            "daftar_testcase" => $responDaftarTestcase
+        ], 200);
     }
 }

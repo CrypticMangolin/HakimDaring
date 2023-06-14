@@ -7,16 +7,13 @@ use App\Application\Command\Autentikasi\Login\RequestLogin;
 use App\Application\Command\Autentikasi\Logout\CommandLogout;
 use App\Application\Command\Autentikasi\Register\CommandRegister;
 use App\Application\Command\Autentikasi\Register\RequestRegister;
-use App\Core\Autentikasi\Register\Exception\GagalRegisterException;
-use App\Core\Autentikasi\Register\Interfaces\InterfaceRegister;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use InvalidArgumentException;
 
-class ControllerRegister extends Controller
+class ControllerAutentikasi extends Controller
 {
 
     public function register(Request $request, CommandRegister $command) : JsonResponse
@@ -92,7 +89,9 @@ class ControllerRegister extends Controller
 
     public function logout(Request $request, CommandLogout $command) : JsonResponse {
         $command->execute();
-        return response()->json([], 200);
+        return response()->json([
+            "success" => "OK"
+        ], 200);
     }
 
     public function cekToken(Request $request) : JsonResponse

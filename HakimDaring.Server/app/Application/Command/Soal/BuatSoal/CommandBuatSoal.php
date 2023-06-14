@@ -53,7 +53,7 @@ class CommandBuatSoal {
         $soalBaru = new Soal($idSoal, $idUser, $penjelasanSoal, $batasanSoal, $versiSoal, $statusSoal, $ruanganComment->ambilIDRuangan());
 
         $soalLain = $this->repositorySoal->byJudul($soalBaru->ambilPenjelasanSoal());
-        if ($soalLain !== null) {
+        if ($soalLain !== null && $soalLain->ambilStatusSoal()->ambilStatus() != StatusSoal::DELETED) {
             throw new ApplicationException("judul telah dipakai");
         }
 

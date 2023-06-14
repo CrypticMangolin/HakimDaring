@@ -1,22 +1,11 @@
 <?php
 
-use App\Http\Controllers\ControllerAmbilComment;
-use App\Http\Controllers\ControllerAmbilDaftarSubmissionSoal;
-use App\Http\Controllers\ControllerAmbilHasilPengerjaan;
-use App\Http\Controllers\ControllerAmbilInformasiSoal;
-use App\Http\Controllers\ControllerAmbilSemuaTestcase;
-use App\Http\Controllers\ControllerAmbilTestcasePublik;
-use App\Http\Controllers\ControllerBuatSoal;
-use App\Http\Controllers\ControllerLogin;
-use App\Http\Controllers\ControllerLogout;
+use App\Http\Controllers\ControllerAutentikasi;
+use App\Http\Controllers\ControllerComment;
 use App\Http\Controllers\ControllerPencarianSoal;
-use App\Http\Controllers\ControllerPengecekTokenAutentikasi;
-use App\Http\Controllers\ControllerRegister;
-use App\Http\Controllers\ControllerSetTestcaseSoal;
-use App\Http\Controllers\ControllerSubmitPengerjaan;
-use App\Http\Controllers\ControllerTambahComment;
-use App\Http\Controllers\ControllerUbahSoal;
-use App\Http\Controllers\ControllerUjiCobaProgram;
+use App\Http\Controllers\ControllerPengerjaan;
+use App\Http\Controllers\ControllerSoal;
+use App\Http\Controllers\ControllerTestcase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,31 +26,33 @@ use Illuminate\Support\Facades\Route;
 
 // Route::group([""])
 Route::middleware("guest:api")->group(function() {
-    Route::post("/login", ControllerLogin::class)->name("login");
-    Route::post("/register", ControllerRegister::class)->name("register");
-
+    Route::post("/autentikasi/login", [ControllerAutentikasi::class, "login"])->name("login");
+    Route::post("/autentikasi/register", [ControllerAutentikasi::class, "register"])->name("register");
     Route::get("/belum-login", function() {
         return response()->json(['error' => 'Belum Login'], 401);
     })->name("belum login");
 });
 
 Route::middleware("auth:api")->group(function() {
-    Route::post("/login-token", ControllerPengecekTokenAutentikasi::class)->name("cek token autentikasi");
-    Route::post("/logout", ControllerLogout::class)->name("logout");
+    Route::post("/autentikasi/login-token", [ControllerAutentikasi::class, "cekToken"])->name("cek token");
+    Route::post("/autentikasi/logout", [ControllerAutentikasi::class, "logout"])->name("logout");
     
-    Route::post("/buat-soal", ControllerBuatSoal::class)->name("buat soal");
-    Route::post("/ubah-soal", ControllerUbahSoal::class)->name("ubah soal");
-    Route::post("/set-testcase", ControllerSetTestcaseSoal::class)->name("set testcase");
-    Route::post("/tambah-comment", ControllerTambahComment::class)->name("tambah comment");
-    Route::post("/jalankan-program", ControllerUjiCobaProgram::class)->name("jalankan program");
-    Route::post("/submit-program", ControllerSubmitPengerjaan::class)->name("submit program");
-    
-    Route::get("/daftar-semua-testcase", ControllerAmbilSemuaTestcase::class)->name("ambil semua testcase");
-    Route::get("/daftar-hasil-submission-soal", ControllerAmbilDaftarSubmissionSoal::class)->name("daftar hasil pengerjaan");
-    Route::get("/hasil-submission-soal", ControllerAmbilHasilPengerjaan::class)->name("hasil pengerjaan");
+    Route::post("/soal/buat", [ControllerSoal::class, "buatSoal"])->name("buat soal");
+    Route::post("/soal/edit", [ControllerSoal::class, "editSoal"])->name("ubah soal");
+    Route::get("/soal/informasi/private", [ControllerSoal::class, "ambilDataSoal"])->name("informasi soal private");
+
+    Route::post("/comment/tambah", [ControllerComment::class, "tambahComment"])->name("tambah comment");
+
+    Route::post("/program/uji", [ControllerPengerjaan::class, "ujiCoba"])->name("uji coba program");
+    Route::post("/program/submit", [ControllerPengerjaan::class, "submit"])->name("submit program");
+    Route::get("/pengerjaan/soal", [ControllerPengerjaan::class, "ambilDaftarPengerjaan"])->name("daftar pengerjaan");
+    Route::get("/pengerjaan/hasil", [ControllerPengerjaan::class, "ambilHasilPengerjaan"])->name("hasil pengerjaan");
 });
 
-Route::get("/informasi-soal", ControllerAmbilInformasiSoal::class)->name("informasi soal");
-Route::get("/daftar-testcase-publik", ControllerAmbilTestcasePublik::class)->name("ambil semua testcase");
-Route::get("/ambil-comment", ControllerAmbilComment::class)->name("ambil comment");
-Route::get("/cari-soal", ControllerPencarianSoal::class)->name("cari-soal");
+Route::get("/soal/informasi/publik", [ControllerSoal::class, "ambilInformasiSoal"])->name("informasi soal publik");
+
+Route::get("/testcase", [ControllerTestcase::class, "ambilTestcasePublik"])->name("ambil semua testcase");
+
+Route::get("/comment/daftar", [ControllerComment::class, "ambilCommentDariRuangan"])->name("ambil comment");
+
+Route::get("/cari", [ControllerPencarianSoal::class, "cariSoal"])->name("cari soal");

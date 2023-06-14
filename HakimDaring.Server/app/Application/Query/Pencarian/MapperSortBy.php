@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Infrastructure;
+namespace App\Application\Query\Pencarian;
 
 use App\Core\Repository\DaftarSoal\Entitas\SortBy;
 

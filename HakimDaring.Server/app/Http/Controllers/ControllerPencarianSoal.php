@@ -2,33 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Application\Query\Pencarian\InterfaceQueryPencarian;
 use App\Core\Pencarian\Exception\HalamanMelewatiBatasException;
 use App\Core\Pencarian\Interfaces\InterfaceCariSoal;
 use App\Core\Repository\DaftarSoal\Entitas\KategoriPencarian;
 use App\Core\Repository\DaftarSoal\Entitas\SortBy;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 
 class ControllerPencarianSoal extends Controller
 {
-    private InterfaceCariSoal $cariSoal;
-    private array $mapper = [
-        "id_soal" => SortBy::SORTBY_ID,
-        "judul" => SortBy::SORTBY_JUDUL,
-        "jumlah_submit" => SortBy::SORTBY_JUMLAH_SUBMIT,
-        "jumlah_berhasil" => SortBy::SORTBY_JUMLAH_BERHASIL,
-        "persentase_berhasil" => SortBy::SORTBY_PERSENTASE_BERHASIL
-    ];
 
-    public function __construct(InterfaceCariSoal $cariSoal) {
-        if ($cariSoal == null) {
-            throw new InvalidArgumentException("cariSoal bernilai null");
-        }
-        $this->cariSoal = $cariSoal;
-    }
-
-    public function __invoke(Request $request) : JsonResponse
+    public function cariSoal(Request $request, InterfaceQueryPencarian $queryPencarian) : JsonResponse
     {
         $halaman = $request->input("halaman");
         if ($halaman == null) {
@@ -37,6 +24,12 @@ class ControllerPencarianSoal extends Controller
             ], 422);
         }
         $halaman = filter_var($halaman, FILTER_VALIDATE_INT);
+        if ($halaman < 0) {
+            return response()->json([
+                "error" => "halaman tidak boleh negatif"
+            ], 422);
+        }
+
 
         $judul = $request->input("judul");
         if ($judul == null) {
@@ -58,35 +51,28 @@ class ControllerPencarianSoal extends Controller
         }
         $sortReverse = filter_var($sortReverse, FILTER_VALIDATE_BOOLEAN);
         
-        try {
-            $hasilPencarian = $this->cariSoal->cariSoal($halaman, new KategoriPencarian($judul, new SortBy($this->mapper[$sortBy], $sortReverse)));
-
-            $hasilPencarianSoal = [];
-            foreach($hasilPencarian->ambilHasilPencarian() as $hasil) {
-                array_push($hasilPencarianSoal, [
-                    "id" => $hasil->ambilIDSoal()->ambilID(),
-                    "judul" => $hasil->ambilJudul(),
-                    "jumlah_submit" => $hasil->ambilJumlahSubmit(),
-                    "jumlah_berhasil" => $hasil->ambilBerhasilSubmit(),
-                    "persentase_berhasil" => $hasil->ambilPersentaseBerhasil()
-                ]);
-            }
-
+        $hasilPencarian = $queryPencarian->cariSoal($halaman, $judul, $sortBy, $sortReverse);
+        if ($halaman > $hasilPencarian->totalHalaman) {
             return response()->json([
-                "halaman" => $hasilPencarian->ambilHalaman(),
-                "total_halaman" => $hasilPencarian->ambilTotalHalaman(),
-                "hasil_pencarian" => $hasilPencarianSoal
-            ], 200);
-        }
-        catch(HalamanMelewatiBatasException $e) {
-            return response()->json([
-                "error" => $e->getMessage()
+                "error" => "halaman melebihi batas"
             ], 422);
         }
 
-        
+        $hasilPencarianSoal = [];
+        foreach($hasilPencarian->hasilPencarian as $hasil) {
+            array_push($hasilPencarianSoal, [
+                "id_soal" => $hasil->idSoal,
+                "judul" => $hasil->judul,
+                "jumlah_submit" => $hasil->jumlahSubmit,
+                "jumlah_berhasil" => $hasil->berhasilSubmit,
+                "persentase_berhasil" => $hasil->persentaseBerhasil,
+            ]);
+        }
+
         return response()->json([
-            "error" => "Kesalahan internal server"
-        ], 500);
+            "halaman" => $hasilPencarian->halaman,
+            "total_halaman" => $hasilPencarian->totalHalaman,
+            "hasil_pencarian" => $hasilPencarianSoal
+        ]);
     }
 }

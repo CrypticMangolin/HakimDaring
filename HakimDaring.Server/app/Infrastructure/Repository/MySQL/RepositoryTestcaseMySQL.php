@@ -46,12 +46,13 @@ class RepositoryTestcaseMySQL implements InterfaceRepositoryTestcase {
         $dataUntukDatabase = [];
         foreach($kumpulanTestcase as $testcase) {
             array_push($dataUntukDatabase, [
+                
                 "id_testcase" => $testcase->ambilIDTestcase()->ambilID(),
                 "id_soal" => $idSoal->ambilID(),
                 "testcase" => $testcase->ambilSoalTestcase()->ambilSoal(),
                 "jawaban" => $testcase->ambilJawabanTestcase()->ambilJawaban(),
-                "urutan" => $testcase->ambilUrutanTestcase(),
-                "publik" => $testcase->ambilPublisitasTestcase(),
+                "urutan" => $testcase->ambilUrutanTestcase()->ambilUrutan(),
+                "publik" => $testcase->ambilPublisitasTestcase()->ambilpublisitas() == PublisitasTestcase::PUBLIK,
                 "versi_soal" => $versiSoal->ambilVersi()
             ]);
         }

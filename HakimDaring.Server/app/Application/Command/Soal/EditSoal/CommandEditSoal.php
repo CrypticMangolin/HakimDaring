@@ -9,6 +9,7 @@ use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Soal\Entitas\BatasanSoal;
 use App\Core\Repository\Soal\Entitas\IDSoal;
 use App\Core\Repository\Soal\Entitas\PenjelasanSoal;
+use App\Core\Repository\Soal\Entitas\StatusSoal;
 use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use App\Core\Repository\Testcase\Entitas\IDTestcase;
 use App\Core\Repository\Testcase\Entitas\JawabanTestcase;
@@ -53,7 +54,7 @@ class CommandEditSoal {
             throw new ApplicationException("tidak memiliki hak");
         }
 
-        if ($soalDenganJudulYangSama !== null) {
+        if ($soalDenganJudulYangSama !== null && $soalDenganJudulYangSama->ambilStatusSoal()->ambilStatus() != StatusSoal::DELETED) {
             throw new ApplicationException("judul telah dipakai");
         }
 

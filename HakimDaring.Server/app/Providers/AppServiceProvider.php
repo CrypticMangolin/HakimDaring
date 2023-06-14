@@ -2,47 +2,22 @@
 
 namespace App\Providers;
 
-use App\Core\Autentikasi\Login\Interfaces\InterfaceLogin;
-use App\Core\Autentikasi\Login\Login;
-use App\Core\Autentikasi\Logout\Interfaces\InterfaceLogout;
-use App\Core\Autentikasi\Logout\Logout;
-use App\Core\Autentikasi\Register\Interfaces\InterfaceRegister;
-use App\Core\Autentikasi\Register\Register;
-use App\Core\Comment\Interfaces\InterfaceTambahComment;
-use App\Core\Comment\TambahComment;
-use App\Core\Pencarian\CariSoal;
-use App\Core\Pencarian\Interfaces\InterfaceCariSoal;
-use App\Core\Pengerjaan\Interfaces\InterfaceRequestServer;
-use App\Core\Pengerjaan\Interfaces\InterfaceSubmitPengerjaanProgram;
-use App\Core\Pengerjaan\Interfaces\InterfaceUjiCobaProgram;
-use App\Core\Pengerjaan\SubmitPengerjaanProgram;
-use App\Core\Pengerjaan\UjiCobaProgram;
-use App\Core\Repository\Soal\InterfaceRepositorySoal;
-use App\Core\Repository\Comment\InterfaceRepositoryComment;
-use App\Core\Repository\Pengerjaan\InterfaceRepositoryPengerjaan;
-use App\Core\Soal\AmbilDaftarSemuaTestcaseSoal;
-use App\Core\Soal\AmbilTestcasePublik;
-use App\Core\Soal\BuatSoal;
-use App\Core\Soal\Interfaces\InterfaceAmbilDaftarSemuaTestcaseSoal;
-use App\Core\Soal\Interfaces\InterfaceAmbilTestcasePublik;
-use App\Core\Soal\Interfaces\InterfaceBuatSoal;
-use App\Core\Soal\Interfaces\InterfaceSetTestcaseSoal;
-use App\Core\Soal\Interfaces\InterfaceUbahSoal;
-use App\Core\Soal\PengecekBatasan;
-use App\Core\Soal\PengecekJumlahTestcase;
-use App\Core\Soal\PengecekPembuatSoal;
-use App\Core\Soal\PengecekTestcaseBaruBerbeda;
-use App\Core\Soal\PengecekTestcaseDuplikat;
-use App\Core\Soal\SetTestcaseSoal;
-use App\Core\Soal\UbahSoal;
+use App\Application\Query\Pengerjaan\InterfaceQueryPengerjaan;
+use App\Application\Query\Soal\InterfaceQuerySoal;
+use App\Application\Query\Testcase\InterfaceQueryTestcase;
+use App\Core\Services\Pengerjaan\InterfaceRequestServer;
 use App\Infrastructure\Judge0\RequestServer;
-use App\Infrastructure\MapperSortBy;
-use App\Infrastructure\Repository\RepositoryAutentikasiEloquent;
-use App\Infrastructure\Repository\RepositoryComment;
-use App\Infrastructure\Repository\RepositoryDaftarSoalEloquent;
-use App\Infrastructure\Repository\RepositoryPengerjaan;
-use App\Infrastructure\Repository\RepositorySoalEloquent;
-use App\Infrastructure\Repository\RepositoryTestcaseEloquent;
+use App\Infrastructure\Query\MySQL\QueryCommentMySQL;
+use App\Infrastructure\Query\MySQL\QueryPengerjaanMySQL;
+use App\Infrastructure\Query\MySQL\QuerySoalMySQL;
+use App\Infrastructure\Query\MySQL\QueryTestcaseMySQL;
+use App\Infrastructure\Repository\MySQL\RepositoryAutentikasiMySQL;
+use App\Infrastructure\Repository\MySQL\RepositoryCommentMySQL;
+use App\Infrastructure\Repository\MySQL\RepositoryDaftarSoalMySQL;
+use App\Infrastructure\Repository\MySQL\RepositoryInformasiUserMySQL;
+use App\Infrastructure\Repository\MySQL\RepositoryPengerjaanMySQL;
+use App\Infrastructure\Repository\MySQL\RepositorySoalMySQL;
+use App\Infrastructure\Repository\MySQL\RepositoryTestcaseMySQL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -64,78 +39,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(InterfaceLogin::class, Login::class);
-        $this->app->bind(InterfaceRegister::class, function() {
-            return new Register(new RepositoryAutentikasiEloquent());
-        });
-        $this->app->bind(InterfaceLogout::class, Logout::class);
+        // REPOSITORY
+        $this->app->bind(InterfaceRepositoryAutentikasi::class, RepositoryAutentikasiMySQL::class);
+        $this->app->bind(InterfaceRepositoryComment::class, RepositoryCommentMySQL::class);
+        $this->app->bind(InterfaceRepositoryDaftarSoal::class, RepositoryDaftarSoalMySQL::class);
+        $this->app->bind(InterfaceRepositoryInformasiUser::class, RepositoryInformasiUserMySQL::class);
+        $this->app->bind(InterfaceRepositoryPengerjaan::class, RepositoryPengerjaanMySQL::class);
+        $this->app->bind(InterfaceRepositorySoal::class, RepositorySoalMySQL::class);
+        $this->app->bind(InterfaceRepositoryTestcase::class, RepositoryTestcaseMySQL::class);
 
-        $this->app->bind(InterfaceBuatSoal::class, function() {
-            $repositorySoal = new RepositorySoalEloquent();
-            return new BuatSoal(
-                $repositorySoal, 
-                new RepositoryComment(), 
-                new RepositoryTestcaseEloquent(),
-                new PengecekBatasan($repositorySoal),
-                new PengecekTestcaseDuplikat(),
-                new PengecekJumlahTestcase() 
-            );
-        });
+        // QUERY
+        $this->app->bind(InterfaceQuerySoal::class, QueryCommentMySQL::class);
+        $this->app->bind(InterfaceQueryPengerjaan::class, QueryPengerjaanMySQL::class);
+        $this->app->bind(InterfaceQuerySoal::class, QuerySoalMySQL::class);
+        $this->app->bind(InterfaceQueryTestcase::class, QueryTestcaseMySQL::class);
 
-        $this->app->bind(InterfaceSetTestcaseSoal::class, function() {
-            $repositorySoal = new RepositorySoalEloquent();
-
-            return new SetTestcaseSoal(
-                new PengecekTestcaseDuplikat(),
-                new RepositoryTestcaseEloquent(),
-                new PengecekTestcaseBaruBerbeda(),
-                new PengecekBatasan($repositorySoal),
-                new PengecekPembuatSoal($repositorySoal),
-                $repositorySoal
-            );
-        });
-
-        $this->app->bind(InterfaceUbahSoal::class, function() {
-            $repositorySoal = new RepositorySoalEloquent();
-            return new UbahSoal(new PengecekPembuatSoal($repositorySoal), $repositorySoal);
-        });
-
-        $this->app->bind(InterfaceRepositorySoal::class, RepositorySoalEloquent::class);
-
-        $this->app->bind(InterfaceAmbilDaftarSemuaTestcaseSoal::class, function() {
-            $repositorySoal = new RepositorySoalEloquent();
-            return new AmbilDaftarSemuaTestcaseSoal(
-                new PengecekPembuatSoal($repositorySoal),
-                new RepositoryTestcaseEloquent(),
-                $repositorySoal
-            );
-        });
-
-        $this->app->bind(InterfaceCariSoal::class, function() {
-            return new CariSoal(new RepositoryDaftarSoalEloquent(new MapperSortBy()));
-        });
-
-        $this->app->bind(InterfaceTambahComment::class, TambahComment::class);
-        $this->app->bind(InterfaceRepositoryComment::class, RepositoryComment::class);
-        $this->app->bind(InterfaceUjiCobaProgram::class, UjiCobaProgram::class);
+        // INFRASTRUCTURE
         $this->app->bind(InterfaceRequestServer::class, RequestServer::class);
-
-        $this->app->bind(InterfaceAmbilTestcasePublik::class, function() {
-            return new AmbilTestcasePublik(
-                new RepositorySoalEloquent(),
-                new RepositoryTestcaseEloquent()
-            );
-        });
-
-        $this->app->bind(InterfaceSubmitPengerjaanProgram::class, function() {
-            return new SubmitPengerjaanProgram(
-                new RepositorySoalEloquent(),
-                new RepositoryTestcaseEloquent(),
-                new RepositoryPengerjaan(),
-                new RequestServer()
-            );
-        });
-
-        $this->app->bind(InterfaceRepositoryPengerjaan::class, RepositoryPengerjaan::class);
     }
 }
