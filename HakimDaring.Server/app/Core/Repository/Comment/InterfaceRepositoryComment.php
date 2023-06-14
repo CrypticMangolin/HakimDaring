@@ -9,33 +9,22 @@ use App\Core\Repository\Comment\Entitas\Comment;
 use App\Core\Repository\Comment\Entitas\CommentBaru;
 use App\Core\Repository\Comment\Entitas\DataComment;
 use App\Core\Repository\Comment\Entitas\IDRuanganComment;
+use App\Core\Repository\Comment\Entitas\RuanganComment;
 
 interface InterfaceRepositoryComment {
 
-    /**
-     * Untuk membuat ID ruangan comment. Ruangan comment adalah sebuah penanda
-     * kumpulan comment. Bila pada twitter semacam thread.
-     * 
-     * @param IDUser $idPembuat id dari pembuat ruangan comment
-     * @return IDRuanganComment id dari ruangan comment yang dibuat
-     */
-    public function buatRuanganComment(IDUser $idPembuat) : IDRuanganComment;
+    public function ruanganCommentById(IDRuanganComment $idRuanganComment) : ?RuanganComment;
+
+    public function ruanganCommentSave(RuanganComment $ruanganComment) : void;
 
     /**
-     * Untuk menambahkan comment ke dalam sebuah ruangan comment
-     * 
-     * @param CommentBaru $commentBaru data dari comment yang akan ditambahakn
+     * @return Comment[]
      */
-    public function tambahComment(CommentBaru $commentBaru) : void;
+    public function commentByIdRuangan(IDRuanganComment $idRuanganComment) : array;
+    
+    public function commentSave(Comment $comment) : void;
 
-
-    /**
-     * Untuk mengambil seluruh komen yang terdapat di dalam ruangan comment
-     * 
-     * @param IDRuanganComment $idRuangan id dari ruangan comment
-     * @return Comment[] kumpulan comment yang diambil
-     */
-    public function ambilKumpulanComment(IDRuanganComment $idRuangan) : array;
+    public function commentUpdate(Comment $comment) : void;
 }
 
 ?>

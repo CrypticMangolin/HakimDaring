@@ -11,9 +11,7 @@ class PengerjaanTestcase {
     public function __construct(
         private IDPengerjaan $idPengerjaan,
         private IDTestcase $idTestcase,
-        private string $status,
-        private float $waktu,
-        private int $memori
+        private ?HasilPengerjaanTestcase $hasil
     )
     {
         
@@ -27,16 +25,8 @@ class PengerjaanTestcase {
         return $this->idTestcase;
     }
 
-    public function ambilStatus() : string {
-        return $this->status;
-    }
-
-    public function ambilWaktu() : float {
-        return $this->waktu;
-    }
-
-    public function ambilMemori() : int {
-        return $this->memori;
+    public function ambilHasil() : HasilPengerjaanTestcase {
+        return $this->hasil;
     }
 }
 

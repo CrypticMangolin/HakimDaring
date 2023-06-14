@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create("testcase", function (Blueprint $table) {
-            $table->id();
-            $table->foreignId("id_soal");
+            $table->uuid("id_testcase");
+            $table->uuid("id_soal");
             $table->longText('testcase');
             $table->longText('jawaban');
             $table->integer('urutan');

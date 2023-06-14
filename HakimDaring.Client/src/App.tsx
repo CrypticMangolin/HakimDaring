@@ -7,6 +7,7 @@ import HalamanUbahSoal from './view/HalamanUbahSoal'
 import HalamanJelajah from './view/HalamanJelajah'
 import HalamanPengerjaan from './view/HalamanPengerjaan'
 import HalamanDiskusi from './view/HalamanDiskusi'
+import HalamanHasil from './view/HalamanHasil'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path='/jelajah' element={<HalamanJelajah />}></Route>
         <Route path='/soal/:id_soal/pengerjaan' element={<HalamanPengerjaan />}></Route>
         <Route path='/soal/:id_soal/diskusi' element={<HalamanDiskusi />}></Route>
+        <Route path='/soal/:id_soal/hasil' element={<HalamanHasil />}></Route>
       </Routes>
     </>
   )

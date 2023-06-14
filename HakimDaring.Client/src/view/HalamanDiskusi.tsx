@@ -23,6 +23,10 @@ function HalamanDiskusi() {
     navigate(`/soal/${parameterURL.id_soal}/pengerjaan`)
   }
 
+  const pindahHalamanHasil = () => {
+    navigate(`/soal/${parameterURL.id_soal}/hasil`)
+  }
+
   const [daftarKomentar, setDaftarKomentar] = useState<Comment[]>([])
   const [komentar, setKomentar] = useState<string>("")
   const [reply, setReply] = useState<IDComment|null>(null)
@@ -156,7 +160,7 @@ function HalamanDiskusi() {
             Diskusi
           </Button>
         </Col>
-        <Col className='m-0 p-0 d-flex flex-row justify-content-center' xs={1}>
+        <Col className='m-0 p-0 d-flex flex-row justify-content-center' xs={1} onClick={pindahHalamanHasil}>
           <Button variant='light' className='m-0 w-100 rounded-0 text-center'>
             Submission
           </Button>

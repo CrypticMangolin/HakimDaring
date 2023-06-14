@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create("soal", function (Blueprint $table) {
-            $table->id();
+            $table->uuid("id_soal");
             $table->uuid("id_user_pembuat");
             $table->string('judul');
             $table->longText('soal');
@@ -25,7 +25,8 @@ return new class extends Migration
             $table->integer("batasan_memori_dalam_kb");
             $table->integer('jumlah_submit');
             $table->integer('jumlah_berhasil');
-            $table->foreignId('id_ruangan_diskusi');
+            $table->integer("jumlah_report");
+            $table->uuid('id_ruangan_diskusi');
             $table->timestamps();
         });
     }

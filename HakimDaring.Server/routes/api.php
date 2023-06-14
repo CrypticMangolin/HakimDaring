@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ControllerAmbilComment;
+use App\Http\Controllers\ControllerAmbilDaftarSubmissionSoal;
+use App\Http\Controllers\ControllerAmbilHasilPengerjaan;
 use App\Http\Controllers\ControllerAmbilInformasiSoal;
 use App\Http\Controllers\ControllerAmbilSemuaTestcase;
 use App\Http\Controllers\ControllerAmbilTestcasePublik;
@@ -55,6 +57,8 @@ Route::middleware("auth:api")->group(function() {
     Route::post("/submit-program", ControllerSubmitPengerjaan::class)->name("submit program");
     
     Route::get("/daftar-semua-testcase", ControllerAmbilSemuaTestcase::class)->name("ambil semua testcase");
+    Route::get("/daftar-hasil-submission-soal", ControllerAmbilDaftarSubmissionSoal::class)->name("daftar hasil pengerjaan");
+    Route::get("/hasil-submission-soal", ControllerAmbilHasilPengerjaan::class)->name("hasil pengerjaan");
 });
 
 Route::get("/informasi-soal", ControllerAmbilInformasiSoal::class)->name("informasi soal");

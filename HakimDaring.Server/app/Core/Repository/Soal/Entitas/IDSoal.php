@@ -3,15 +3,17 @@ declare(strict_types = 1);
 
 namespace App\Core\Repository\Soal\Entitas;
 
-class IDSoal {
-    private int $id;
+use Illuminate\Support\Str;
 
-    public function __construct(int $id)
+class IDSoal {
+    private string $id;
+
+    public function __construct(?string $id)
     {
-        $this->id = $id;
+        $this->id = $id ? $id : Str::uuid()->toString();
     }
 
-    public function ambilID() : int {
+    public function ambilID() : string {
         return $this->id;
     }
 }

@@ -5,15 +5,25 @@ declare(strict_types = 1);
 namespace App\Core\Repository\Soal\Entitas;
 
 class VersiSoal {
-    private int $versi;
 
-    public function __construct(int $versi)
+    public function __construct(
+        private int $versi,
+        private HasilSubmitSoal $hasilSubmitSoal
+    )
     {
-        $this->versi = $versi;
     }
 
     public function ambilVersi() : int {
         return $this->versi;
+    }
+
+    public function ambilHasilSubmitSoal() : HasilSubmitSoal {
+        return $this->hasilSubmitSoal;
+    }
+
+    public function tambahVersiSoal() : void {
+        $this->versi += 1;
+        $this->hasilSubmitSoal->resetSubmit();
     }
 }
 

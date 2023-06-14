@@ -19,6 +19,7 @@ use App\Core\Pengerjaan\SubmitPengerjaanProgram;
 use App\Core\Pengerjaan\UjiCobaProgram;
 use App\Core\Repository\Soal\InterfaceRepositorySoal;
 use App\Core\Repository\Comment\InterfaceRepositoryComment;
+use App\Core\Repository\Pengerjaan\InterfaceRepositoryPengerjaan;
 use App\Core\Soal\AmbilDaftarSemuaTestcaseSoal;
 use App\Core\Soal\AmbilTestcasePublik;
 use App\Core\Soal\BuatSoal;
@@ -135,5 +136,6 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
+        $this->app->bind(InterfaceRepositoryPengerjaan::class, RepositoryPengerjaan::class);
     }
 }

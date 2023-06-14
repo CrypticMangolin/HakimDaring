@@ -21,7 +21,7 @@ class ControllerAmbilHasilPengerjaan extends Controller
 
     public function __invoke(Request $request) : JsonResponse
     {
-        $idPengerjaan = $request->post("id_pengerjaan");
+        $idPengerjaan = $request->get("id_pengerjaan");
 
         if ($idPengerjaan == null) {
             return response()->json([
@@ -68,7 +68,7 @@ class ControllerAmbilHasilPengerjaan extends Controller
             "hasil_testcase" => $hasilTestcase
         ];
 
-        if (Auth::id() == $dataPengerjaan->ambilDataPengerjaan()->ambilIDPembuat()) {
+        if (Auth::id() == $dataPengerjaan->ambilDataPengerjaan()->ambilIDPembuat()->ambilID()) {
             $response["source_code"] = $dataPengerjaan->ambilDataPengerjaan()->ambilSourceCode();
         }
         

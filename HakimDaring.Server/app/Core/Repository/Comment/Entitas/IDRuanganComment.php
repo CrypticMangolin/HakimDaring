@@ -4,13 +4,18 @@ declare(strict_types = 1);
 
 namespace App\Core\Repository\Comment\Entitas;
 
+use Illuminate\Support\Str;
+
 class IDRuanganComment {
 
-    public function __construct(
-        private int $id
-    ) {}
+    private string $id;
 
-    public function ambilID() : int {
+    public function __construct(?string $id)
+    {
+        $this->id = $id ? $id : Str::uuid()->toString();
+    }
+
+    public function ambilID() : string {
         return $this->id;
     }
 }

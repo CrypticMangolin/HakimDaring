@@ -20,8 +20,6 @@ import UjiCoba from '../core/Data/UjiCoba'
 import ContohInput from '../core/Data/ContohInput'
 import InterfaceAmbilTestcasePublik from '../core/Pengerjaan/Interface/InterfaceAmbilTestcasePublik'
 import AmbilTestcasePublik from '../core/Pengerjaan/AmbilTestcasePublik'
-import PengecekAutentikasi from '../core/Autentikasi/PengecekAutentikasi'
-import InterfacePengecekAutentikasi from '../core/Autentikasi/Interface/InterfacePengecekAutentikasi'
 import CekMemilikiTokenAutentikasi from '../core/Autentikasi/CekMemilikiTokenAutentikasi'
 import InterfaceCekMemilikiTokenAutentikasi from '../core/Autentikasi/Interface/InterfaceCekMemilikiTokenAutentikasi'
 import InterfaceKirimPengerjaan from '../core/Pengerjaan/Interface/InterfaceKirimPengerjaan'
@@ -40,6 +38,10 @@ function HalamanPengerjaan() {
 
   const pindahHalamanDiskusi = () => {
     navigate(`/soal/${parameterURL.id_soal}/diskusi`)
+  }
+
+  const pindahHalamanHasil = () => {
+    navigate(`/soal/${parameterURL.id_soal}/hasil`)
   }
 
   const pindahHalamanMasuk = () => {
@@ -159,7 +161,7 @@ function HalamanPengerjaan() {
             Diskusi
           </Button>
         </Col>
-        <Col className='m-0 p-0 d-flex flex-row justify-content-center' xs={1}>
+        <Col className='m-0 p-0 d-flex flex-row justify-content-center' xs={1} onClick={pindahHalamanHasil}>
           <Button variant='light' className='m-0 w-100 rounded-0 text-center'>
             Submission
           </Button>

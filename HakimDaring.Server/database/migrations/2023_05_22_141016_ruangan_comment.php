@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create("ruangan_comment", function (Blueprint $table) {
-            $table->id();
+            $table->uuid("id_ruangan");
             $table->uuid("id_pembuat");
             $table->timestamps();
         });

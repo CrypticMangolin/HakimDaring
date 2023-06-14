@@ -4,48 +4,62 @@ declare(strict_types = 1);
 
 namespace App\Core\Repository\Testcase\Entitas;
 
-use InvalidArgumentException;
+use App\Core\Repository\Soal\Entitas\IDSoal;
 
 class Testcase {
-    private string $testcase;
-    private string $jawaban;
-
+    
     /**
      * Untuk menyimpan data testcase
-     * 
-     * @param string $testcase Testcase soal
-     * @param string $jawaban Jawaban dari testcase
      */
-    public function __construct(string $testcase, string $jawaban)
+    public function __construct(
+        private IDTestcase $idTestcase,
+        private IDSoal $idSoal,
+        private SoalTestcase $soalTestcase,
+        private JawabanTestcase $jawabanTestcase,
+        private UrutanTestcase $urutanTestcase,
+        private PublisitasTestcase $publisitasTestcase
+    )
     {
-        if ($testcase == null) {
-            throw new InvalidArgumentException("Argument null");
-        }
         
-        if ($jawaban == null) {
-            throw new InvalidArgumentException("Argument null");
-        }
-
-        $this->testcase = $testcase;
-        $this->jawaban = $jawaban;
     }
 
     /**
-     * Untuk mengambil testcase (soal)
+     * Untuk mendapatkan id testcase 
      * 
-     * @return string soal testcase
+     * @return IDTestcase id testcase
      */
-    public function ambilTestcase() : string {
-        return $this->testcase;
+    public function ambilIDTestcase() : IDTestcase {
+        return $this->idTestcase;
+    }
+
+    public function ambilIDSoal() : IDSoal {
+        return $this->idSoal;
     }
 
     /**
-     * Untuk mengambil jawaban dari testcase
+     * Untuk mengambil jawaban testcase
      * 
-     * @return string jawaban testcase
+     * @return JawabanTestcase jawaban testcase
      */
-    public function ambilJawaban() : string {
-        return $this->jawaban;
+    public function ambilJawabanTestcase() : JawabanTestcase {
+        return $this->jawabanTestcase;
+    }
+
+    /**
+     * Untuk mengambil soal testcase
+     * 
+     * @return SoalTestcase soal testcase
+     */
+    public function ambilSoalTestcase() : SoalTestcase {
+        return $this->soalTestcase;
+    }
+
+    public function ambilUrutanTestcase() : UrutanTestcase {
+        return $this->urutanTestcase;
+    }
+
+    public function ambilPublisitasTestcase() : PublisitasTestcase {
+        return $this->publisitasTestcase;
     }
 }
 

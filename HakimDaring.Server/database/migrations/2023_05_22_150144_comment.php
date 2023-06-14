@@ -14,13 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create("comment", function (Blueprint $table) {
-            $table->id();
-            $table->foreignId("id_ruangan");
+            $table->uuid("id_comment");
+            $table->uuid("id_ruangan");
             $table->uuid("id_penulis");
             $table->longText("pesan");
             $table->dateTime("tanggal_penulisan");
-            $table->foreignId("reply")->nullable();
+            $table->uuid("reply")->nullable();
             $table->string("status");
+            $table->integer("jumlah_report");
             $table->timestamps();
         });
     }
