@@ -44,32 +44,12 @@ class Pengerjaan {
         return $this->sourceCode;
     }
 
-    public function ambilHasil() : hasilPengerjaan {
+    public function ambilHasil() : HasilPengerjaan {
         return $this->hasilPengerjaan;
     }
 
     public function ambilTanggalSubmit() : DateTime {
         return $this->tanggalSubmit;
-    }
-
-    /**
-     * @param HasilPengerjaanTestcase[] $daftarHasilPengerjaan 
-     */
-    public function setHasilPengerjaan(array $daftarHasilPengerjaanTestcase) : void {
-
-        $hasilPengerjaan = HasilPengerjaan::ACCEPTED;
-        $totalMemori = 0;
-        $totalWaktu = doubleval(0);
-
-        foreach ($daftarHasilPengerjaanTestcase as $hasil) {
-            if ($hasil->ambilHasil() != "Accepted") {
-                $hasilPengerjaan = HasilPengerjaan::ERROR;
-        }
-            $totalMemori += $hasil->ambilMemori();
-            $totalWaktu += doubleval($hasil->ambilWaktu());
-        }
-
-        $this->hasilPengerjaan = new HasilPengerjaan($hasilPengerjaan, $totalWaktu, $totalMemori);
     }
 }
 

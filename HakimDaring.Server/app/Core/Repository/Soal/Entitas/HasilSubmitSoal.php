@@ -31,12 +31,12 @@ class HasilSubmitSoal {
         $this->submitBerhasil = 0;
     }
 
-    public function tambahSubmit() : void {
+    public function tambahSubmitGagal() : void {
         $this->totalSubmit += 1;
     }
 
     public function tambahSubmitBerhasil() : void {
-        $this->tambahSubmit();
+        $this->tambahSubmitGagal();
         $this->submitBerhasil += 1;
     }
 }

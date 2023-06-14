@@ -4,27 +4,39 @@ declare(strict_types = 1);
 
 namespace App\Infrastructure\Judge0;
 
-use App\Core\Pengerjaan\Data\HasilSubmission;
-use App\Core\Pengerjaan\Data\TokenSubmission;
-use App\Core\Pengerjaan\Data\UjiCobaSourceCode;
-use App\Core\Pengerjaan\Data\UjiSourceCodePengerjaan;
-use App\Core\Pengerjaan\Interfaces\InterfaceRequestServer;
+use App\Core\Repository\Pengerjaan\Entitas\HasilSubmission;
+use App\Core\Repository\Pengerjaan\Entitas\SourceCodePengerjaan;
+use App\Core\Repository\Pengerjaan\Entitas\TokenSubmission;
 use App\Core\Repository\Soal\Entitas\BatasanSoal;
+use App\Core\Services\Pengerjaan\BahasaPemrograman;
+use App\Core\Services\Pengerjaan\InterfaceRequestServer;
 
 class RequestServer implements InterfaceRequestServer {
 
     const TOKEN_AUTHENTICATION = "d8bbf54d-321c-4cf2-9fde-b88373aabe43";
     const TOKEN_AUTHORIZATION = "db59f4e8-6772-455a-8950-5419a85c14e2";
-    
-    public function kirimBatchSubmissionUjiCoba(BatasanSoal $batasan, UjiCobaSourceCode $sourceCode) : array|false {
+
+    // public function kirimBatchSubmissionUjiCoba(SourceCodePengerjaan $sourceCode, array $daftarTestcase, BatasanSoal $batasan) : array|false;
+
+    // /**
+    //  * @param Testcase[] $daftarTestcase
+    //  * @return TokenSubmission[]|false
+    //  */
+    // public function kirimBatchSubmissionPengerjaan(SourceCodePengerjaan $sourceCode, array $daftarTestcase) : array|false;
+
+    // public function ambilHasilSubmission(TokenSubmission $token) : HasilSubmission;
+
+    // public function hapusSubmission(TokenSubmission $token) : void;
+
+    public function kirimBatchSubmissionUjiCoba(SourceCodePengerjaan $sourceCode, array $daftarTestcase, BatasanSoal $batasan) : array|false {
         $url = "http://localhost:2358/submissions/batch";
 
         $submissions = [];
-        foreach($sourceCode->ambilDaftarInput() as $stdin) {
+        foreach($daftarTestcase as $soal) {
             array_push($submissions, [
                 "source_code" => $sourceCode->ambilSourceCode(),
-                "language_id" => $sourceCode->ambilBahasa(),
-                "stdin" => $stdin,
+                "language_id" => BahasaPemrograman::MAPPING[$sourceCode->ambilBahasa()],
+                "stdin" => $soal->ambilSoal(),
                 "cpu_time_limit" => $batasan->ambilBatasanWaktuPerTestcase(),
                 "memory_limit" => $batasan->ambilBatasanMemoriDalamKB(),
                 "stack_limit" => 128000
@@ -61,16 +73,16 @@ class RequestServer implements InterfaceRequestServer {
         return $hasil;
     }
 
-    public function kirimBatchSubmissionPengerjaan(UjiSourceCodePengerjaan $sourceCode, BatasanSoal $batasan) : array|false {
+    public function kirimBatchSubmissionPengerjaan(SourceCodePengerjaan $sourceCode, array $daftarTestcase, BatasanSoal $batasan) : array|false {
         $url = "http://localhost:2358/submissions/batch";
 
         $submissions = [];
-        foreach($sourceCode->ambilDaftarTestcase() as $testcase) {
+        foreach($daftarTestcase as $testcase) {
             array_push($submissions, [
                 "source_code" => $sourceCode->ambilSourceCode(),
-                "language_id" => $sourceCode->ambilBahasa(),
-                "stdin" => $testcase->ambilTestcase(),
-                "expected_output" => $testcase->ambilJawaban(),
+                "language_id" => BahasaPemrograman::MAPPING[$sourceCode->ambilBahasa()],
+                "stdin" => $testcase->ambilSoalTestcase()->ambilSoal(),
+                "expected_output" => $testcase->ambilJawabanTestcase()->ambilJawaban(),
                 "cpu_time_limit" => $batasan->ambilBatasanWaktuPerTestcase(),
                 "memory_limit" => $batasan->ambilBatasanMemoriDalamKB(),
                 "stack_limit" => 128000

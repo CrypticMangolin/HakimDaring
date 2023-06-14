@@ -2,9 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Core\Pengerjaan\Data;
-
-use App\Core\Pengerjaan\Data\TokenSubmission;
+namespace App\Core\Repository\Pengerjaan\Entitas;
 
 class HasilSubmission {
     public function __construct(
