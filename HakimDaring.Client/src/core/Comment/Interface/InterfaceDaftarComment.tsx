@@ -1,6 +1,4 @@
-import Comment from "../../Data/Comment"
 import IDRuanganComment from "../../Data/IDRuanganComment"
-import IDSoal from "../../Data/IDSoal"
 
 interface InterfaceDaftarComment {
 

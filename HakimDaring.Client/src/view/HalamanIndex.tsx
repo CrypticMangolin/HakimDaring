@@ -48,7 +48,7 @@ function HalamanIndex() {
 
   return (
     <>
-      <Container className='min-vh-100 min-vw-100 m-0 p-0 d-flex flex-column'>
+      <Container className='min-vh-100 mw-100 m-0 p-0 d-flex flex-column'>
         <Col className='h-100 d-flex flex-column justify-content-center'>
           <Row className='m-0 p-0'>
             <Col xs={12} className='my-4 p-2'>
