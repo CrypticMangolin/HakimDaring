@@ -13,38 +13,38 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table("hasil_testcase_pengerjaan", function (Blueprint $table) {
-            $table->foreign('id_pengerjaan')->references("id")->on("pengerjaan");
-            $table->foreign('id_testcase')->references("id")->on("testcase");
-        });
+        // Schema::table("hasil_testcase_pengerjaan", function (Blueprint $table) {
+        //     $table->foreign('id_pengerjaan')->references("id")->on("pengerjaan");
+        //     $table->foreign('id_testcase')->references("id")->on("testcase");
+        // });
 
-        Schema::table("pengerjaan", function (Blueprint $table) {
-            $table->foreign('id_user')->references("id_user")->on("user");
-            $table->foreign('id_soal')->references("id")->on("soal");
-        });
+        // Schema::table("pengerjaan", function (Blueprint $table) {
+        //     $table->foreign('id_user')->references("id_user")->on("user");
+        //     $table->foreign('id_soal')->references("id")->on("soal");
+        // });
 
-        Schema::table('data_user', function (Blueprint $table) {
-            $table->foreign('id_user')->references('id_user')->on('user'); 
-        });
+        // Schema::table('data_user', function (Blueprint $table) {
+        //     $table->foreign('id_user')->references('id_user')->on('user'); 
+        // });
 
-        Schema::table("soal", function (Blueprint $table) {
-            $table->foreign('id_user_pembuat')->references("id_user")->on("user");
-            $table->foreign('id_ruangan_diskusi')->references("id")->on("ruangan_comment");
-        });
+        // Schema::table("soal", function (Blueprint $table) {
+        //     $table->foreign('id_user_pembuat')->references("id_user")->on("user");
+        //     $table->foreign('id_ruangan_diskusi')->references("id")->on("ruangan_comment");
+        // });
 
-        Schema::table("testcase", function (Blueprint $table) {
-            $table->foreign('id_soal')->references("id")->on("soal");
-        });
+        // Schema::table("testcase", function (Blueprint $table) {
+        //     $table->foreign('id_soal')->references("id")->on("soal");
+        // });
 
-        Schema::table("ruangan_comment", function (Blueprint $table) {
-            $table->foreign('id_pembuat')->references("id_user")->on("user");
-        });
+        // Schema::table("ruangan_comment", function (Blueprint $table) {
+        //     $table->foreign('id_pembuat')->references("id_user")->on("user");
+        // });
 
-        Schema::table("comment", function (Blueprint $table) {
-            $table->foreign('id_ruangan')->references("id")->on("ruangan_comment");
-            $table->foreign('id_penulis')->references("id_user")->on("user");
-            $table->foreign('reply')->references("id")->on("comment");
-        });
+        // Schema::table("comment", function (Blueprint $table) {
+        //     $table->foreign('id_ruangan')->references("id")->on("ruangan_comment");
+        //     $table->foreign('id_penulis')->references("id_user")->on("user");
+        //     $table->foreign('reply')->references("id")->on("comment");
+        // });
     }
 
     /**

@@ -1,13 +1,13 @@
 import { Route, Routes } from 'react-router-dom'
-import HalamanIndex from './view/HalamanIndex'
-import HalamanMasuk from './view/HalamanMasuk'
-import HalamanDaftar from './view/HalamanDaftar'
-import HalamanBuatSoal from './view/HalamanBuatSoal'
-import HalamanUbahSoal from './view/HalamanUbahSoal'
-import HalamanJelajah from './view/HalamanJelajah'
-import HalamanPengerjaan from './view/HalamanPengerjaan'
-import HalamanDiskusi from './view/HalamanDiskusi'
-import HalamanHasil from './view/HalamanHasil'
+import HalamanIndex from './view/Autentikasi/HalamanIndex'
+import HalamanMasuk from './view/Autentikasi/HalamanMasuk'
+import HalamanDaftar from './view/Autentikasi/HalamanDaftar'
+import HalamanBuatSoal from './view/Soal/HalamanBuatSoal'
+import HalamanUbahSoal from './view/Soal/HalamanUbahSoal'
+import HalamanJelajah from './view/Dashboard/HalamanJelajah'
+import HalamanPengerjaan from './view/Pengerjaan/HalamanPengerjaan'
+import HalamanDiskusi from './view/Forum/HalamanDiskusi'
+import HalamanDaftarpengerjaan from './view/Pengerjaan/HalamanDaftarpengerjaan'
 
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
         <Route path='/jelajah' element={<HalamanJelajah />}></Route>
         <Route path='/soal/:id_soal/pengerjaan' element={<HalamanPengerjaan />}></Route>
         <Route path='/soal/:id_soal/diskusi' element={<HalamanDiskusi />}></Route>
-        <Route path='/soal/:id_soal/hasil' element={<HalamanHasil />}></Route>
+        <Route path='/soal/:id_soal/hasil' element={<HalamanDaftarpengerjaan />}></Route>
       </Routes>
     </>
   )

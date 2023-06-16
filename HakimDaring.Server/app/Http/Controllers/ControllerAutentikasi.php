@@ -77,7 +77,8 @@ class ControllerAutentikasi extends Controller
 
             return response()->json([
                 "token" => $token,
-                "nama" => $nama
+                "nama" => $nama,
+                "id_user" => Auth::id()
             ], 200);
         }
         catch(Exception $e) {
@@ -100,7 +101,8 @@ class ControllerAutentikasi extends Controller
 
         return response()->json([
             "success" => "token terautorisasi",
-            "nama" => Auth::user()->nama
+            "nama" => Auth::user()->nama,
+            "id" => Auth::id()
         ], 200);
     }
 }

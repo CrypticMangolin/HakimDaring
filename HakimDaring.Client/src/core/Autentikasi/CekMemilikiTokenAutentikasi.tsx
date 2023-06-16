@@ -1,6 +1,4 @@
-import InterfaceCekMemilikiTokenAutentikasi from "./Interface/InterfaceCekMemilikiTokenAutentikasi";
-
-class CekMemilikiTokenAutentikasi implements InterfaceCekMemilikiTokenAutentikasi {
+class CekMemilikiTokenAutentikasi {
     public cekApakahMemilikiTokenAutentikasi() : boolean {
         return localStorage.getItem("token") != null
     }

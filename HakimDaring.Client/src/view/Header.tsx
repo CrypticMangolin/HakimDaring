@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Navbar, Container, Nav, Dropdown, Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import InterfaceKeluar from '../core/Autentikasi/Interface/InterfaceKeluar'
-import Keluar from '../core/Autentikasi/Keluar'
+import RequestKeluar from '../core/Autentikasi/RequestKeluar'
 
 function Header() {
 
   const navigate = useNavigate()
 
-  const keluar : InterfaceKeluar = new Keluar()
+  const requestKeluar : RequestKeluar = new RequestKeluar()
 
   let [namaPengguna, setNamaPengguna] = useState<string|null>(null)
 
@@ -25,7 +24,7 @@ function Header() {
   }
 
   const keluarAkun = () => {
-    keluar.keluar(() => {
+    requestKeluar.execute(() => {
       navigate("/")
     })
   }

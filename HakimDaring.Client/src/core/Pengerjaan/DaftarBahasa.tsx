@@ -1,5 +1,3 @@
-import InterfaceDaftarBahasa from "./Interface/InterfaceDaftarBahasa";
-
 import 'ace-builds/src-noconflict/mode-c_cpp'
 import 'ace-builds/src-noconflict/mode-java'
 import 'ace-builds/src-noconflict/mode-csharp'
@@ -12,10 +10,10 @@ import 'ace-builds/src-noconflict/mode-swift'
 import 'ace-builds/src-noconflict/mode-javascript'
 import 'ace-builds/src-noconflict/mode-typescript'
 import 'ace-builds/src-noconflict/mode-php'
-import ModeBahasa from "../Data/BahasaPemrograman";
-import BahasaPemrograman from "../Data/BahasaPemrograman";
+import ModeBahasa from "./Data/BahasaPemrograman";
+import BahasaPemrograman from "./Data/BahasaPemrograman";
 
-class DaftarBahasa implements InterfaceDaftarBahasa {
+class DaftarBahasa {
 
     ambilBahasa(): ModeBahasa[] {
         return [
