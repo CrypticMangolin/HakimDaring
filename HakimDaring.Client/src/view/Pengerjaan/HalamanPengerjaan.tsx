@@ -19,6 +19,7 @@ import BerhasilUjiCobaProgram from '../../core/Responses/ResponseBerhasil/Penger
 import SubmitPengerjaan from '../../core/Pengerjaan/Data/SubmitPengerjaan'
 import BerhasilSubmitPengerjaan from '../../core/Responses/ResponseBerhasil/Pengerjaan/BerhasilSubmitPengerjaan'
 import ResponseTestcase from '../../core/Responses/ResponseBerhasil/Soal/ResponseTestcase'
+import UjiCoba from '../../core/Pengerjaan/Data/UjiCoba'
 
 function HalamanPengerjaan() {
 
@@ -113,12 +114,13 @@ function HalamanPengerjaan() {
 
   const runUjiCobaProgram = () => {
     if (informasiSoal.id_soal != "") {
+
       requestUjiCobaProgram.execute({
         id_soal : informasiSoal.id_soal,
         bahasa : submitPengerjaan.bahasa,
         source_code : submitPengerjaan.source_code,
         stdin : ujiCoba
-      }, (hasil : any) => {
+      } as UjiCoba, (hasil : any) => {
         if (Array.isArray(hasil)) {
           setHasilUjiCoba(hasil)
         }
@@ -129,7 +131,7 @@ function HalamanPengerjaan() {
   const submit = () => {
     requestSubmitPengerjaan.execute(submitPengerjaan, (hasil : any) => {
       if (hasil instanceof BerhasilSubmitPengerjaan) {
-        //
+        console.log(hasil)
       }
     })
   }
@@ -155,12 +157,15 @@ function HalamanPengerjaan() {
         setDaftarContohInput(hasil)
       }
     })
-
   }, [])
 
   useEffect(() => {
     setSubmitPengerjaan({...submitPengerjaan, id_soal : informasiSoal.id_soal})
   }, [informasiSoal])
+
+  useEffect(() => {
+    setSubmitPengerjaan({...submitPengerjaan, bahasa : daftarModeBahasa[bahasaDipilih].bahasa})
+  }, [bahasaDipilih])
 
   return (
   <>
@@ -244,6 +249,11 @@ function HalamanPengerjaan() {
         </Col>
         <Col sm={12} md={12} lg={6} xl={6} className="d-flex flex-column m-0 p-2">
           <Row className='m-0 p-0 d-flex flex-column'>
+            {informasiSoal.id_pembuat == localStorage.getItem("id") &&
+              <Button variant='dark' className='my-2' onClick={() => {navigate(`/edit-soal/${informasiSoal.id_soal}`)}}>
+                Edit Soal
+              </Button>
+            }
             <Row className='m-0 mb-2 p-0 d-flex flex-row'>
               <Col xs={2} className='m-0 p-0'>
                 <Form.Select size='sm' value={daftarModeBahasa.length > 0 ? bahasaDipilih : ""} onChange={pilihBahasa}>

@@ -8,7 +8,7 @@ import BuatHeader from "../PembuatHeader";
 class RequestKirimComment {
 
     public execute(comment : Comment, callback: (hasil: any) => void): void {
-
+        
         fetch("http://127.0.0.1:8000/api/comment/tambah", {
             method: "POST",
             mode: "cors",

@@ -15,6 +15,20 @@ use Illuminate\Support\Facades\DB;
 
 class RepositoryInformasiUserMySQL implements InterfaceRepositoryInformasiUser {
 
+    public function byId(IDUser $idUser) : ?InformasiUser {
+        
+        $script = "SELECT du.id_user, du.nama_user, du.email, du.kelompok, du.tanggal_bergabung FROM data_user AS du WHERE du.id_user = :id_user";
+        $hasilQuery = DB::select($script, [
+            "id_user" => $idUser->ambilID()
+        ]);
+
+        if (count($hasilQuery) == 0) {
+            return null;
+        }
+        $hasil = $hasilQuery[0];
+        return new InformasiUser(new IDUser($hasil->id_user), new NamaUser($hasil->nama_user), new Email($hasil->email), new KelompokUser($hasil->kelompok), new DateTime($hasil->tanggal_bergabung));
+    }
+
     public function byEmail(Email $email) : ?InformasiUser {
         
         $script = "SELECT du.id_user, du.nama_user, du.email, du.kelompok, du.tanggal_bergabung FROM data_user AS du WHERE du.email = :email";

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Application\Command\Pengerjaan\UjiCobaProgram;
 
-use App\Application\Command\Soal\Exception\ApplicationException;
+use App\Application\Exception\ApplicationException;
 use App\Core\Repository\Pengerjaan\Entitas\HasilSubmission;
 use App\Core\Repository\Pengerjaan\Entitas\SourceCodePengerjaan;
 use App\Core\Repository\Soal\Entitas\IDSoal;

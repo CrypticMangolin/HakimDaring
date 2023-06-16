@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Application\Command\Comment\TambahComment\CommandTambahComment;
-use App\Application\Command\Comment\TambahComment\RequestTambahComment;
+use App\Application\Command\Comment\CommandTambahComment;
+use App\Application\Command\Comment\RequestTambahComment;
 use App\Application\Query\Comment\InterfaceQueryComment;
 use App\Core\Repository\Comment\Entitas\StatusComment;
 use Exception;
@@ -77,5 +77,7 @@ class ControllerComment extends Controller
                 "status" => $comment->status
             ]);
         }
+        
+        return response()->json($hasilAkhir, 200);
     }
 }

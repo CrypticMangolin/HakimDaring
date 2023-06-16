@@ -4,13 +4,23 @@ declare(strict_types = 1);
 
 namespace App\Application\Command\Autentikasi\Login;
 
-use App\Application\Command\Soal\Exception\ApplicationException;
+use App\Application\Exception\ApplicationException;
+use App\Core\Repository\Autentikasi\Entitas\IDUser;
+use App\Core\Repository\Autentikasi\Entitas\InformasiLogin;
+use App\Core\Repository\InformasiUser\InterfaceRepositoryInformasiUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class CommandLogin {
 
-    public function execute(RequestLogin $requestLogin) : string {
+    public function __construct(
+        private InterfaceRepositoryInformasiUser $repositoryInformasiUser
+    )
+    {
+        
+    }
+
+    public function execute(RequestLogin $requestLogin) : InformasiLogin {
         $email = mb_strtolower($requestLogin->email);
 
         $autentikasi = Auth::attempt(["email" => $email, "password" => $requestLogin->password]);
@@ -25,7 +35,9 @@ class CommandLogin {
         }
 
         $token_autentikasi = $akun_user->createToken("autentikasi")->accessToken;
-        return $token_autentikasi;
+        $informasiUser = $this->repositoryInformasiUser->byId(new IDUser(Auth::id()));
+
+        return new InformasiLogin($token_autentikasi, $informasiUser->ambilNamaUser()->ambilNama(), $informasiUser->ambilIDUser());
     }
 }
 

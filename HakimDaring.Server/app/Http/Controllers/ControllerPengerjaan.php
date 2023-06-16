@@ -89,7 +89,6 @@ class ControllerPengerjaan extends Controller
             $respon = [];
             foreach($daftarHasilSubmission as $hasilSubmission) {
                 array_push($respon, [
-                    "token" => $hasilSubmission->ambilToken()->ambilToken(),
                     "stdout" => $hasilSubmission->ambilHasilKeluaran(),
                     "waktu" => $hasilSubmission->ambilWaktu(),
                     "memori" => $hasilSubmission->ambilMemori(),
@@ -126,7 +125,7 @@ class ControllerPengerjaan extends Controller
 
         $response = [];
         foreach($dataPengerjaan as $pengerjaan) {
-            array_push($respon, [
+            array_push($response, [
                 "id_pengerjaan" => $pengerjaan->idPengerjaan,
                 "id_soal" => $pengerjaan->idSoal,
                 "judul_soal" => $pengerjaan->namaSoal,

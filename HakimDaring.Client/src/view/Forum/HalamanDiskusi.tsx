@@ -24,7 +24,7 @@ function HalamanDiskusi() {
   }
 
   const [daftarKomentar, setDaftarKomentar] = useState<BerhasilMengambilDaftarComment[]>([])
-  const [komentar, setKomentar] = useState<Comment>({id_ruangan : "", isi : "", reply : ""} as Comment)
+  const [komentar, setKomentar] = useState<Comment>({id_ruangan : "", isi : "", reply : null} as Comment)
 
   const requestAmbilInformasiSoal : RequestAmbilInformasiSoal = new RequestAmbilInformasiSoal();
   const requestDaftarComment : RequestDaftarComment = new RequestDaftarComment()
@@ -157,7 +157,7 @@ function HalamanDiskusi() {
         <Col xs={12} sm={12} md={8} lg={6} xl={6} className='m-0 p-0'>
           <Row className="m-0 p-0 d-flex flex-column">
             <Row className="m-0 p-0 d-flex flex-column">
-              {daftarKomentar != null && daftarKomentar.map((comen : BerhasilMengambilDaftarComment, index : number) => {
+              {daftarKomentar.map((comen : BerhasilMengambilDaftarComment, index : number) => {
 
                 let balasan : number = -1
                 if (comen.reply != null) {
@@ -191,7 +191,7 @@ function HalamanDiskusi() {
                 <Row className='m-0 p-0 d-flex flex-row'>
                   <Col xs={9} className='m-0 p-0 px-2'>
                       {
-                        komentar.reply != null && 
+                        komentar.reply != null &&
                         <Row className='m-0 p-0 d-flex flex-row'>
                           <Col xs={10} className='m-0 p-0'>
                             <blockquote className='blockquote fs-6'>

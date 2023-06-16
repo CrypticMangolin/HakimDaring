@@ -8,6 +8,7 @@ import BerhasilBuatSoal from "../Responses/ResponseBerhasil/Soal/BerhasilBuatSoa
 class RequestBuatSoal {
 
     public execute(soal: BuatSoal, callback: (hasil: any) => void): void {
+        
         fetch("http://127.0.0.1:8000/api/soal/buat", {
             method: "POST",
             mode: "cors",

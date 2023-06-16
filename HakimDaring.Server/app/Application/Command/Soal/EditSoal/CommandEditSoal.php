@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Application\Command\Soal\EditSoal;
 
-use App\Application\Command\Soal\Exception\ApplicationException;
+use App\Application\Exception\ApplicationException;
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Soal\Entitas\BatasanSoal;
 use App\Core\Repository\Soal\Entitas\IDSoal;
@@ -54,7 +54,10 @@ class CommandEditSoal {
             throw new ApplicationException("tidak memiliki hak");
         }
 
-        if ($soalDenganJudulYangSama !== null && $soalDenganJudulYangSama->ambilStatusSoal()->ambilStatus() != StatusSoal::DELETED) {
+        if ($soalDenganJudulYangSama !== null && 
+            $soalDenganJudulYangSama->ambilStatusSoal()->ambilStatus() != StatusSoal::DELETED && 
+            $soalDenganJudulYangSama->ambilIDSoal() != $soalYangDiganti->ambilIDSoal()
+        ) {
             throw new ApplicationException("judul telah dipakai");
         }
 
@@ -68,9 +71,9 @@ class CommandEditSoal {
             array_push($daftarTestcaseBaru, new Testcase(
                 new IDTestcase(null),
                 $soalYangDiganti->ambilIDSoal(),
-                new SoalTestcase($testcase["soal"]),
+                new SoalTestcase($testcase["testcase"]),
                 new JawabanTestcase($testcase["jawaban"]),
-                new UrutanTestcase($testcase[$i]),
+                new UrutanTestcase($i + 1),
                 new PublisitasTestcase($testcase["publik"] ? PublisitasTestcase::PUBLIK : PublisitasTestcase::PRIVATE)
             ));
         }

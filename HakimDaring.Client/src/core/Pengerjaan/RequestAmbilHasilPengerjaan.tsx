@@ -2,7 +2,8 @@ import KesalahanInputData from "../Responses/ResponseGagal/KesalahanInputData";
 import KesalahanInternalServer from "../Responses/ResponseGagal/KesalahanInternalServer";
 import TidakMemilikiHak from "../Responses/ResponseGagal/TidakMemilikiHak";
 import BuatHeader from "../PembuatHeader";
-import BerhasilAmbilDaftarPengerjaan from "../Responses/ResponseBerhasil/Pengerjaan/BerhasilAmbilDaftarPengerjaan";
+import BerhasilAmbilHasilPengerjaan from "../Responses/ResponseBerhasil/Pengerjaan/BerhasilAmbilHasilPengerjaan";
+import ResponseHasilPengerjaanTestcase from "../Responses/ResponseBerhasil/Pengerjaan/ResponseHasilPengerjaanTestcase";
 
 class RequestAmbilHasilPengerjaan {
 
@@ -13,25 +14,23 @@ class RequestAmbilHasilPengerjaan {
             headers : BuatHeader()
         }).then(async (response) => {
             let dataDariServer = await response.json()
-
-            if (response.ok && Array.isArray(dataDariServer)) {
-                let hasil : BerhasilAmbilDaftarPengerjaan[] = [] 
-
-                dataDariServer.forEach((value : any) => {
-                    hasil.push(new BerhasilAmbilDaftarPengerjaan(
-                        value.id_pengerjaan,
-                        value.id_soal,
-                        value.judul_soal,
-                        value.bahasa,
-                        value.hasil,
-                        value.total_waktu,
-                        value.total_memori,
-                        value.tanggal_submit,
-                        value.outdated
-                    ))
-                })
-
-                callback(hasil)
+            console.log(dataDariServer)
+            if (response.ok) {
+                callback(new BerhasilAmbilHasilPengerjaan(
+                    dataDariServer.id_pengerjaan,
+                    dataDariServer.id_user,
+                    dataDariServer.nama_user,
+                    dataDariServer.id_soal,
+                    dataDariServer.judul_soal,
+                    dataDariServer.source_code,
+                    dataDariServer.bahasa,
+                    dataDariServer.hasil,
+                    dataDariServer.total_waktu,
+                    dataDariServer.total_memori,
+                    dataDariServer.tanggal_submit,
+                    dataDariServer.outdated,
+                    dataDariServer.hasil_testcase as ResponseHasilPengerjaanTestcase[]
+                ))
             }
             else if (response.status == 401) {
                 callback(new TidakMemilikiHak(dataDariServer.error))

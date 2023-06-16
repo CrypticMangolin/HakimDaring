@@ -40,7 +40,7 @@ class QueryPengerjaanMySQL implements InterfaceQueryPengerjaan {
             $hasil->total_waktu,
             $hasil->total_memori,
             $hasil->tanggal_submit,
-            $hasil->outdated,
+            boolval($hasil->outdated),
         );
     }
 
@@ -64,7 +64,7 @@ class QueryPengerjaanMySQL implements InterfaceQueryPengerjaan {
         $hasilAkhir = [];
 
         foreach($hasilQuery as $hasil) {
-            array_push($hasilAkhir, [
+            array_push($hasilAkhir, new PengerjaanDTO(
                 $hasil->id_pengerjaan,
                 $hasil->id_user,
                 $hasil->nama_user,
@@ -76,8 +76,8 @@ class QueryPengerjaanMySQL implements InterfaceQueryPengerjaan {
                 $hasil->total_waktu,
                 $hasil->total_memori,
                 $hasil->tanggal_submit,
-                $hasil->outdated,
-            ]);
+                boolval($hasil->outdated),
+            ));
         }
         return $hasilAkhir;
     }
@@ -85,7 +85,7 @@ class QueryPengerjaanMySQL implements InterfaceQueryPengerjaan {
     public function ambilHasilTestcase(string $idPengerjaan) : array {
 
         $script = "SELECT htp.status, htp.waktu, htp.memori FROM hasil_testcase_pengerjaan AS htp
-            INNER JOIN testcase AS htp.id_testcase = t.id_testcase
+            INNER JOIN testcase AS t ON htp.id_testcase = t.id_testcase 
             WHERE htp.id_pengerjaan = :id_pengerjaan
             ORDER BY t.urutan";
 

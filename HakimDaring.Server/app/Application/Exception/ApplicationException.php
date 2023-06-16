@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Application\Command\Soal\Exception;
+namespace App\Application\Exception;
 
 use Exception;
 

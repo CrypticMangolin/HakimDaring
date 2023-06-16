@@ -8,6 +8,7 @@ import BerhasilSubmitPengerjaan from "../Responses/ResponseBerhasil/Pengerjaan/B
 class RequestSubmitPengerjaan {
 
     public execute(pengerjaan : SubmitPengerjaan, callback : (hasil : any) => void) : void {
+        console.log(JSON.stringify(pengerjaan))
         fetch("http://localhost:8000/api/program/submit", {
             method: "POST",
             mode: "cors",

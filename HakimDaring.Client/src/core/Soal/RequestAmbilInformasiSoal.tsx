@@ -21,9 +21,9 @@ class RequestAmbilInformasiSoal {
                     dataDariServer.judul,
                     dataDariServer.soal,
                     {
-                        waktu_per_testcase: dataDariServer.waktu_per_testcase, 
-                        waktu_total: dataDariServer.waktu_total, 
-                        memori: dataDariServer.memori
+                        waktu_per_testcase: dataDariServer.batasan.waktu_per_testcase, 
+                        waktu_total: dataDariServer.batasan.waktu_total, 
+                        memori: dataDariServer.batasan.memori
                     } as ResponseBatasanSoal,
                     dataDariServer.jumlah_submit,
                     dataDariServer.jumlah_berhasil,

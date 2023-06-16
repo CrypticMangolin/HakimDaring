@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-import {Button, Col, Container, Row} from 'react-bootstrap'
+import {Button, Col, Container, Row, Table} from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import Header from '../Header'
 import RequestAmbilDaftarPengerjaan from '../../core/Pengerjaan/RequestAmbilDaftarPengerjaan'
 import BerhasilAmbilDaftarPengerjaan from '../../core/Responses/ResponseBerhasil/Pengerjaan/BerhasilAmbilDaftarPengerjaan'
+import RequestAmbilHasilPengerjaan from '../../core/Pengerjaan/RequestAmbilHasilPengerjaan'
 
-function HalamanDaftarpengerjaan() {
+function HalamanDaftarPengerjaan() {
 
   let navigate = useNavigate()
   const parameterURL = useParams()
@@ -22,6 +23,10 @@ function HalamanDaftarpengerjaan() {
 
   const pindahHalamanDiskusi = () => {
     navigate(`/soal/${parameterURL.id_soal}/diskusi`)
+  }
+
+  const pindahHalamanHasilPengerjaan = (id_pengerjaan : string) => {
+    navigate(`/pengerjaan/${id_pengerjaan}`)
   }
 
   let [daftarPengerjaan, setDaftarPengerjaan] = useState<BerhasilAmbilDaftarPengerjaan[]>([])
@@ -66,11 +71,28 @@ function HalamanDaftarpengerjaan() {
           <Col xs={12} sm={12} md={8} lg={6} xl={6} className='m-0 p-0'>
             <Row className='m-0 p-0 d-flex flex-column'>
               <p className='m-0 py-4 fs-5 fw-bold text-center'>Hasil Submission</p>
-              {daftarPengerjaan.map((value : BerhasilAmbilDaftarPengerjaan, index : number) => (
-                <>
-                  
-                </>
-              ))}
+              <Table bordered hover>
+                <thead>
+                  <tr>
+                    <th className='text-center fs-6 fw-normal col-2'>Bahasa</th>
+                    <th className='text-center fs-6 fw-normal col-3'>Hasil</th>
+                    <th className='text-center fs-6 fw-normal col-2'>Total Waktu</th>
+                    <th className='text-center fs-6 fw-normal col-2'>Total Memori</th>
+                    <th className='text-center fs-6 fw-normal col-3'>Tanggal Submit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {daftarPengerjaan.map((value : BerhasilAmbilDaftarPengerjaan) => (
+                    <tr key={value.id_pengerjaan} onClick={() => {pindahHalamanHasilPengerjaan(value.id_pengerjaan)}}>
+                      <td className='fs-6 fw-normal text-center'>{value.bahasa}</td>
+                      <td className='fs-6 fw-normal text-center'>{value.hasil + (value.outdated ? "[outdated]" : "")}</td>
+                      <td className='fs-6 fw-normal text-center'>{value.total_waktu}</td>
+                      <td className='fs-6 fw-normal text-center'>{value.total_memori}</td>
+                      <td className='fs-6 fw-normal text-center'>{value.tanggal_submit}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
             </Row>
           </Col>
         </Col>
@@ -79,4 +101,4 @@ function HalamanDaftarpengerjaan() {
   )
 }
 
-export default HalamanDaftarpengerjaan
+export default HalamanDaftarPengerjaan

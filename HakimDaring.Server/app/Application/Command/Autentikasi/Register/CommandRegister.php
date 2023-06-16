@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Application\Command\Autentikasi\Register;
 
-use App\Application\Command\Soal\Exception\ApplicationException;
+use App\Application\Exception\ApplicationException;
 use App\Core\Repository\Autentikasi\Entitas\Akun;
 use App\Core\Repository\Autentikasi\Entitas\Email;
 use App\Core\Repository\Autentikasi\Entitas\IDUser;

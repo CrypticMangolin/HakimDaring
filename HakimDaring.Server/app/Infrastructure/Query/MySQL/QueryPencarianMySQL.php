@@ -37,9 +37,9 @@ class QueryPencarianMySQL implements InterfaceQueryPencarian {
             array_push($daftarHasilpencarian, new HasilPencarianSoalDTO(
                 $hasil->id_soal,
                 $hasil->judul,
-                $hasil->jumlah_submit,
-                $hasil->jumlah_berhasil,
-                $hasil->persentase_berhasil
+                intval($hasil->jumlah_submit),
+                intval($hasil->jumlah_berhasil),
+                doubleval($hasil->persentase_berhasil)
             ));
         }
 

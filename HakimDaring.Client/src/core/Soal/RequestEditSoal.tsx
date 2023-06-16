@@ -8,7 +8,8 @@ import BerhasilEditSoal from "../Responses/ResponseBerhasil/Soal/BerhasilUbahSoa
 class RequestEditSoal {
 
     public execute(soal: EditSoal, callback: (hasil: any) => void): void {
-        fetch("http://127.0.0.1:8000/api/ubah-soal", {
+        
+        fetch("http://127.0.0.1:8000/api/soal/edit", {
             method: "POST",
             mode: "cors",
             headers : BuatHeader(),

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Application\Command\Autentikasi\Logout;
 
-use App\Application\Command\Soal\Exception\ApplicationException;
+use App\Application\Exception\ApplicationException;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 

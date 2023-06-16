@@ -20,7 +20,7 @@ class RepositoryAutentikasiMySQL implements InterfaceRepositoryAutentikasi {
         ]);
 
         $hasilQuery->save();
-        return new IDUser($hasilQuery->id);
+        return new IDUser($hasilQuery->id_user);
     }
 }
 

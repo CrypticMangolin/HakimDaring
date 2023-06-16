@@ -201,7 +201,6 @@ function HalamanUbahSoal() {
           else if (hasil instanceof KesalahanInternalServer) {
   
           }
-          console.log(hasil)
         }
       )
     }

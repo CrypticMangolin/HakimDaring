@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Application\Command\Pengerjaan\SubmitPengerjaan;
 
-use App\Application\Command\Soal\Exception\ApplicationException;
+use App\Application\Exception\ApplicationException;
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Pengerjaan\Entitas\HasilPengerjaan;
 use App\Core\Repository\Pengerjaan\Entitas\HasilPengerjaanTestcase;

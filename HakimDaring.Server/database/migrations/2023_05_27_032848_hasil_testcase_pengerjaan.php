@@ -14,13 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create("hasil_testcase_pengerjaan", function (Blueprint $table) {
-            $table->uuid("id_hasil_testcase_pengerjaan");
             $table->uuid("id_pengerjaan");
             $table->uuid("id_testcase");
             $table->string("status");
             $table->double("waktu");
             $table->integer("memori");
             $table->timestamps();
+
+            $table->primary(["id_pengerjaan", "id_testcase"]);
         });
     }
 

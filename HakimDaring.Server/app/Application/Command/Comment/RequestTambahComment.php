@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Application\Command\Comment\TambahComment;
+namespace App\Application\Command\Comment;
 
 class RequestTambahComment {
 

@@ -25,8 +25,8 @@ class RequestDaftarComment {
                         daftar[i].id_penulis,
                         daftar[i].nama_penulis,
                         daftar[i].isi,
-                        daftar[i].tanggal_penulisan,
                         daftar[i].reply,
+                        daftar[i].tanggal_penulisan,
                         daftar[i].status
                     ))
                 }

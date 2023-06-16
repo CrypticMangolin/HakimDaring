@@ -17,7 +17,7 @@ function HalamanJelajah() {
   let [memilikiToken, setMemilikiToken] = useState<boolean>(false)
   let [arrayHalaman, setArrayHalaman] = useState<number[]>([])
 
-  let [kategoriPencarian, setKategoriPencarian] = useState<KategoriPencarian>({halaman: 1, judul: "", sort_by: "id_soal", sort_reverse: false})
+  let [kategoriPencarian, setKategoriPencarian] = useState<KategoriPencarian>({halaman: 1, judul: "", sort_by: "judul", sort_reverse: false})
   let [hasilPencarian, setHasilPencarian] = useState<BerhasilMencari|null>(null)
 
   const cekMemilikiToken : CekMemilikiTokenAutentikasi = new CekMemilikiTokenAutentikasi()
@@ -99,15 +99,6 @@ function HalamanJelajah() {
                     <Table bordered hover>
                       <thead>
                         <tr>
-                          <th className='text-center fs-6 fw-normal col-1' onClick={() => {
-                            if (kategoriPencarian.sort_by == "id_soal") {
-                              setKategoriPencarian({...kategoriPencarian, sort_reverse : !kategoriPencarian.sort_reverse})
-                            }
-                            else {
-                              setKategoriPencarian({...kategoriPencarian, halaman: 1, sort_by : "id_soal", sort_reverse : false})
-                            }
-                            lakukanPencarian()
-                          }}>ID {kategoriPencarian.sort_by == "id_soal" ? (kategoriPencarian.sort_reverse ? String.fromCharCode(0x25B3) : String.fromCharCode(0x25BD)) : ""}</th>
                           <th className='text-center fs-6 fw-normal col-8' onClick={() => {
                             if (kategoriPencarian.sort_by == "judul") {
                               setKategoriPencarian({...kategoriPencarian, sort_reverse : !kategoriPencarian.sort_reverse})
@@ -149,7 +140,6 @@ function HalamanJelajah() {
                       <tbody>
                         {hasilPencarian != null && hasilPencarian.hasil_pencarian.map((value : ResponseSoalPencarian, index: number) =>
                           (<tr key={"soal: " + index} onClick={() => {pindahHalamanPengerjaan(value.id_soal)}}>
-                            <td className='fs-6 fw-normal text-center'>{value.id_soal}</td>
                             <td className='fs-6 fw-normal text-start'>{value.judul}</td>
                             <td className='fs-6 fw-normal text-center'>{value.jumlah_berhasil}</td>
                             <td className='fs-6 fw-normal text-center'>{value.jumlah_submit}</td>

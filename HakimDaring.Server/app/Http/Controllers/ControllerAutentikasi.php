@@ -69,16 +69,16 @@ class ControllerAutentikasi extends Controller
         $jsonRequest = $request->json()->all();
 
         try {
-            $token = $command->execute(new RequestLogin(
+            $informasiLogin = $command->execute(new RequestLogin(
                 $jsonRequest["email"],
                 $jsonRequest["password"]
             ));
             $nama = Auth::user()->nama;
 
             return response()->json([
-                "token" => $token,
-                "nama" => $nama,
-                "id_user" => Auth::id()
+                "token" => $informasiLogin->ambilToken(),
+                "nama" => $informasiLogin->ambilNama(),
+                "id" => $informasiLogin->ambilIDUser()->ambilID()
             ], 200);
         }
         catch(Exception $e) {

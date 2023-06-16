@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Application\Command\Soal\BuatSoal;
 
-use App\Application\Command\Soal\Exception\ApplicationException;
+use App\Application\Exception\ApplicationException;
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Comment\Entitas\IDRuanganComment;
 use App\Core\Repository\Comment\Entitas\RuanganComment;
@@ -63,9 +63,9 @@ class CommandBuatSoal {
             array_push($daftarTestcase, new Testcase(
                 new IDTestcase(null),
                 $soalBaru->ambilIDSoal(),
-                new SoalTestcase($testcase["soal"]),
+                new SoalTestcase($testcase["testcase"]),
                 new JawabanTestcase($testcase["jawaban"]),
-                new UrutanTestcase($testcase[$i]),
+                new UrutanTestcase($i + 1),
                 new PublisitasTestcase($testcase["publik"] ? PublisitasTestcase::PUBLIK : PublisitasTestcase::PRIVATE)
             ));
         }

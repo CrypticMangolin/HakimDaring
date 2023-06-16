@@ -7,7 +7,8 @@ import HalamanUbahSoal from './view/Soal/HalamanUbahSoal'
 import HalamanJelajah from './view/Dashboard/HalamanJelajah'
 import HalamanPengerjaan from './view/Pengerjaan/HalamanPengerjaan'
 import HalamanDiskusi from './view/Forum/HalamanDiskusi'
-import HalamanDaftarpengerjaan from './view/Pengerjaan/HalamanDaftarpengerjaan'
+import HalamanDaftarPengerjaan from './view/Pengerjaan/HalamanDaftarPengerjaan'
+import HalamanHasilPengerjaan from './view/Pengerjaan/HalamanHasilPengerjaan'
 
 
 function App() {
@@ -23,7 +24,8 @@ function App() {
         <Route path='/jelajah' element={<HalamanJelajah />}></Route>
         <Route path='/soal/:id_soal/pengerjaan' element={<HalamanPengerjaan />}></Route>
         <Route path='/soal/:id_soal/diskusi' element={<HalamanDiskusi />}></Route>
-        <Route path='/soal/:id_soal/hasil' element={<HalamanDaftarpengerjaan />}></Route>
+        <Route path='/soal/:id_soal/hasil' element={<HalamanDaftarPengerjaan />}></Route>
+        <Route path='/pengerjaan/:id_pengerjaan' element={<HalamanHasilPengerjaan />}></Route>
       </Routes>
     </>
   )

@@ -70,10 +70,10 @@ class RepositoryCommentMySQL implements InterfaceRepositoryComment {
     public function commentSave(Comment $comment) : void {
         DB::table("comment")->insert([
             "id_comment" => $comment->ambilID()->ambilID(),
-            "id_ruangan" => $comment->ambilID()->ambilIDRuangan(),
+            "id_ruangan" => $comment->ambilID()->ambilIDRuangan()->ambilID(),
             "id_penulis" => $comment->ambilIDPenulis()->ambilID(),
             "pesan" => $comment->ambilIsiComment()->ambilIsiComment(),
-            "tanggal_penulisan" => $comment->ambilTanggalPenulisan(),
+            "tanggal_penulisan" => $comment->ambilTanggalPenulisan()->format("Y-m-d H:i:s"),
             "reply" => $comment->ambilReply() ? $comment->ambilReply()->ambilID() : null,
             "status" => $comment->ambilStatusComment()->ambilStatus(),
             "jumlah_report" => $comment->ambilStatusComment()->ambilJumlahReport(),
@@ -83,10 +83,10 @@ class RepositoryCommentMySQL implements InterfaceRepositoryComment {
     public function commentUpdate(Comment $comment) : void {
         DB::table("comment")->where("id_comment", "=", $comment->ambilID()->ambilID())->update([
             "id_comment" => $comment->ambilID()->ambilID(),
-            "id_ruangan" => $comment->ambilID()->ambilIDRuangan(),
+            "id_ruangan" => $comment->ambilID()->ambilIDRuangan()->ambilID(),
             "id_penulis" => $comment->ambilIDPenulis()->ambilID(),
             "pesan" => $comment->ambilIsiComment()->ambilIsiComment(),
-            "tanggal_penulisan" => $comment->ambilTanggalPenulisan(),
+            "tanggal_penulisan" => $comment->ambilTanggalPenulisan()->format("Y-m-d H:i:s"),
             "reply" => $comment->ambilReply() ? $comment->ambilReply()->ambilID() : null,
             "status" => $comment->ambilStatusComment()->ambilStatus(),
             "jumlah_report" => $comment->ambilStatusComment()->ambilJumlahReport(),

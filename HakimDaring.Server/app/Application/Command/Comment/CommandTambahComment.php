@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace App\Application\Command\Comment\TambahComment;
+namespace App\Application\Command\Comment;
 
-use App\Application\Command\Soal\Exception\ApplicationException;
+use App\Application\Exception\ApplicationException;
 use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Comment\Entitas\Comment;
 use App\Core\Repository\Comment\Entitas\IDComment;
@@ -38,7 +38,7 @@ class CommandTambahComment {
             new IDUser(Auth::id()),
             IsiComment::buatIsiComment($request->isiComment),
             new DateTime("now"),
-            $request->reply ? new IDUser($request->reply) : null,
+            $request->reply ? new IDComment($idRuanganComment, $request->reply) : null,
             new StatusComment(StatusComment::PUBLIK, 0)
         );
         $this->repositoryComment->commentSave($commentBaru);
