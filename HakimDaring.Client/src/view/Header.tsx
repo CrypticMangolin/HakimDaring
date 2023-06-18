@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Navbar, Container, Nav, Dropdown, Button } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import RequestKeluar from '../core/Autentikasi/RequestKeluar'
 
 function Header() {
 
   const navigate = useNavigate()
+  const location = useLocation()
+  const isProfilePage = location.pathname === '/profile'
 
   const requestKeluar : RequestKeluar = new RequestKeluar()
 
@@ -29,6 +31,14 @@ function Header() {
     })
   }
 
+  const kelolaAkun = () => {
+    navigate("/profile")
+  }
+
+  const Dashboard = () => {
+    navigate("/jelajah")
+  }
+
   return ( 
     <>
       <Navbar variant="light" bg="light" expand="lg">
@@ -42,9 +52,15 @@ function Header() {
                     {namaPengguna}
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item>
-                      Kelola Akun
-                    </Dropdown.Item>
+                    {isProfilePage ? 
+                      <Dropdown.Item onClick={Dashboard}>
+                        Dashboard
+                      </Dropdown.Item> 
+                      :
+                      <Dropdown.Item onClick={kelolaAkun}>
+                        Kelola Akun
+                      </Dropdown.Item>                       
+                    }
                     <Dropdown.Divider />
                     <Dropdown.Item onClick={keluarAkun}>
                       Keluar

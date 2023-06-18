@@ -4,6 +4,7 @@ use App\Http\Controllers\ControllerAutentikasi;
 use App\Http\Controllers\ControllerComment;
 use App\Http\Controllers\ControllerPencarianSoal;
 use App\Http\Controllers\ControllerPengerjaan;
+use App\Http\Controllers\ControllerProfile;
 use App\Http\Controllers\ControllerSoal;
 use App\Http\Controllers\ControllerTestcase;
 use Illuminate\Support\Facades\Route;
@@ -47,7 +48,8 @@ Route::middleware("auth:api")->group(function() {
     Route::post("/program/submit", [ControllerPengerjaan::class, "submit"])->name("submit program");
     Route::get("/pengerjaan/soal", [ControllerPengerjaan::class, "ambilDaftarPengerjaan"])->name("daftar pengerjaan");
     Route::get("/pengerjaan/hasil", [ControllerPengerjaan::class, "ambilHasilPengerjaan"])->name("hasil pengerjaan");
-    
+
+    Route::post("/profile", [ControllerProfile::class, "profile"])->name("profile");
 });
 
 Route::get("/soal/informasi/publik", [ControllerSoal::class, "ambilInformasiSoal"])->name("informasi soal publik");
