@@ -20,6 +20,10 @@ import SubmitPengerjaan from '../../core/Pengerjaan/Data/SubmitPengerjaan'
 import BerhasilSubmitPengerjaan from '../../core/Responses/ResponseBerhasil/Pengerjaan/BerhasilSubmitPengerjaan'
 import ResponseTestcase from '../../core/Responses/ResponseBerhasil/Soal/ResponseTestcase'
 import UjiCoba from '../../core/Pengerjaan/Data/UjiCoba'
+import RequestGantiSoal from '../../core/Soal/RequestGantiSoal'
+import GantiStatus from '../../core/Soal/Data/GantiStatus'
+import BerhasilGantiSoal from '../../core/Responses/ResponseBerhasil/Soal/BerhasilGantiSoal'
+
 
 function HalamanPengerjaan() {
 
@@ -64,6 +68,7 @@ function HalamanPengerjaan() {
   const requestTestcase : RequestTestcase = new RequestTestcase()
   const cekAutentikasi : CekMemilikiTokenAutentikasi = new CekMemilikiTokenAutentikasi()
   const requestSubmitPengerjaan : RequestSubmitPengerjaan = new RequestSubmitPengerjaan()
+  const requestGantiSoal : RequestGantiSoal = new RequestGantiSoal()
 
   let [daftarModeBahasa, ] = useState<BahasaPemrograman[]>(daftarBahasa.ambilBahasa())
   let [bahasaDipilih, setBahasaDipilih] = useState<number>(0)
@@ -135,6 +140,23 @@ function HalamanPengerjaan() {
       }
     })
   }
+
+  const StatusChange = () => {
+    let nextState: string
+    if (informasiSoal.status == 'publik') {
+      nextState = 'suspend'
+    } else {
+      nextState = 'publik'
+    }
+    requestGantiSoal.execute({id_soal : informasiSoal.id_soal, status : nextState} as GantiStatus,  (hasil : any) => {
+      if (hasil instanceof BerhasilGantiSoal) {
+        setInformasiSoal(prevState => ({
+          ...prevState,
+          status: nextState
+        }))
+      }
+    })
+  };
   
   useEffect(() => {
     setTelahLogin(cekAutentikasi.cekApakahMemilikiTokenAutentikasi())
@@ -248,12 +270,32 @@ function HalamanPengerjaan() {
           </Row>
         </Col>
         <Col sm={12} md={12} lg={6} xl={6} className="d-flex flex-column m-0 p-2">
-          <Row className='m-0 p-0 d-flex flex-column'>
-            {informasiSoal.id_pembuat == localStorage.getItem("id") &&
-              <Button variant='dark' className='my-2' onClick={() => {navigate(`/edit-soal/${informasiSoal.id_soal}`)}}>
-                Edit Soal
-              </Button>
+          <Row className='m-0 p-0 d-flex gap-2 flex-row'>
+            { informasiSoal.status == 'publik' ? (
+                'admin' == localStorage.getItem("role") &&
+                <Col className="d-flex flex-column m-0 p-0">
+                  <Button variant='warning' className='my-2' onClick={StatusChange}>
+                    Suspend Soal
+                  </Button>
+                </Col>
+              ) : (
+                'admin' == localStorage.getItem("role") &&
+                <Col className="d-flex flex-column m-0 p-0">
+                  <Button variant='success' className='my-2' onClick={StatusChange}>
+                    Publik Soal
+                  </Button>
+                </Col>
+              ) 
             }
+            <Col className="d-flex flex-column m-0 p-0">
+              {informasiSoal.id_pembuat == localStorage.getItem("id") &&
+                <Button variant='dark' className='my-2' onClick={() => {navigate(`/edit-soal/${informasiSoal.id_soal}`)}}>
+                  Edit Soal
+                </Button>
+              }
+            </Col>
+          </Row>
+          <Row className='m-0 p-0 d-flex flex-column'>
             <Row className='m-0 mb-2 p-0 d-flex flex-row'>
               <Col xs={2} className='m-0 p-0'>
                 <Form.Select size='sm' value={daftarModeBahasa.length > 0 ? bahasaDipilih : ""} onChange={pilihBahasa}>

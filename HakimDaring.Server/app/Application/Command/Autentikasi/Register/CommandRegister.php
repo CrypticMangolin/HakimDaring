@@ -27,8 +27,8 @@ class CommandRegister {
         
     }
 
-    public function execute(RequestRegister $requestLogin) : void {
-        $email = new Email(mb_strtolower($requestLogin->email));
+    public function execute(RequestRegister $requestRegister) : void {
+        $email = new Email(mb_strtolower($requestRegister->email));
 
         $akunLainDenganEmailYangSama = $this->repositoryInformasiUser->byEmail($email);
 
@@ -36,14 +36,14 @@ class CommandRegister {
             throw new ApplicationException("akun telah dipakai");
         }
 
-        if ($requestLogin->password != $requestLogin->ulangiPassword) {
+        if ($requestRegister->password != $requestRegister->ulangiPassword) {
             throw new ApplicationException("password salah");
         }
 
-        $idUser = $this->repositoryAutentikasi->buatAkun(new Akun($email, $requestLogin->password));
+        $idUser = $this->repositoryAutentikasi->buatAkun(new Akun($email, $requestRegister->password));
         $this->repositoryInformasiUser->save(new InformasiUser(
             $idUser,
-            new NamaUser($requestLogin->nama),
+            new NamaUser($requestRegister->nama),
             $email,
             new KelompokUser(KelompokUser::USER),
             new DateTime("now")

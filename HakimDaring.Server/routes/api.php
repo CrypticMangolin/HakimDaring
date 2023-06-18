@@ -39,6 +39,7 @@ Route::middleware("auth:api")->group(function() {
     
     Route::post("/soal/buat", [ControllerSoal::class, "buatSoal"])->name("buat soal");
     Route::post("/soal/edit", [ControllerSoal::class, "editSoal"])->name("ubah soal");
+    Route::post("/soal/ganti", [ControllerSoal::class, "gantiStatus"])->name("ganti status soal");
     Route::get("/soal/informasi/private", [ControllerSoal::class, "ambilDataSoal"])->name("informasi soal private");
 
     Route::post("/comment/tambah", [ControllerComment::class, "tambahComment"])->name("tambah comment");

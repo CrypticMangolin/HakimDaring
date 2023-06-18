@@ -26,6 +26,7 @@ function Header() {
   }
 
   const keluarAkun = () => {
+    localStorage.setItem("role", "")
     requestKeluar.execute(() => {
       navigate("/")
     })
@@ -44,6 +45,7 @@ function Header() {
       <Navbar variant="light" bg="light" expand="lg">
         <Container>
           <Navbar.Brand href="/jelajah" className='fs-4 fw-bold'>Hakim Daring</Navbar.Brand>
+          { 'admin' == localStorage.getItem("role") && <p>Admin</p>}
           {namaPengguna != null &&
             <>
               <Nav className="ms-auto">
