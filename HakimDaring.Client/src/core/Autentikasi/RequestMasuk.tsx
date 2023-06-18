@@ -21,6 +21,7 @@ class RequestMasuk {
                 localStorage.setItem("token", dataDariServer.token)
                 localStorage.setItem("nama", dataDariServer.nama)
                 localStorage.setItem("id", dataDariServer.id)
+                localStorage.setItem("role", dataDariServer.role)
                 callback(new BerhasilMasuk())
             }
             else if (response.status == 401) {

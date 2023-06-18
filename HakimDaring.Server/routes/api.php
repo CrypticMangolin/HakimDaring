@@ -50,7 +50,7 @@ Route::middleware("auth:api")->group(function() {
     Route::get("/pengerjaan/hasil", [ControllerPengerjaan::class, "ambilHasilPengerjaan"])->name("hasil pengerjaan");
 
     Route::post("/profile", [ControllerProfile::class, "profile"])->name("profile");
-});
+}); 
 
 Route::get("/soal/informasi/publik", [ControllerSoal::class, "ambilInformasiSoal"])->name("informasi soal publik");
 

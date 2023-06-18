@@ -194,7 +194,7 @@ function HalamanDiskusi() {
                         setKomentar({...komentar, reply: comen.id_comment})
                       }}>Balas</a>
                       {
-                        comen.id_penulis == localStorage.getItem("id") &&
+                        (comen.id_penulis == localStorage.getItem("id") || 'admin' == localStorage.getItem("role")) &&
                         <a href='#kolom-komentar' onClick={() => {
                           hapusComment(comen.id_comment)
                         }}>Hapus</a>

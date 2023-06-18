@@ -13,7 +13,6 @@ function HalamanProfile() {
 
   useEffect(() => {
     requestInformasiUser.execute((hasil : any) => {
-      console.log('I was triggered during componentDidMount')
       setInformasiUser(hasil)
     }) 
   }, []) 

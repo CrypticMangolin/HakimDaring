@@ -3,14 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Application\Query\Pencarian\InterfaceQueryPencarian;
-use App\Core\Pencarian\Exception\HalamanMelewatiBatasException;
-use App\Core\Pencarian\Interfaces\InterfaceCariSoal;
-use App\Core\Repository\DaftarSoal\Entitas\KategoriPencarian;
-use App\Core\Repository\DaftarSoal\Entitas\SortBy;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use InvalidArgumentException;
 
 class ControllerPencarianSoal extends Controller
 {
