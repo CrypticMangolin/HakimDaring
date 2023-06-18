@@ -190,15 +190,20 @@ function HalamanDiskusi() {
                         </a>
                       }
                       <Col xs={12} dangerouslySetInnerHTML={{ __html: comen.isi}} className='border border-dark'></Col>
-                      <a href='#kolom-komentar' onClick={() => {
-                        setKomentar({...komentar, reply: comen.id_comment})
-                      }}>Balas</a>
-                      {
-                        (comen.id_penulis == localStorage.getItem("id") || 'admin' == localStorage.getItem("role")) &&
-                        <a href='#kolom-komentar' onClick={() => {
-                          hapusComment(comen.id_comment)
-                        }}>Hapus</a>
-                      }
+                        <Col className='d-flex gap-2 flex-row'>
+                          <Button variant='outline-primary' className='my-2' onClick={() => {
+                              setKomentar({...komentar, reply: comen.id_comment})
+                            }}>
+                              Balas
+                            </Button>
+                          {(comen.id_penulis == localStorage.getItem("id") || 'admin' == localStorage.getItem("role")) &&
+                            <Button variant='outline-danger' className='my-2' onClick={() => {
+                              hapusComment(comen.id_comment)
+                            }}>
+                              Hapus
+                            </Button>
+                          }
+                        </Col>
                     </Row>
                   </section>
                 )
@@ -218,7 +223,7 @@ function HalamanDiskusi() {
                             </blockquote>
                           </Col>
                           <Col xs={2} className='m-0 p-0 d-flex flex-column'>
-                            <Button variant='light' className='rounded-0 border border-dark' onClick={() => {
+                            <Button variant='outline-dark' onClick={() => {
                         setKomentar({...komentar, reply: null})
                             }}>
                               X
@@ -230,7 +235,7 @@ function HalamanDiskusi() {
                       </div>
                   </Col>
                   <Col xs={3} className='m-0 p-0 px-2'>
-                    <Button variant='dark' className='px-3 rounded-pill' onClick={submitComment}>
+                    <Button variant='dark' className='px-3' onClick={submitComment}>
                       Kirim
                     </Button>
                   </Col>

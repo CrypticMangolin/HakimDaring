@@ -34,16 +34,12 @@ class CommandGantiStatusSoal {
         if ($soalYangDiganti === null) {
             throw new ApplicationException("Soal tidak ada");
         }
-        error_log('measw');
-
 
         $idUser = new IDUser(Auth::id());
         $user = $this->repositoryInformasiUser->byId($idUser);
         if ($user->ambilKelompokUser()->ambilKelompok() != KelompokUser::ADMIN) {
             throw new ApplicationException("Tidak memiliki hak");
         }
-
-        error_log('mew');
 
         if ($request->statusSoal === "suspend") {
             $soalYangDiganti->ambilStatusSoal()->suspend();
