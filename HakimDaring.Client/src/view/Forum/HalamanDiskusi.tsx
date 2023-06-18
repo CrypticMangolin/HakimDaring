@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Col, Row, Button } from 'react-bootstrap';
 import Header from '../Header';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -54,22 +54,22 @@ function HalamanDiskusi() {
     });
 
     function loadScriptCKEditor() {
-      return new Promise((resolve, reject) => {
-        if (document.getElementById('ckeditor') === null) {
+      return new Promise<void>((resolve, reject) => {
+        if (document.getElementById('ckeditor') == null) {
           const script = document.createElement('script');
           script.src = '/ckeditor5-38.0.1/build/ckeditor.js';
-          script.onload = resolve;
-          script.onerror = reject;
+          script.onload = () => resolve();
+          script.onerror = () => reject();
           script.id = 'ckeditor';
           document.body.appendChild(script);
         } else {
-          resolve(true);
+          resolve();
         }
       });
     }
     function loadScriptCustomCKEditor() {
-      return new Promise((resolve, reject) => {
-        if (document.getElementById('ckeditor-custom-build') === null) {
+      return new Promise<void>((resolve, reject) => {
+        if (document.getElementById('ckeditor-custom-build') == null) {
           const script = document.createElement('script');
           script.innerHTML = `
             let ckEditor = null
@@ -90,12 +90,12 @@ function HalamanDiskusi() {
                 console.warn( 'Build id: n96xuuc5ag4v-nk96buq2xi5g' );
                 console.error( error );
             })`;
-          script.onload = resolve;
-          script.onerror = reject;
+          script.onload = () => resolve();
+          script.onerror = () => reject();
           script.id = 'ckeditor-custom-build';
           document.body.appendChild(script);
         } else {
-          resolve(true);
+          resolve();
           document.getElementById('editor')?.appendChild((window as any).editor_comment.ui.element);
         }
       });
@@ -137,6 +137,11 @@ function HalamanDiskusi() {
   }
   (window as any).perubahanCKEditor = perubahanCKEditor;
 
+  const reportComment = (idComment: string) => {
+    // Logika untuk melaporkan komentar
+    console.log(`Komentar dengan ID ${idComment} dilaporkan.`);
+  };
+
   return (
     <>
       <Container className="min-vh-100 mw-100 w-100 m-0 p-0 d-flex flex-column">
@@ -168,16 +173,21 @@ function HalamanDiskusi() {
                   if (comen.reply !== null) {
                     balasan = daftarKomentar.findIndex((c) => c.id_comment === comen.reply);
                   }
-
                   return (
                     <section id={`k-${index}`} className="m-0 pb-3" key={comen.id_comment}>
                       <Row className="m-0 py-1 d-flex flex-column">
                         <p className="m-0 py-1 fs-6 text-start border border-dark">{comen.nama_penulis}</p>
                         {balasan !== -1 && (
-                          <a className="m-0 py-1 fs-6 text-dark bg-secondary text-decoration-none border border-dark" href={`#k-${balasan}`}>
+                          <a
+                            className="m-0 py-1 fs-6 text-dark bg-secondary text-decoration-none border border-dark"
+                            href={`#k-${balasan}`}
+                          >
                             <blockquote className="m-0 py-1 blockquote fs-6 text-truncate">
-                              <p className="text-truncate" dangerouslySetInnerHTML={{ __html: daftarKomentar[balasan].isi }} style={{ wordWrap: 'break-word' }}>
-                              </p>
+                              <p
+                                className="text-truncate"
+                                dangerouslySetInnerHTML={{ __html: daftarKomentar[balasan].isi }}
+                                style={{ wordWrap: 'break-word' }}
+                              ></p>
                             </blockquote>
                           </a>
                         )}
@@ -193,12 +203,17 @@ function HalamanDiskusi() {
                             Balas
                           </Button>
                           {(comen.id_penulis === localStorage.getItem('id') || 'admin' === localStorage.getItem('role')) && (
-                            <Button variant="outline-danger" className="my-2" onClick={() => {
-                              hapusComment(comen.id_comment);
-                            }}>
+                            <Button variant="outline-danger" className="my-2" onClick={() => {hapusComment(comen.id_comment)}}>
                               Hapus
                             </Button>
                           )}
+                          <Button
+                            variant="outline-secondary"
+                            className="my-2"
+                            onClick={() => {reportComment(comen.id_comment)}}
+                          >
+                            Report
+                          </Button>
                         </Col>
                       </Row>
                     </section>
@@ -213,26 +228,24 @@ function HalamanDiskusi() {
                         <Row className="m-0 p-0 d-flex flex-row">
                           <Col xs={10} className="m-0 p-0">
                             <blockquote className="blockquote fs-6">
-                              <p className="text-truncate" dangerouslySetInnerHTML={{ __html: daftarKomentar.find((c) => c.id_comment === komentar.reply)!.isi }}>
-                              </p>
+                              <p className="m-0 p-0" dangerouslySetInnerHTML={{ __html: daftarKomentar[balasan].isi }}></p>
                             </blockquote>
                           </Col>
-                          <Col xs={2} className="m-0 p-0 d-flex flex-column">
+                          <Col xs={2} className="m-0 p-0">
                             <Button
-                              variant="outline-dark"
-                              onClick={() => {
-                                setKomentar({ ...komentar, reply: null });
-                              }}
+                              variant="light"
+                              className="rounded-circle text-center"
+                              onClick={() => setKomentar({ ...komentar, reply: null })}
                             >
                               X
                             </Button>
                           </Col>
                         </Row>
                       )}
-                      <div id="editor"></div>
+                      <div id="editor" className="m-0 p-0"></div>
                     </Col>
                     <Col xs={3} className="m-0 p-0">
-                      <Button variant="dark" className="w-100 h-100" onClick={submitComment}>
+                      <Button variant="primary" className="m-0 w-100 rounded-0" onClick={submitComment}>
                         Kirim
                       </Button>
                     </Col>
