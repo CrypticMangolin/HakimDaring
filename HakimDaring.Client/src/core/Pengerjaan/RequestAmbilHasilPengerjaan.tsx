@@ -14,7 +14,7 @@ class RequestAmbilHasilPengerjaan {
             headers : BuatHeader()
         }).then(async (response) => {
             let dataDariServer = await response.json()
-            console.log(dataDariServer)
+            
             if (response.ok) {
                 callback(new BerhasilAmbilHasilPengerjaan(
                     dataDariServer.id_pengerjaan,

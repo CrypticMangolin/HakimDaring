@@ -1,24 +1,23 @@
 import KesalahanInputData from "../Responses/ResponseGagal/KesalahanInputData";
 import KesalahanInternalServer from "../Responses/ResponseGagal/KesalahanInternalServer";
 import TidakMemilikiHak from "../Responses/ResponseGagal/TidakMemilikiHak";
-import SubmitPengerjaan from "./Data/SubmitPengerjaan";
 import BuatHeader from "../PembuatHeader";
-import BerhasilSubmitPengerjaan from "../Responses/ResponseBerhasil/Pengerjaan/BerhasilSubmitPengerjaan";
+import HapusComment from "./Data/HapusComment";
+import BerhasilMenghapusComment from "../Responses/ResponseBerhasil/Comment/BerhasilMenghapusComment";
 
-class RequestSubmitPengerjaan {
+class RequestHapusComment {
 
-    public execute(pengerjaan : SubmitPengerjaan, callback : (hasil : any) => void) : void {
+    public execute(hapusComment : HapusComment, callback: (hasil: any) => void): void {
         
-        fetch("http://localhost:8000/api/program/submit", {
-            method: "POST",
+        fetch(`http://127.0.0.1:8000/api/comment/hapus?id_ruangan=${hapusComment.id_ruangan}&id_comment=${hapusComment.id_comment}`, {
+            method: "DELETE",
             mode: "cors",
-            headers : BuatHeader(),
-            body: JSON.stringify(pengerjaan)
+            headers : BuatHeader()
         }).then(async (response) => {
             let dataDariServer = await response.json()
 
             if (response.ok) {
-                callback(new BerhasilSubmitPengerjaan(dataDariServer.id_pengerjaan))
+                callback(new BerhasilMenghapusComment())
             }
             else if (response.status == 401) {
                 callback(new TidakMemilikiHak(dataDariServer.error))
@@ -31,6 +30,7 @@ class RequestSubmitPengerjaan {
             }
         })
     }
+
 }
 
-export default RequestSubmitPengerjaan
+export default RequestHapusComment

@@ -39,6 +39,28 @@ class RepositoryCommentMySQL implements InterfaceRepositoryComment {
         ]);
     }
 
+    public function commentById(IDComment $idComment) : ?Comment {
+        $script = "SELECT c.id_comment, c.id_ruangan, c.id_penulis, c.pesan, c.tanggal_penulisan, c.reply, c.status, c.jumlah_report
+            FROM comment AS c WHERE c.id_comment = :id_comment";
+        
+        $hasilQuery = DB::select($script, [
+            "id_comment" => $idComment->ambilID()
+        ]);
+
+        if (count($hasilQuery) == 0) {
+            return null;
+        }
+        $hasil = $hasilQuery[0];
+        return new Comment(
+            new IDComment(new IDRuanganComment($hasil->id_ruangan), $hasil->id_comment), 
+            new IDUser($hasil->id_penulis), 
+            new IsiComment($hasil->pesan), 
+            new DateTime($hasil->tanggal_penulisan), 
+            $hasil->reply ? new IDComment(new IDRuanganComment($hasil->id_ruangan), $hasil->reply) : null, 
+            new StatusComment($hasil->status, $hasil->jumlah_report)
+        );
+    }
+
     /**
      * @return Comment[]
      */

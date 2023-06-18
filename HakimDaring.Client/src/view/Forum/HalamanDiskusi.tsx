@@ -9,6 +9,9 @@ import BerhasilAmbilInformasiSoal from '../../core/Responses/ResponseBerhasil/So
 import RequestDaftarComment from '../../core/Comment/RequestDaftarComment'
 import RequestKirimComment from '../../core/Comment/RequestKirimComment'
 import BerhasilMengirimComment from '../../core/Responses/ResponseBerhasil/Comment/BerhasilMengirimComment'
+import RequestHapusComment from '../../core/Comment/RequestHapusComment'
+import HapusComment from '../../core/Comment/Data/HapusComment'
+import BerhasilMenghapusComment from '../../core/Responses/ResponseBerhasil/Comment/BerhasilMenghapusComment'
 
 function HalamanDiskusi() {
 
@@ -29,6 +32,7 @@ function HalamanDiskusi() {
   const requestAmbilInformasiSoal : RequestAmbilInformasiSoal = new RequestAmbilInformasiSoal();
   const requestDaftarComment : RequestDaftarComment = new RequestDaftarComment()
   const requestKirimComment : RequestKirimComment = new RequestKirimComment()
+  const requestHapusComment : RequestHapusComment = new RequestHapusComment()
 
   useEffect(() => {
     if (parameterURL.id_soal == undefined) {
@@ -126,6 +130,14 @@ function HalamanDiskusi() {
     }
   }
 
+  const hapusComment = (idComment : string) => {
+    requestHapusComment.execute({id_comment : idComment, id_ruangan : komentar.id_ruangan} as HapusComment,  (hasil : any) => {
+      if (hasil instanceof BerhasilMenghapusComment) {
+        window.location.reload()
+      }
+    })
+  }
+
   function perubahanCKEditor(isiKomentar : string) {
     setKomentar({...komentar, isi : isiKomentar})
   }
@@ -181,6 +193,12 @@ function HalamanDiskusi() {
                       <a href='#kolom-komentar' onClick={() => {
                         setKomentar({...komentar, reply: comen.id_comment})
                       }}>Balas</a>
+                      {
+                        comen.id_penulis == localStorage.getItem("id") &&
+                        <a href='#kolom-komentar' onClick={() => {
+                          hapusComment(comen.id_comment)
+                        }}>Hapus</a>
+                      }
                     </Row>
                   </section>
                 )

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Application\Command\Comment\CommandHapusComment;
 use App\Application\Command\Comment\CommandTambahComment;
+use App\Application\Command\Comment\RequestHapusComment;
 use App\Application\Command\Comment\RequestTambahComment;
 use App\Application\Query\Comment\InterfaceQueryComment;
 use App\Core\Repository\Comment\Entitas\StatusComment;
@@ -49,6 +51,35 @@ class ControllerComment extends Controller
                 "error" => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function hapusComment(Request $request, CommandHapusComment $commandHapusComment) : JsonResponse {
+        $idRuanganComment = $request->input("id_ruangan");
+        $idComment = $request->input("id_comment");
+        if ($idRuanganComment === null) {
+            return response()->json([
+                "error" => "id_ruangan tidak ada"
+            ], 422);
+        }
+        if ($idComment === null) {
+            return response()->json([
+                "error" => "id_comment tidak ada"
+            ], 422);
+        }
+
+        try {
+            $commandHapusComment->execute(new RequestHapusComment(
+                $idRuanganComment,
+                $idComment
+            ));
+        }
+        catch (Exception $exception) {
+            return response()->json([
+                "error" => $exception->getMessage()
+            ], 422);
+        }
+
+        return response()->json();
     }
     
     public function ambilCommentDariRuangan(Request $request, InterfaceQueryComment $queryComment) {

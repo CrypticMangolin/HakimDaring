@@ -7,13 +7,14 @@ import BerhasilMengambilDaftarComment from "../Responses/ResponseBerhasil/Commen
 class RequestDaftarComment {
 
     public execute(idRuangan: string, callback : (hasil : any) => void) : void {
+        
         fetch(`http://127.0.0.1:8000/api/comment/daftar?id_ruangan_comment=${idRuangan}`, {
             method: "GET",
             mode: "cors",
             headers : BuatHeader()
         }).then(async (response) => {
             let dataDariServer = await response.json()
-
+            
             if (response.ok) {
                 let daftarComment : BerhasilMengambilDaftarComment[] = []
                 

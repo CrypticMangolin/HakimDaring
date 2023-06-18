@@ -8,6 +8,7 @@ use App\Core\Repository\Autentikasi\Entitas\IDUser;
 use App\Core\Repository\Comment\Entitas\Comment;
 use App\Core\Repository\Comment\Entitas\CommentBaru;
 use App\Core\Repository\Comment\Entitas\DataComment;
+use App\Core\Repository\Comment\Entitas\IDComment;
 use App\Core\Repository\Comment\Entitas\IDRuanganComment;
 use App\Core\Repository\Comment\Entitas\RuanganComment;
 
@@ -17,6 +18,9 @@ interface InterfaceRepositoryComment {
 
     public function ruanganCommentSave(RuanganComment $ruanganComment) : void;
 
+
+
+    public function commentById(IDComment $idComment) : ?Comment;
     /**
      * @return Comment[]
      */

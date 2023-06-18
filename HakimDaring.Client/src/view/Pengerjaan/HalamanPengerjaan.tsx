@@ -131,7 +131,7 @@ function HalamanPengerjaan() {
   const submit = () => {
     requestSubmitPengerjaan.execute(submitPengerjaan, (hasil : any) => {
       if (hasil instanceof BerhasilSubmitPengerjaan) {
-        console.log(hasil)
+        navigate(`/pengerjaan/${hasil.id_pengerjaan}`);
       }
     })
   }

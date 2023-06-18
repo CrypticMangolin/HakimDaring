@@ -117,11 +117,6 @@ class ControllerPengerjaan extends Controller
         $idUser = Auth::id();
 
         $dataPengerjaan = $queryPengerjaan->byPengsubmitDanSoal($idUser, $idSoal);
-        if ($dataPengerjaan == null) {
-            return response()->json([
-                "error" => "pengerjaan tidak ada"
-            ], 422);
-        }
 
         $response = [];
         foreach($dataPengerjaan as $pengerjaan) {

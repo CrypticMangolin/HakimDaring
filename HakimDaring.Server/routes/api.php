@@ -6,7 +6,6 @@ use App\Http\Controllers\ControllerPencarianSoal;
 use App\Http\Controllers\ControllerPengerjaan;
 use App\Http\Controllers\ControllerSoal;
 use App\Http\Controllers\ControllerTestcase;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,11 +41,13 @@ Route::middleware("auth:api")->group(function() {
     Route::get("/soal/informasi/private", [ControllerSoal::class, "ambilDataSoal"])->name("informasi soal private");
 
     Route::post("/comment/tambah", [ControllerComment::class, "tambahComment"])->name("tambah comment");
+    Route::delete("/comment/hapus", [ControllerComment::class, "hapusComment"])->name("hapus comment");
 
     Route::post("/program/uji", [ControllerPengerjaan::class, "ujiCoba"])->name("uji coba program");
     Route::post("/program/submit", [ControllerPengerjaan::class, "submit"])->name("submit program");
     Route::get("/pengerjaan/soal", [ControllerPengerjaan::class, "ambilDaftarPengerjaan"])->name("daftar pengerjaan");
     Route::get("/pengerjaan/hasil", [ControllerPengerjaan::class, "ambilHasilPengerjaan"])->name("hasil pengerjaan");
+    
 });
 
 Route::get("/soal/informasi/publik", [ControllerSoal::class, "ambilInformasiSoal"])->name("informasi soal publik");
