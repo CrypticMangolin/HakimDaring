@@ -37,6 +37,8 @@ class CommandLogin {
         $token_autentikasi = $akun_user->createToken("autentikasi")->accessToken;
         $informasiUser = $this->repositoryInformasiUser->byId(new IDUser(Auth::id()));
 
+        session(['role' => $informasiUser->ambilKelompokUser()->ambilKelompok()]);
+
         return new InformasiLogin($token_autentikasi, $informasiUser->ambilNamaUser()->ambilNama(), $informasiUser->ambilIDUser());
     }
 }

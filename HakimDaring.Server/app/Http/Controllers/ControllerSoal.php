@@ -6,6 +6,8 @@ use App\Application\Command\Soal\BuatSoal\CommandBuatSoal;
 use App\Application\Command\Soal\BuatSoal\RequestBuatSoal;
 use App\Application\Command\Soal\EditSoal\CommandEditSoal;
 use App\Application\Command\Soal\EditSoal\RequestEditSoal;
+use App\Application\Command\Soal\GantiStatus\CommandGantiStatusSoal;
+use App\Application\Command\Soal\GantiStatus\RequestGantiStatusSoal;
 use App\Application\Query\Soal\InterfaceQuerySoal;
 use App\Application\Query\Testcase\InterfaceQueryTestcase;
 use App\Core\Repository\Soal\Entitas\StatusSoal;
@@ -144,6 +146,39 @@ class ControllerSoal extends Controller
                 doubleval($jsonRequest["batasan"]["waktu_total"]),
                 intval($jsonRequest["batasan"]["memori"]),
                 $jsonRequest["daftar_testcase"]
+            ));
+
+            return response()->json([
+                "success" => "OK"
+            ], 200);
+        }
+        catch (Exception $e) {
+            return response()->json([
+                "error" => $e->getMessage()
+            ], 422);
+        }
+    }
+
+    public function gantiStatus(Request $request, CommandGantiStatusSoal $command) : JsonResponse
+    {
+        $id_soal = $request->input("id_soal");
+        $status = $request->input("status");
+
+        if ($id_soal === null) {
+            return response()->json([
+                "error" => "id_soal null"
+            ], 422);
+        }
+        if ($status === null) {
+            return response()->json([
+                "error" => "status null"
+            ], 422);
+        }
+
+        try {
+            $command->execute(new RequestGantiStatusSoal(
+                $id_soal,
+                $status
             ));
 
             return response()->json([
