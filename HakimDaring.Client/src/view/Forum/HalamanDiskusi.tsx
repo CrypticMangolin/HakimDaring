@@ -1,79 +1,75 @@
-import { useState, useEffect } from 'react'
-import { Container, Col, Row, Button } from 'react-bootstrap'
-import Header from '../Header'
-import { useNavigate, useParams } from 'react-router-dom'
-import BerhasilMengambilDaftarComment from '../../core/Responses/ResponseBerhasil/Comment/BerhasilMengambilDaftarComment'
-import Comment from '../../core/Comment/Data/Comment'
-import RequestAmbilInformasiSoal from '../../core/Soal/RequestAmbilInformasiSoal'
-import BerhasilAmbilInformasiSoal from '../../core/Responses/ResponseBerhasil/Soal/BerhasilAmbilInformasiSoal'
-import RequestDaftarComment from '../../core/Comment/RequestDaftarComment'
-import RequestKirimComment from '../../core/Comment/RequestKirimComment'
-import BerhasilMengirimComment from '../../core/Responses/ResponseBerhasil/Comment/BerhasilMengirimComment'
-import RequestHapusComment from '../../core/Comment/RequestHapusComment'
-import HapusComment from '../../core/Comment/Data/HapusComment'
-import BerhasilMenghapusComment from '../../core/Responses/ResponseBerhasil/Comment/BerhasilMenghapusComment'
+import React, { useState, useEffect } from 'react';
+import { Container, Col, Row, Button } from 'react-bootstrap';
+import Header from '../Header';
+import { useNavigate, useParams } from 'react-router-dom';
+import BerhasilMengambilDaftarComment from '../../core/Responses/ResponseBerhasil/Comment/BerhasilMengambilDaftarComment';
+import Comment from '../../core/Comment/Data/Comment';
+import RequestAmbilInformasiSoal from '../../core/Soal/RequestAmbilInformasiSoal';
+import BerhasilAmbilInformasiSoal from '../../core/Responses/ResponseBerhasil/Soal/BerhasilAmbilInformasiSoal';
+import RequestDaftarComment from '../../core/Comment/RequestDaftarComment';
+import RequestKirimComment from '../../core/Comment/RequestKirimComment';
+import BerhasilMengirimComment from '../../core/Responses/ResponseBerhasil/Comment/BerhasilMengirimComment';
+import RequestHapusComment from '../../core/Comment/RequestHapusComment';
+import HapusComment from '../../core/Comment/Data/HapusComment';
+import BerhasilMenghapusComment from '../../core/Responses/ResponseBerhasil/Comment/BerhasilMenghapusComment';
 
 function HalamanDiskusi() {
-
-  const navigate = useNavigate()
-  const parameterURL = useParams()
+  const navigate = useNavigate();
+  const parameterURL = useParams();
 
   const pindahHalamanPengerjaan = () => {
-    navigate(`/soal/${parameterURL.id_soal}/pengerjaan`)
-  }
+    navigate(`/soal/${parameterURL.id_soal}/pengerjaan`);
+  };
 
   const pindahHalamanHasil = () => {
-    navigate(`/soal/${parameterURL.id_soal}/hasil`)
-  }
+    navigate(`/soal/${parameterURL.id_soal}/hasil`);
+  };
 
-  const [daftarKomentar, setDaftarKomentar] = useState<BerhasilMengambilDaftarComment[]>([])
-  const [komentar, setKomentar] = useState<Comment>({id_ruangan : "", isi : "", reply : null} as Comment)
+  const [daftarKomentar, setDaftarKomentar] = useState<BerhasilMengambilDaftarComment[]>([]);
+  const [komentar, setKomentar] = useState<Comment>({ id_ruangan: '', isi: '', reply: null } as Comment);
 
-  const requestAmbilInformasiSoal : RequestAmbilInformasiSoal = new RequestAmbilInformasiSoal();
-  const requestDaftarComment : RequestDaftarComment = new RequestDaftarComment()
-  const requestKirimComment : RequestKirimComment = new RequestKirimComment()
-  const requestHapusComment : RequestHapusComment = new RequestHapusComment()
+  const requestAmbilInformasiSoal: RequestAmbilInformasiSoal = new RequestAmbilInformasiSoal();
+  const requestDaftarComment: RequestDaftarComment = new RequestDaftarComment();
+  const requestKirimComment: RequestKirimComment = new RequestKirimComment();
+  const requestHapusComment: RequestHapusComment = new RequestHapusComment();
 
   useEffect(() => {
-    if (parameterURL.id_soal == undefined) {
-      pindahHalamanPengerjaan() 
+    if (parameterURL.id_soal === undefined) {
+      pindahHalamanPengerjaan();
     }
 
-    requestAmbilInformasiSoal.execute(parameterURL.id_soal != undefined ? parameterURL.id_soal : "", (hasil : any) => {
+    requestAmbilInformasiSoal.execute(parameterURL.id_soal !== undefined ? parameterURL.id_soal : '', (hasil: any) => {
       if (hasil instanceof BerhasilAmbilInformasiSoal) {
-        setKomentar({...komentar, id_ruangan : hasil.id_ruangan_diskusi})
-        requestDaftarComment.execute(hasil.id_ruangan_diskusi, (hasil : any) => {
+        setKomentar({ ...komentar, id_ruangan: hasil.id_ruangan_diskusi });
+        requestDaftarComment.execute(hasil.id_ruangan_diskusi, (hasil: any) => {
           if (Array.isArray(hasil)) {
-            setDaftarKomentar(hasil)
-          }
-          else {
+            setDaftarKomentar(hasil);
+          } else {
             window.location.reload();
           }
-        })
+        });
+      } else {
+        pindahHalamanPengerjaan();
       }
-      else {
-        pindahHalamanPengerjaan()
-      }
-    })
+    });
 
     function loadScriptCKEditor() {
-      return new Promise((resolve, reject) => {
-        if (document.getElementById("ckeditor") == null) {
+      return new Promise<void>((resolve, reject) => {
+        if (document.getElementById('ckeditor') == null) {
           const script = document.createElement('script');
-          script.src = "/ckeditor5-38.0.1/build/ckeditor.js";
-          script.onload = resolve;
-          script.onerror = reject;
-          script.id = "ckeditor"
+          script.src = '/ckeditor5-38.0.1/build/ckeditor.js';
+          script.onload = () => resolve();
+          script.onerror = () => reject();
+          script.id = 'ckeditor';
           document.body.appendChild(script);
-        }
-        else {
-          resolve(true)
+        } else {
+          resolve();
         }
       });
     }
     function loadScriptCustomCKEditor() {
-      return new Promise((resolve, reject) => {
-        if (document.getElementById("ckeditor-custom-build") == null) {
+      return new Promise<void>((resolve, reject) => {
+        if (document.getElementById('ckeditor-custom-build') == null) {
           const script = document.createElement('script');
           script.innerHTML = `
             let ckEditor = null
@@ -94,159 +90,176 @@ function HalamanDiskusi() {
                 console.warn( 'Build id: n96xuuc5ag4v-nk96buq2xi5g' );
                 console.error( error );
             })`;
-          script.onload = resolve;
-          script.onerror = reject;
-          script.id = "ckeditor-custom-build"
+          script.onload = () => resolve();
+          script.onerror = () => reject();
+          script.id = 'ckeditor-custom-build';
           document.body.appendChild(script);
-        }
-        else {
-          resolve(true)
-          document.getElementById("editor")?.appendChild((window as any).editor_comment.ui.element)
+        } else {
+          resolve();
+          document.getElementById('editor')?.appendChild((window as any).editor_comment.ui.element);
         }
       });
     }
 
     async function loadCKEditor() {
-      await loadScriptCKEditor()
-      await loadScriptCustomCKEditor()
+      await loadScriptCKEditor();
+      await loadScriptCustomCKEditor();
 
-      document.getElementById("editor")?.append((window as any).editor_comment.ui.element)
+      document.getElementById('editor')?.append((window as any).editor_comment.ui.element);
     }
 
     return () => {
-      loadCKEditor()
+      loadCKEditor();
     };
-
-  }, [])
+  }, []);
 
   const submitComment = () => {
-    if (komentar.id_ruangan != "") {
-      requestKirimComment.execute(komentar, (hasil : any) => {
+    if (komentar.id_ruangan !== '') {
+      requestKirimComment.execute(komentar, (hasil: any) => {
         if (hasil instanceof BerhasilMengirimComment) {
-          (window as any).editor_comment.setData("")
-          window.location.reload()
+          (window as any).editor_comment.setData('');
+          window.location.reload();
         }
-      })
+      });
     }
-  }
+  };
 
-  const hapusComment = (idComment : string) => {
-    requestHapusComment.execute({id_comment : idComment, id_ruangan : komentar.id_ruangan} as HapusComment,  (hasil : any) => {
+  const hapusComment = (idComment: string) => {
+    requestHapusComment.execute({ id_comment: idComment, id_ruangan: komentar.id_ruangan } as HapusComment, (hasil: any) => {
       if (hasil instanceof BerhasilMenghapusComment) {
-        window.location.reload()
+        window.location.reload();
       }
-    })
-  }
+    });
+  };
 
-  function perubahanCKEditor(isiKomentar : string) {
-    setKomentar({...komentar, isi : isiKomentar})
+  function perubahanCKEditor(isiKomentar: string) {
+    setKomentar({ ...komentar, isi: isiKomentar });
   }
-  (window as any).perubahanCKEditor = perubahanCKEditor
+  (window as any).perubahanCKEditor = perubahanCKEditor;
+
+  const reportComment = (idComment: string) => {
+    // Logika untuk melaporkan komentar
+    console.log(`Komentar dengan ID ${idComment} dilaporkan.`);
+  };
 
   return (
-  <>
-    <Container className='min-vh-100 mw-100 w-100 m-0 p-0 d-flex flex-column'>
-      <Header />
-      <Row className='m-0 mb-2 p-0 d-flex flex-row justify-content-start'>
-        <Col className='m-0 p-0 d-flex flex-row justify-content-center' xs={1}>
-          <Button variant='light' className='m-0 w-100 rounded-0 text-center' onClick={pindahHalamanPengerjaan}>
-            Pengerjaan
-          </Button>
-        </Col>
-        <Col className='m-0 p-0 d-flex flex-row justify-content-center' xs={1}>
-          <Button variant='dark' className='m-0 w-100 rounded-0 text-center'>
-            Diskusi
-          </Button>
-        </Col>
-        <Col className='m-0 p-0 d-flex flex-row justify-content-center' xs={1} onClick={pindahHalamanHasil}>
-          <Button variant='light' className='m-0 w-100 rounded-0 text-center'>
-            Submission
-          </Button>
-        </Col>
-        <hr className='m-0 p-0'></hr>
-      </Row>
-      <Col xs={12} className='m-0 p-0 d-flex justify-content-center'>
-        <Col xs={12} sm={12} md={8} lg={6} xl={6} className='m-0 p-0'>
-          <Row className="m-0 p-0 d-flex flex-column">
+    <>
+      <Container className="min-vh-100 mw-100 w-100 m-0 p-0 d-flex flex-column">
+        <Header />
+        <Row className="m-0 mb-2 p-0 d-flex flex-row justify-content-start">
+          <Col className="m-0 p-0 d-flex flex-row justify-content-center" xs={1}>
+            <Button variant="light" className="m-0 w-100 rounded-0 text-center" onClick={pindahHalamanPengerjaan}>
+              Pengerjaan
+            </Button>
+          </Col>
+          <Col className="m-0 p-0 d-flex flex-row justify-content-center" xs={1}>
+            <Button variant="dark" className="m-0 w-100 rounded-0 text-center">
+              Diskusi
+            </Button>
+          </Col>
+          <Col className="m-0 p-0 d-flex flex-row justify-content-center" xs={1} onClick={pindahHalamanHasil}>
+            <Button variant="light" className="m-0 w-100 rounded-0 text-center">
+              Submission
+            </Button>
+          </Col>
+          <hr className="m-0 p-0"></hr>
+        </Row>
+        <Col xs={12} className="m-0 p-0 d-flex justify-content-center">
+          <Col xs={12} sm={12} md={8} lg={6} xl={6} className="m-0 p-0">
             <Row className="m-0 p-0 d-flex flex-column">
-              {daftarKomentar.map((comen : BerhasilMengambilDaftarComment, index : number) => {
-
-                let balasan : number = -1
-                if (comen.reply != null) {
-                  balasan = daftarKomentar.findIndex((c) => c.id_comment === comen.reply)
-                }
-
-                return (
-                  <section id={`k-${index}`} className='m-0 pb-3' key={comen.id_comment}>
-                    <Row className='m-0 py-1 d-flex flex-column'>
-                      <p className="m-0 py-1 fs-6 text-start border border-dark">{comen.nama_penulis}</p>
-                      {
-                        balasan != -1 &&
-                        <a className='m-0 py-1 fs-6 text-dark bg-secondary text-decoration-none border border-dark' href={`#k-${balasan}`}>
-                          <blockquote className='m-0 py-1 blockquote fs-6 text-truncate'>
-                            <p className='text-truncate' dangerouslySetInnerHTML={{ __html: daftarKomentar[balasan].isi}} style={{"wordWrap" : 'break-word'}}>
-                            </p>
-                          </blockquote>
-                        </a>
-                      }
-                      <Col xs={12} dangerouslySetInnerHTML={{ __html: comen.isi}} className='border border-dark'></Col>
-                        <Col className='d-flex gap-2 flex-row'>
-                          <Button variant='outline-primary' className='my-2' onClick={() => {
-                              setKomentar({...komentar, reply: comen.id_comment})
-                            }}>
-                              Balas
-                            </Button>
-                          {(comen.id_penulis == localStorage.getItem("id") || 'admin' == localStorage.getItem("role")) &&
-                            <Button variant='outline-danger' className='my-2' onClick={() => {
-                              hapusComment(comen.id_comment)
-                            }}>
+              <Row className="m-0 p-0 d-flex flex-column">
+                {daftarKomentar.map((comen: BerhasilMengambilDaftarComment, index: number) => {
+                  let balasan: number = -1;
+                  if (comen.reply !== null) {
+                    balasan = daftarKomentar.findIndex((c) => c.id_comment === comen.reply);
+                  }
+                  return (
+                    <section id={`k-${index}`} className="m-0 pb-3" key={comen.id_comment}>
+                      <Row className="m-0 py-1 d-flex flex-column">
+                        <p className="m-0 py-1 fs-6 text-start border border-dark">{comen.nama_penulis}</p>
+                        {balasan !== -1 && (
+                          <a
+                            className="m-0 py-1 fs-6 text-dark bg-secondary text-decoration-none border border-dark"
+                            href={`#k-${balasan}`}
+                          >
+                            <blockquote className="m-0 py-1 blockquote fs-6 text-truncate">
+                              <p
+                                className="text-truncate"
+                                dangerouslySetInnerHTML={{ __html: daftarKomentar[balasan].isi }}
+                                style={{ wordWrap: 'break-word' }}
+                              ></p>
+                            </blockquote>
+                          </a>
+                        )}
+                        <Col xs={12} dangerouslySetInnerHTML={{ __html: comen.isi }} className="border border-dark"></Col>
+                        <Col className="d-flex gap-2 flex-row">
+                          <Button
+                            variant="outline-primary"
+                            className="my-2"
+                            onClick={() => {
+                              setKomentar({ ...komentar, reply: comen.id_comment });
+                            }}
+                          >
+                            Balas
+                          </Button>
+                          {(comen.id_penulis === localStorage.getItem('id') || 'admin' === localStorage.getItem('role')) && (
+                            <Button variant="outline-danger" className="my-2" onClick={() => {hapusComment(comen.id_comment)}}>
                               Hapus
                             </Button>
-                          }
+                          )}
+                          <Button
+                            variant="outline-secondary"
+                            className="my-2"
+                            onClick={() => {reportComment(comen.id_comment)}}
+                          >
+                            Report
+                          </Button>
                         </Col>
-                    </Row>
-                  </section>
-                )
-              })}
-            </Row>
-            <Col className='m-0 my-3 p-0'>
-              <section id="kolom-komentar" className='m-0 p-0'>
-                <Row className='m-0 p-0 d-flex flex-row'>
-                  <Col xs={9} className='m-0 p-0 px-2'>
-                      {
-                        komentar.reply != null &&
-                        <Row className='m-0 p-0 d-flex flex-row'>
-                          <Col xs={10} className='m-0 p-0'>
-                            <blockquote className='blockquote fs-6'>
-                              <p className='text-truncate' dangerouslySetInnerHTML={{ __html: daftarKomentar.find((c) => c.id_comment === komentar.reply)!.isi}}>
-                              </p>
+                      </Row>
+                    </section>
+                  );
+                })}
+              </Row>
+              <Col className="m-0 my-3 p-0">
+                <section id="kolom-komentar" className="m-0 p-0">
+                  <Row className="m-0 p-0 d-flex flex-row">
+                    <Col xs={9} className="m-0 p-0 px-2">
+                      {komentar.reply !== null && (
+                        <Row className="m-0 p-0 d-flex flex-row">
+                          <Col xs={10} className="m-0 p-0">
+                            <blockquote className="blockquote fs-6">
+                              <p className="m-0 p-0" dangerouslySetInnerHTML={{ __html: daftarKomentar[balasan].isi }}></p>
                             </blockquote>
                           </Col>
-                          <Col xs={2} className='m-0 p-0 d-flex flex-column'>
-                            <Button variant='outline-dark' onClick={() => {
-                        setKomentar({...komentar, reply: null})
-                            }}>
+                          <Col xs={2} className="m-0 p-0">
+                            <Button
+                              variant="light"
+                              className="rounded-circle text-center"
+                              onClick={() => setKomentar({ ...komentar, reply: null })}
+                            >
                               X
                             </Button>
                           </Col>
                         </Row>
-                      }
-                      <div id="editor">
-                      </div>
-                  </Col>
-                  <Col xs={3} className='m-0 p-0 px-2'>
-                    <Button variant='dark' className='px-3' onClick={submitComment}>
-                      Kirim
-                    </Button>
-                  </Col>
-                </Row>
-              </section>
-            </Col>
-          </Row>
+                      )}
+                      <div id="editor" className="m-0 p-0"></div>
+                    </Col>
+                    <Col xs={3} className="m-0 p-0">
+                      <Button variant="primary" className="m-0 w-100 rounded-0" onClick={submitComment}>
+                        Kirim
+                      </Button>
+                    </Col>
+                  </Row>
+                </section>
+              </Col>
+            </Row>
+          </Col>
         </Col>
-      </Col>
-    </Container>
-  </>)
+      </Container>
+    </>
+  );
 }
 
-export default HalamanDiskusi
+export default HalamanDiskusi;
+
+//hapus komen dan report
