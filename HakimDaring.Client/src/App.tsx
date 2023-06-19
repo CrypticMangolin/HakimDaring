@@ -8,7 +8,7 @@ import HalamanJelajah from './view/Dashboard/HalamanJelajah'
 import HalamanPengerjaan from './view/Pengerjaan/HalamanPengerjaan'
 import HalamanDiskusi from './view/Forum/HalamanDiskusi'
 import HalamanHasilPengerjaan from './view/Pengerjaan/HalamanHasilPengerjaan'
-import HalamanDaftarPengerjaan from './view/Pengerjaan/HalamanDaftarpengerjaan'
+import HalamanDaftarPengerjaan from './view/Pengerjaan/HalamanDaftarPengerjaan'
 import HalamanProfile from './view/Profile/HalamanProfile'
 
 

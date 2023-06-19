@@ -16,7 +16,10 @@ class QueryPencarianMySQL implements InterfaceQueryPencarian {
 
     private function buildQueryPencarian(string $judul) : Builder {
         $query = DB::table("soal")->selectRaw("id_soal, judul, jumlah_submit, jumlah_berhasil, IF(jumlah_submit > 0, jumlah_berhasil/jumlah_submit, 0) AS persentase_berhasil")
-            ->where("judul", "LIKE",  "%".$judul."%");
+            ->where([
+                ["judul", "LIKE",  "%".$judul."%"],
+                ["status", "=", "publik"]
+            ]);
         return $query;
     }
 
